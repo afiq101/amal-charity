@@ -11,6 +11,7 @@ const { $swal } = useNuxtApp();
 const username = ref("");
 const password = ref("");
 const userStore = useUserStore();
+const { t } = useI18n();
 
 const togglePasswordVisibility = ref(false);
 
@@ -35,8 +36,8 @@ const login = async () => {
 
       $swal.fire({
         position: "center",
-        title: "Success",
-        text: "Login Success",
+        title: t("login.success"),
+        text: t("login.success"),
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -45,7 +46,7 @@ const login = async () => {
       window.location.href = "/dashboard";
     } else {
       $swal.fire({
-        title: "Error!",
+        title: t("login.error"),
         text: data.message,
         icon: "error",
       });
@@ -70,14 +71,14 @@ const login = async () => {
             class="max-w-[90px]"
           />
         </div>
-        <h3 class="mb-4">Login</h3>
+        <h3 class="mb-4">{{ t("login") }}</h3>
         <p class="text-slate-500 mb-6">
-          Welcome to Corrad. Please login to continue.
+          {{ t("login.welcome_message") }}
         </p>
         <div class="grid grid-cols-2">
           <FormKit
             type="text"
-            label="Username"
+            :label="t('username')"
             v-model="username"
             validation="required"
             :classes="{
@@ -88,7 +89,7 @@ const login = async () => {
           />
           <FormKit
             :type="togglePasswordVisibility ? 'text' : 'password'"
-            label="Password"
+            :label="t('password')"
             v-model="password"
             validation="required"
             :classes="{
@@ -111,28 +112,26 @@ const login = async () => {
               </div>
             </template>
           </FormKit>
-          <FormKit type="checkbox" label="Remember Me" />
+          <FormKit type="checkbox" :label="t('login.remember_me')" />
           <NuxtLink
             class="flex items-center justify-end h-5 mt-1 text-primary hover:underline"
             to="forgot-password"
-            >Forgot Password?</NuxtLink
+            >{{ t("login.forgot_password") }}</NuxtLink
           >
-          <!-- <NuxtLink to="/" class="col-span-2">
-          </NuxtLink> -->
           <FormKit
             type="button"
             input-class="w-full"
             outer-class="col-span-2"
             @click="login"
           >
-            Sign In
+            {{ t("login.sign_in") }}
           </FormKit>
         </div>
         <p class="mt-3 text-center text-slate-500">
-          Don't have an account?
-          <NuxtLink to="/register" class="text-primary hover:underline"
-            >Sign Up</NuxtLink
-          >
+          {{ t("login.no_account") }}
+          <NuxtLink to="/register" class="text-primary hover:underline">{{
+            t("login.sign_up")
+          }}</NuxtLink>
         </p>
       </rs-card>
     </div>

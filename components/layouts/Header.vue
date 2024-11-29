@@ -9,6 +9,7 @@ const emit = defineEmits(["toggleMenu"]);
 const langList = languageList();
 
 const locale = ref("en");
+const { t, getLocaleCookie, setLocaleCookie, setLocale } = useI18n();
 
 const themes = themeList();
 
@@ -47,7 +48,9 @@ function toggleSearch() {
 }
 
 // Change language
-const changeLanguage = (lang) => {
+const changeLanguage = async (lang) => {
+  setLocaleCookie(lang);
+  await setLocale(lang);
   locale.value = lang;
 };
 
@@ -108,99 +111,6 @@ onMounted(() => {
             </ul>
           </template>
         </VDropdown>
-        <VDropdown placement="bottom-end" distance="13" name="theme">
-          <button class="icon-btn h-10 w-10 rounded-full">
-            <Icon size="22px" name="material-symbols:format-paint-rounded" />
-          </button>
-          <template #popper>
-            <ul class="header-dropdown w-full md:w-52">
-              <li v-for="(val, index) in themes">
-                <a
-                  @click="setTheme(val.theme)"
-                  class="flex justify-between items-center cursor-pointer py-2 px-4 hover:bg-[rgb(var(--bg-1))]"
-                >
-                  <span class="capitalize"> {{ val.theme }} </span>
-                  <div class="flex items-center gap-x-1">
-                    <div
-                      v-for="(color, index) in val.colors"
-                      class="h-[25px] w-[10px] rounded-lg"
-                      :style="{
-                        backgroundColor: rgbToHex(color.value),
-                      }"
-                    ></div>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </template>
-        </VDropdown>
-
-        <button @click="toggleSearch" class="icon-btn h-10 w-10 rounded-full">
-          <Icon name="ic:round-search" class="" />
-        </button>
-
-        <VDropdown placement="bottom-end" distance="13" name="notification">
-          <button class="relative icon-btn h-10 w-10 rounded-full">
-            <span
-              class="w-3 h-3 absolute top-1 right-2 rounded-full bg-primary"
-            ></span>
-            <Icon name="ic:round-notifications-none" class="" />
-          </button>
-          <template #popper>
-            <ul class="header-dropdown w-full md:w-80 text-[#4B5563]">
-              <li class="d-head flex items-center justify-between py-2 px-4">
-                <span class="font-semibold">Notification</span>
-                <div
-                  class="flex items-center text-primary cursor-pointer hover:underline"
-                >
-                  <a class="ml-2">View All</a>
-                </div>
-              </li>
-              <NuxtScrollbar>
-                <li>
-                  <div class="bg-[rgb(var(--bg-1))] py-2 px-4">Today</div>
-                  <a class="py-2 px-4 block">
-                    <div class="flex items-center">
-                      <Icon
-                        name="ic:outline-circle"
-                        class="text-primary flex-none"
-                      />
-                      <span class="mx-2"
-                        >Terdapat Satu Pembayaran yang berlaku menggunakan bil
-                        Kuih Raya Cik Kiah</span
-                      >
-                      <div class="w-12 h-12 rounded-full ml-auto flex-none">
-                        <img
-                          class="rounded-full"
-                          src="@/assets/img/user/default.svg"
-                        />
-                      </div>
-                    </div>
-                  </a>
-                  <a class="py-2 px-4 block">
-                    <div class="flex items-center">
-                      <Icon
-                        name="ic:outline-circle"
-                        class="text-primary flex-none"
-                      />
-                      <span class="mx-2"
-                        >Terdapat Satu Pembayaran yang berlaku menggunakan bil
-                        Mercun</span
-                      >
-                      <div class="w-12 h-12 rounded-full ml-auto flex-none">
-                        <img
-                          class="rounded-full"
-                          src="@/assets/img/user/default.svg"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </NuxtScrollbar>
-            </ul>
-          </template>
-        </VDropdown>
 
         <VDropdown placement="bottom-end" distance="13" name="profile">
           <button class="icon-btn profile px-2">
@@ -246,7 +156,7 @@ onMounted(() => {
         outer: 'mb-0 flex-1',
       }"
       type="search"
-      placeholder="Search..."
+      :placeholder="$t('search')"
     />
   </div>
 </template>

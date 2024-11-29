@@ -3,7 +3,7 @@
 module.exports = {
   apps: [
     {
-      name: "corrad",
+      name: "Amal Jariyah",
       port: "3000",
       exec_mode: "cluster",
       instances: "max",

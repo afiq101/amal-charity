@@ -1,0 +1,24 @@
+{
+  "welcome": "Selamat Datang",
+  "home": "Laman Utama",
+  "about": "Tentang Kami",
+  "contact": "Hubungi Kami",
+  "login": "Log Masuk",
+  "register": "Daftar",
+  "email": "Emel",
+  "password": "Kata Laluan",
+  "submit": "Hantar",
+  "cancel": "Batal",
+  "search": "Cari...",
+  "username": "Nama Pengguna",
+  "login": {
+    "welcome_message": "Selamat datang ke Amal Jariyah. Sila log masuk untuk meneruskan.",
+    "remember_me": "Ingat Saya",
+    "forgot_password": "Lupa Kata Laluan?",
+    "sign_in": "Log Masuk",
+    "sign_up": "Daftar",
+    "no_account": "Tidak mempunyai akaun?",
+    "success": "Log Masuk Berjaya",
+    "error": "Ralat!"
+  }
+} 

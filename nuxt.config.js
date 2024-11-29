@@ -18,12 +18,22 @@ export default defineNuxtConfig({
     "nuxt-typed-router",
     "nuxt-icon",
     "@davestewart/nuxt-scrollbar",
+    "@nuxtjs/i18n",
   ],
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "ms"],
+    vueI18n: "./i18n.config.js",
+    strategy: "no_prefix",
+    detectBrowserLanguage: {
+      useCookie: true,
+    },
+  },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
   },
-  vite:{
-    server:{
+  vite: {
+    server: {
       watch: {
         usePolling: true,
         interval: 1000,
@@ -31,14 +41,14 @@ export default defineNuxtConfig({
     },
   },
   head: {
-    title: "corrad",
+    title: "Amal Jariyah",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         hid: "description",
         name: "description",
-        content: "corrad",
+        content: "Amal Jariyah",
       },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
@@ -68,8 +78,8 @@ export default defineNuxtConfig({
       type: "module",
     },
     manifest: {
-      name: "corrad",
-      short_name: "corrad",
+      name: "Amal Jariyah",
+      short_name: "Amal Jariyah",
       theme_color: "#202D3B",
       background_color: "#FAFAFA",
       display: "standalone",
