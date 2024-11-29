@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "NODE_OPTIONS='--max-old-space-size=4096' nuxt build",
     "build:new": "node pre-build.js && nuxt build && node post-build.js",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
