@@ -102,6 +102,12 @@
           ],
           "format": "date-time"
         },
+        "payment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/payment"
+          }
+        },
         "userrole": {
           "type": "array",
           "items": {
@@ -231,6 +237,169 @@
           "$ref": "#/definitions/user"
         }
       }
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "configurationID": {
+          "type": "integer"
+        },
+        "configurationName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configurationCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configurationType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configurationValue": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configurationCreatedDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "configurationModifiedDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "payment": {
+      "type": "object",
+      "properties": {
+        "paymentID": {
+          "type": "integer"
+        },
+        "paymentPayorName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentPayorEmail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentPayorPhone": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentBillCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentBillInvoiceNo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentBillExternalInvoiceNo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentBillStatus": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "paymentFPXTransactionID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentPaymentChannel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentAmount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "paymentAmountNett": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "paymentFlag": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": 0
+        },
+        "paymentStatus": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "paymentCreatedDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "paymentModifiedDate": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "user": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/user"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
     }
   },
   "type": "object",
@@ -249,6 +418,12 @@
     },
     "userrole": {
       "$ref": "#/definitions/userrole"
+    },
+    "configuration": {
+      "$ref": "#/definitions/configuration"
+    },
+    "payment": {
+      "$ref": "#/definitions/payment"
     }
   }
 }

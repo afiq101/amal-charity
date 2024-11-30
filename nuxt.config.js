@@ -5,6 +5,12 @@ export default defineNuxtConfig({
       secretAccess: process.env.NUXT_ACCESS_TOKEN_SECRET,
       secretRefresh: process.env.NUXT_REFRESH_TOKEN_SECRET,
     },
+    toyyibpay: {
+      url: {
+        payment: process.env.NUXT_PAYMENT_URL,
+        createAccount: process.env.NUXT_CREATE_ACCOUNT_URL,
+      },
+    },
   },
   modules: [
     "@nuxtjs/tailwindcss",
