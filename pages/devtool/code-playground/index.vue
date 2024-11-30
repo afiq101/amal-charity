@@ -317,7 +317,7 @@ watch(
           class="cursor-pointer"
         />
         <img
-          src="@/assets/img/logo/logo.png"
+          src="@/assets/img/logo/logo.svg"
           alt="Vue Logo"
           class="h-8 block mr-2"
         />

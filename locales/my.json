@@ -232,5 +232,15 @@
         "of": "daripada"
       }
     }
+  },
+  "login_page": {
+    "welcome_message": "Selamat kembali! Sila log masuk ke akaun anda.",
+    "remember_me": "Ingat saya",
+    "forgot_password": "Lupa Kata Laluan?",
+    "sign_in": "Log Masuk",
+    "no_account": "Tidak mempunyai akaun?",
+    "sign_up": "Daftar",
+    "success": "Log Masuk Berjaya",
+    "error": "Ralat Log Masuk"
   }
 }

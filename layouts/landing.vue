@@ -24,7 +24,6 @@ const languageNow = computed(() => {
 const navItems = [
   { label: "navigation.home", path: "/" },
   { label: "navigation.campaigns", path: "/campaigns" },
-  { label: "navigation.contact", path: "/contact-us" },
 ];
 
 // Toggle mobile menu
@@ -46,7 +45,7 @@ onMounted(() => {
           <!-- Logo -->
           <div class="flex-shrink-0">
             <nuxt-link to="/" class="flex items-center">
-              <img src="@/assets/img/logo/logo.png" alt="Logo" class="h-10" />
+              <img src="@/assets/img/logo/logo.svg" alt="Logo" class="h-8" />
             </nuxt-link>
           </div>
 
@@ -179,7 +178,7 @@ onMounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <!-- Company Info -->
           <div>
-            <img src="@/assets/img/logo/logo.png" alt="Logo" class="h-8 mb-4" />
+            <img src="@/assets/img/logo/logo.svg" alt="Logo" class="h-8 mb-4" />
             <p class="text-gray-600">
               {{ $t("landing.footer.company_description") }}
             </p>
