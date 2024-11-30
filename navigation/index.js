@@ -10,6 +10,13 @@ export default [
         child: [],
         meta: {},
       },
+      {
+        title: "Volunteer",
+        path: "/volunteer",
+        icon: "ic:outline-dashboard",
+        child: [],
+        meta: {},
+      },
     ],
   },
   {
