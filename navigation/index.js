@@ -10,7 +10,6 @@ export default [
         child: [],
         meta: {},
       },
-<<<<<<< HEAD
       {
         title: "User Profile",
         path: "/user-profile",
@@ -73,8 +72,6 @@ export default [
           },
         ],
       },
-=======
->>>>>>> 4a53976d0b702c67c2158f29d0f933306e194997
       {
         title: "Campaign Organizer",
         path: "/campaign-organizer",
