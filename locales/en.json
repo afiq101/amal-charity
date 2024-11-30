@@ -2,6 +2,7 @@
   "welcome": "Welcome",
   "home": "Home",
   "about": "About",
+  "projects": "Projects",
   "contact": "Contact",
   "login": "Login",
   "register": "Register",
@@ -11,14 +12,148 @@
   "cancel": "Cancel",
   "search": "Search...",
   "username": "Username",
-  "login": {
-    "welcome_message": "Welcome to Amal Jariyah. Please login to continue.",
-    "remember_me": "Remember Me",
-    "forgot_password": "Forgot Password?",
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "no_account": "Don't have an account?",
-    "success": "Login Success",
-    "error": "Error!"
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "campaigns": "Campaigns"
+  },
+  "landing": {
+    "hero": {
+      "title": "Transparent Giving, Rewarding Impact",
+      "subtitle": "Where Every Contribution Counts, and Every Action is Seen and Trusted",
+      "join_us": "Join us",
+      "donate": "Donate"
+    },
+    "about": {
+      "title": "About Us",
+      "description": "Our mission is to connect donors, volunteers, and organizations through transparent, traceable projects.",
+      "impact_areas": {
+        "drug_prevention": {
+          "title": "Drug Prevention",
+          "description": "Supporting programs to prevent substance abuse"
+        },
+        "poverty": {
+          "title": "Poverty Alleviation",
+          "description": "Working to reduce poverty and inequality"
+        },
+        "education": {
+          "title": "Education Access",
+          "description": "Improving access to quality education"
+        }
+      }
+    },
+    "projects": {
+      "title": "Take a look at our projects",
+      "explore_more": "Explore more",
+      "supporters": "supporters",
+      "raised": "raised",
+      "goal": "goal"
+    },
+    "featured": {
+      "title": "Featured Campaigns",
+      "readMore": "Read more",
+      "mainPost": {
+        "title": "Why are forests so important for Earth?"
+      }
+    },
+    "connect": {
+      "title": "Stay Connected",
+      "description": "Join us and give your Help, in the efforts to protect our green forest today so the earth may keep breathing.",
+      "email": "Your email",
+      "message": "Your message",
+      "submit": "Submit"
+    },
+    "footer": {
+      "company_description": "Making the world a better place through transparent giving.",
+      "company": "Company",
+      "about_us": "About Us",
+      "careers": "Careers",
+      "contact": "Contact",
+      "resources": "Resources",
+      "blog": "Blog",
+      "newsletter": "Newsletter",
+      "events": "Events",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookie_policy": "Cookie Policy",
+      "company_name": "Your Company",
+      "rights_reserved": "All rights reserved"
+    }
+  },
+  "campaign": {
+    "title": "Eradicating Drugs",
+    "subtitle": "PEMADAM, Malaysia",
+    "raised_of": "raised of",
+    "supporters": "supporters",
+    "donate_now": "Donate to Project",
+    "donate_to_campaign": "Donate to Campaign",
+    "projects": {
+      "title": "Campaign Projects",
+      "subtitle": "Choose a specific project to support or donate to the general campaign fund above"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "donation_direction": "Can I direct my donation to a particular area or project?",
+      "donation_direction_answer": "To designate your donation to a specific area or project, send us a note with your donation by mail. We'll allocate it accordingly and send you an acknowledgment.",
+      "volunteer": "How do I volunteer with The Amal Charity?",
+      "volunteer_answer": "We offer various volunteering opportunities throughout the year. Please visit our volunteer page or contact us directly to learn about current opportunities.",
+      "workplace_giving": "How can I learn more about giving through my workplace?",
+      "workplace_giving_answer": "Many employers offer matching gift programs. Contact your HR department or reach out to us for more information about workplace giving options."
+    },
+    "details": {
+      "challenge": "Challenge",
+      "our_work": "Our Work",
+      "stay_connected": "Stay Connected",
+      "stay_connected_description": "Join s and give your Help in the efforts to protect our green forest today so the earth may keep breathing.",
+      "email": "Your email",
+      "message": "Your message",
+      "submit": "Submit",
+      "transparency_title": "Transparency & Disbursement",
+      "transparency_description": "Track how funds are being distributed to beneficiaries. We believe in full transparency to ensure your donations create meaningful impact.",
+      "table": {
+        "date": "Date",
+        "recipient": "Recipient",
+        "amount": "Amount",
+        "purpose": "Purpose",
+        "status": "Status"
+      },
+      "total_disbursed": "Total Disbursed",
+      "from_total_donations": "from total donations received",
+      "beneficiaries": "Beneficiaries",
+      "organizations_helped": "organizations helped",
+      "last_update": "Last Update",
+      "next_update_soon": "next update coming soon",
+      "disbursement_history": "Disbursement History",
+      "filter": "Filter",
+      "export": "Export",
+      "view_details": "View Details",
+      "target": "of {amount} target",
+      "days_left": "{days} days left",
+      "popular": "Popular",
+      "custom_amount": "Or enter custom amount",
+      "enter_amount": "Enter amount",
+      "secure_payment": "Secure payment processing",
+      "recent_donors": "Recent Donors",
+      "campaign_message": "Your donation will help us create drug-free communities and support those in need of rehabilitation.",
+      "milestones": "Campaign Milestones",
+      "milestones_description": "Track our progress and see how your donations are making a difference at each stage of our campaign.",
+      "milestone_status": {
+        "completed": "Completed",
+        "current": "In Progress",
+        "upcoming": "Upcoming"
+      }
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "min_amount": "Minimum amount is RM10",
+    "max_amount": "Maximum amount is RM100,000",
+    "invalid_card": "Invalid card number",
+    "invalid_cvv": "Invalid CVV",
+    "invalid_expiry": "Invalid expiry date"
   }
-} 
+}

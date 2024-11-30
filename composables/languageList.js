@@ -11,10 +11,5 @@ export default function () {
       value: "ms",
       flagCode: "MY",
     },
-    {
-      name: "Chinese",
-      value: "cn",
-      flagCode: "CN",
-    }
   ];
 }

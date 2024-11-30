@@ -41,14 +41,14 @@ export default defineNuxtConfig({
     },
   },
   head: {
-    title: "Amal Jariyah",
+    title: "Amal Charity",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         hid: "description",
         name: "description",
-        content: "Amal Jariyah",
+        content: "Amal Charity",
       },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
@@ -78,8 +78,8 @@ export default defineNuxtConfig({
       type: "module",
     },
     manifest: {
-      name: "Amal Jariyah",
-      short_name: "Amal Jariyah",
+      name: "Amal Charity",
+      short_name: "Amal Charity",
       theme_color: "#202D3B",
       background_color: "#FAFAFA",
       display: "standalone",

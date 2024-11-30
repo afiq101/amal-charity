@@ -2,6 +2,7 @@
   "welcome": "Selamat Datang",
   "home": "Laman Utama",
   "about": "Tentang Kami",
+  "projects": "Projek",
   "contact": "Hubungi Kami",
   "login": "Log Masuk",
   "register": "Daftar",
@@ -11,14 +12,168 @@
   "cancel": "Batal",
   "search": "Cari...",
   "username": "Nama Pengguna",
-  "login": {
-    "welcome_message": "Selamat datang ke Amal Jariyah. Sila log masuk untuk meneruskan.",
-    "remember_me": "Ingat Saya",
-    "forgot_password": "Lupa Kata Laluan?",
-    "sign_in": "Log Masuk",
-    "sign_up": "Daftar",
-    "no_account": "Tidak mempunyai akaun?",
-    "success": "Log Masuk Berjaya",
-    "error": "Ralat!"
+  "navigation": {
+    "home": "Laman Utama",
+    "about": "Tentang Kami",
+    "projects": "Projek",
+    "contact": "Hubungi Kami",
+    "campaigns": "Kempen"
+  },
+  "landing": {
+    "hero": {
+      "title": "Sumbangan Telus, Impak Bermakna",
+      "subtitle": "Di mana Setiap Sumbangan Dikira, dan Setiap Tindakan Dilihat dan Dipercayai",
+      "join_us": "Sertai Kami",
+      "donate": "Derma"
+    },
+    "about": {
+      "title": "Tentang Kami",
+      "description": "Misi kami adalah untuk menghubungkan penderma, sukarelawan, dan organisasi melalui projek yang telus dan boleh dikesan.",
+      "impact_areas": {
+        "drug_prevention": {
+          "title": "Pencegahan Dadah",
+          "description": "Menyokong program pencegahan penyalahgunaan dadah"
+        },
+        "poverty": {
+          "title": "Pembasmian Kemiskinan",
+          "description": "Berusaha mengurangkan kemiskinan dan ketidaksamaan"
+        },
+        "education": {
+          "title": "Akses Pendidikan",
+          "description": "Meningkatkan akses kepada pendidikan berkualiti"
+        }
+      }
+    },
+    "projects": {
+      "title": "Lihat projek-projek kami",
+      "explore_more": "Terokai lagi",
+      "supporters": "penyokong",
+      "raised": "terkumpul",
+      "goal": "sasaran"
+    },
+    "featured": {
+      "title": "Kempen Pilihan",
+      "readMore": "Baca Lagi",
+      "mainPost": {
+        "title": "Mengapa hutan sangat penting untuk Bumi?"
+      }
+    },
+    "connect": {
+      "title": "Terus Berhubung",
+      "description": "Sertai kami dan berikan Bantuan anda, dalam usaha melindungi hutan hijau hari ini agar bumi terus bernafas.",
+      "email": "Emel anda",
+      "message": "Mesej anda",
+      "submit": "Hantar"
+    },
+    "footer": {
+      "company": "Syarikat",
+      "resources": "Sumber",
+      "legal": "Perundangan",
+      "rights_reserved": "Hak Cipta Terpelihara",
+      "company_description": "Menjadikan dunia tempat yang lebih baik melalui pemberian yang telus.",
+      "about_us": "Tentang Kami",
+      "careers": "Kerjaya",
+      "contact": "Hubungi",
+      "blog": "Blog",
+      "newsletter": "Surat Berita",
+      "events": "Acara",
+      "privacy": "Privasi",
+      "terms": "Terma",
+      "cookie_policy": "Dasar Kuki",
+      "company_name": "Syarikat Anda"
+    }
+  },
+  "campaign": {
+    "title": "Membasmi Dadah",
+    "subtitle": "PEMADAM, Malaysia",
+    "raised_of": "terkumpul daripada",
+    "supporters": "penyokong",
+    "donate_now": "Derma ke Projek",
+    "donate_to_campaign": "Derma ke Kempen",
+    "projects": {
+      "title": "Projek Kempen",
+      "subtitle": "Pilih projek tertentu untuk disokong atau derma ke dana umum kempen di atas"
+    },
+    "faq": {
+      "title": "Soalan Lazim",
+      "donation_direction": "Bolehkah saya mengarahkan sumbangan saya ke kawasan atau projek tertentu?",
+      "donation_direction_answer": "Untuk menentukan sumbangan anda ke kawasan atau projek tertentu, hantarkan nota bersama sumbangan anda melalui pos. Kami akan memperuntukkannya dengan sewajarnya dan menghantar pengesahan kepada anda.",
+      "volunteer": "Bagaimana saya boleh menjadi sukarelawan dengan The Amal Charity?",
+      "volunteer_answer": "Kami menawarkan pelbagai peluang sukarelawan sepanjang tahun. Sila lawati halaman sukarelawan kami atau hubungi kami secara langsung untuk mengetahui peluang semasa.",
+      "workplace_giving": "Bagaimana saya boleh mengetahui lebih lanjut tentang pemberian melalui tempat kerja saya?",
+      "workplace_giving_answer": "Banyak majikan menawarkan program padanan hadiah. Hubungi jabatan HR anda atau hubungi kami untuk maklumat lanjut tentang pilihan pemberian di tempat kerja."
+    },
+    "details": {
+      "challenge": "Cabaran",
+      "our_work": "Kerja Kami",
+      "custom_amount": "Masukkan jumlah tersuai",
+      "stay_connected": "Terus Berhubung",
+      "stay_connected_description": "Sertai kami dan berikan bantuan anda dalam usaha melindungi hutan hijau kami hari ini agar bumi dapat terus bernafas.",
+      "email": "Emel anda",
+      "message": "Mesej anda",
+      "submit": "Hantar",
+      "campaign_message": "Sumbangan anda akan membantu kami mewujudkan komuniti bebas dadah dan menyokong mereka yang memerlukan pemulihan.",
+      "transparency_title": "Ketelusan & Pengagihan",
+      "transparency_description": "Jejaki bagaimana dana diagihkan kepada penerima. Kami percaya kepada ketelusan penuh untuk memastikan sumbangan anda memberi impak yang bermakna.",
+      "table": {
+        "date": "Tarikh",
+        "recipient": "Penerima",
+        "amount": "Jumlah",
+        "purpose": "Tujuan",
+        "status": "Status"
+      },
+      "total_disbursed": "Jumlah Diagihkan",
+      "from_total_donations": "daripada jumlah sumbangan diterima",
+      "beneficiaries": "Penerima",
+      "organizations_helped": "organisasi dibantu",
+      "last_update": "Kemaskini Terakhir",
+      "next_update_soon": "kemaskini seterusnya akan datang",
+      "disbursement_history": "Sejarah Pengagihan",
+      "filter": "Tapis",
+      "export": "Eksport",
+      "view_details": "Lihat Butiran",
+      "target": "daripada sasaran {amount}",
+      "days_left": "{days} hari lagi",
+      "popular": "Popular",
+      "enter_amount": "Masukkan jumlah",
+      "secure_payment": "Pemprosesan pembayaran yang selamat",
+      "recent_donors": "Penderma Terkini",
+      "secure_payment_processing": "Pemprosesan pembayaran yang selamat",
+      "days_remaining": "hari lagi",
+      "supporters": "penyokong",
+      "raised_of": "dikumpul daripada",
+      "goal": "sasaran",
+      "milestones": "Pencapaian Kempen",
+      "milestones_description": "Jejaki kemajuan kami dan lihat bagaimana sumbangan anda membuat perbezaan pada setiap peringkat kempen kami.",
+      "milestone_status": {
+        "completed": "Selesai",
+        "current": "Sedang Berlangsung",
+        "upcoming": "Akan Datang"
+      }
+    },
+    "donate": {
+      "title": "Derma",
+      "amount": "Jumlah",
+      "custom_amount": "Jumlah Tersuai",
+      "payment_method": "Kaedah Pembayaran",
+      "card_number": "Nombor Kad",
+      "expiry_date": "Tarikh Luput",
+      "cvv": "CVV",
+      "name_on_card": "Nama pada Kad",
+      "submit": "Hantar Derma",
+      "processing": "Memproses Pembayaran...",
+      "success": "Pembayaran Berjaya!",
+      "error": "Ralat Pembayaran",
+      "try_again": "Sila Cuba Lagi"
+    }
+  },
+  "validation": {
+    "required": "Ruangan ini diperlukan",
+    "email": "Sila masukkan alamat emel yang sah",
+    "min_amount": "Jumlah minimum ialah RM10",
+    "max_amount": "Jumlah maksimum ialah RM100,000",
+    "invalid_card": "Nombor kad tidak sah",
+    "invalid_cvv": "CVV tidak sah",
+    "invalid_expiry": "Tarikh luput tidak sah"
   }
-} 
+}

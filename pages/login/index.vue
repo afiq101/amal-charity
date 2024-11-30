@@ -36,8 +36,8 @@ const login = async () => {
 
       $swal.fire({
         position: "center",
-        title: t("login.success"),
-        text: t("login.success"),
+        title: t("login_page.success"),
+        text: t("login_page.success"),
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -46,7 +46,7 @@ const login = async () => {
       window.location.href = "/dashboard";
     } else {
       $swal.fire({
-        title: t("login.error"),
+        title: t("login_page.error"),
         text: data.message,
         icon: "error",
       });
@@ -73,7 +73,7 @@ const login = async () => {
         </div>
         <h3 class="mb-4">{{ t("login") }}</h3>
         <p class="text-slate-500 mb-6">
-          {{ t("login.welcome_message") }}
+          {{ t("login_page.welcome_message") }}
         </p>
         <div class="grid grid-cols-2">
           <FormKit
@@ -112,11 +112,11 @@ const login = async () => {
               </div>
             </template>
           </FormKit>
-          <FormKit type="checkbox" :label="t('login.remember_me')" />
+          <FormKit type="checkbox" :label="t('login_page.remember_me')" />
           <NuxtLink
             class="flex items-center justify-end h-5 mt-1 text-primary hover:underline"
             to="forgot-password"
-            >{{ t("login.forgot_password") }}</NuxtLink
+            >{{ t("login_page.forgot_password") }}</NuxtLink
           >
           <FormKit
             type="button"
@@ -124,13 +124,13 @@ const login = async () => {
             outer-class="col-span-2"
             @click="login"
           >
-            {{ t("login.sign_in") }}
+            {{ t("login_page.sign_in") }}
           </FormKit>
         </div>
         <p class="mt-3 text-center text-slate-500">
-          {{ t("login.no_account") }}
+          {{ t("login_page.no_account") }}
           <NuxtLink to="/register" class="text-primary hover:underline">{{
-            t("login.sign_up")
+            t("login_page.sign_up")
           }}</NuxtLink>
         </p>
       </rs-card>
