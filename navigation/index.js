@@ -10,6 +10,7 @@ export default [
         child: [],
         meta: {},
       },
+<<<<<<< HEAD
       {
         title: "User Profile",
         path: "/user-profile",
@@ -72,23 +73,21 @@ export default [
           },
         ],
       },
+=======
+>>>>>>> 4a53976d0b702c67c2158f29d0f933306e194997
       {
-        title: "API Editor",
-        path: "/devtool/api-editor",
-        icon: "material-symbols:api-rounded",
+        title: "Campaign Organizer",
+        path: "/campaign-organizer",
+        icon: "ph:files-bold",
         child: [],
       },
       {
-        title: "Code Playground",
-        path: "/devtool/code-playground",
-        icon: "mdi:code-braces",
+        title: "Volunteer",
+        path: "/volunteer",
+        icon: "ic:outline-dashboard",
         child: [],
+        meta: {},
       },
     ],
-    meta: {
-      auth: {
-        role: ["Developer"],
-      },
-    },
   },
 ];
