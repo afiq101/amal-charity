@@ -36,6 +36,117 @@
     <div class="grid grid-cols-3 gap-6">
       <!-- Left Column (2/3 width) -->
       <div class="col-span-2 space-y-6">
+        <!-- Contact Information Section -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Contact Information</h3>
+            <button 
+              @click="isEditingContact = !isEditingContact"
+              class="text-blue-600 text-sm hover:text-blue-700"
+            >
+              {{ isEditingContact ? 'Cancel' : 'Edit' }}
+            </button>
+          </div>
+          
+          <div v-if="!isEditingContact" class="space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="text-gray-500 w-24">Username:</span>
+              <span>{{ contactInfo.username }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-500 w-24">Email:</span>
+              <span>{{ contactInfo.email }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-500 w-24">Phone:</span>
+              <span>{{ contactInfo.phone }}</span>
+            </div>
+          </div>
+
+          <form v-else @submit.prevent="updateContactInfo" class="space-y-4">
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Username</label>
+              <input 
+                v-model="editedContact.username"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Email</label>
+              <input 
+                v-model="editedContact.email"
+                type="email"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Phone</label>
+              <input 
+                v-model="editedContact.phone"
+                type="tel"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <button 
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
+          </form>
+        </div>
+
+        <!-- Password Section -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Password</h3>
+            <button 
+              @click="isChangingPassword = !isChangingPassword"
+              class="text-blue-600 text-sm hover:text-blue-700"
+            >
+              {{ isChangingPassword ? 'Cancel' : 'Change Password' }}
+            </button>
+          </div>
+
+          <form 
+            v-if="isChangingPassword" 
+            @submit.prevent="updatePassword"
+            class="space-y-4"
+          >
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Current Password</label>
+              <input 
+                v-model="passwordForm.current"
+                type="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">New Password</label>
+              <input 
+                v-model="passwordForm.new"
+                type="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Confirm New Password</label>
+              <input 
+                v-model="passwordForm.confirm"
+                type="password"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <button 
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Update Password
+            </button>
+          </form>
+        </div>
+
         <!-- Opportunities Section -->
         <div class="bg-white rounded-lg border border-gray-200 p-6">
           <h3 class="text-lg font-semibold mb-3">Open to new opportunities</h3>
@@ -101,6 +212,17 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Success/Error Alert -->
+    <div 
+      v-if="alert.show"
+      :class="[
+        'fixed bottom-4 right-4 p-4 rounded-md shadow-lg',
+        alert.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+      ]"
+    >
+      {{ alert.message }}
     </div>
   </div>
 </template>
@@ -179,5 +301,49 @@ const activities = ref([
 const filteredActivities = computed(() => {
   if (currentTab.value === 'Share') return []
   return activities.value.filter(activity => activity.type === currentTab.value)
+})
+
+// Contact Information
+const contactInfo = ref({
+  username: 'jordanmendez',
+  email: 'jordan@example.com',
+  phone: '555-1234-5678'
+})
+
+const isEditingContact = ref(false)
+const editedContact = ref({
+  username: '',
+  email: '',
+  phone: ''
+})
+
+const updateContactInfo = () => {
+  contactInfo.value = {
+    ...contactInfo.value,
+    username: editedContact.value.username,
+    email: editedContact.value.email,
+    phone: editedContact.value.phone
+  }
+  isEditingContact.value = false
+}
+
+// Password Management
+const isChangingPassword = ref(false)
+const passwordForm = ref({
+  current: '',
+  new: '',
+  confirm: ''
+})
+
+const updatePassword = () => {
+  // Implement password update logic here
+  isChangingPassword.value = false
+}
+
+// Alert
+const alert = ref({
+  show: false,
+  message: '',
+  type: 'success'
 })
 </script>

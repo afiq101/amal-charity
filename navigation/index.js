@@ -11,6 +11,20 @@ export default [
         meta: {},
       },
       {
+        title: "Campaign Organizer",
+        path: "/campaign-organizer",
+        icon: "ph:files-bold",
+        child: [],
+        meta: {},
+      },
+      {
+        title: "Volunteer",
+        path: "/volunteer",
+        icon: "ph:outline-dashboard",
+        child: [],
+        meta: {},
+      },
+      {
         title: "User Profile",
         path: "/user-profile",
         icon: "ic:outline-dashboard",
