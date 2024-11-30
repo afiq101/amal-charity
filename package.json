@@ -56,6 +56,8 @@
     "codemirror": "^6.0.1",
     "cross-env": "^7.0.3",
     "crypto-js": "^4.1.1",
+    "d3": "^7.9.0",
+    "d3-sankey": "^0.12.3",
     "floating-vue": "^2.0.0-beta.24",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^3.1.0",
