@@ -10,6 +10,12 @@ export default [
         child: [],
         meta: {},
       },
+      {
+        title: "Campaign Organizer",
+        path: "/campaign-organizer",
+        icon: "ph:files-bold",
+        child: [],
+      },
     ],
   },
   {
