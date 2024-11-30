@@ -5,475 +5,480 @@ definePageMeta({
   requiresAuth: true,
 });
 
-const data1 = ref([]);
-const data2 = ref([]);
-const data3 = ref([]);
-const data4 = ref([]);
-var sparkline1Data = [47, 45, 54, 38, 56, 24, 65];
-var sparkline2Data = [61, 35, 66, 41, 59, 25, 32];
-var sparkline3Data = [25, 18, 36, 41, 43, 35, 14];
-var sparkline4Data = [8, 16, 22, 41, 43, 35, 14];
-
-const changeKey = ref(0);
-
-const customers = [
+const donorProjects = ref([
   {
-    name: "Iqmal",
-    age: "25",
-    city: "Kuala Lumpur",
-    country: "Malaysia",
-    totalPurchase: 1524,
-    purchase: 23,
+    name: "Sarah Johnson",
+    amount: 5000,
+    project: "Education Fund",
+    startDate: "2024-03-15",
+    endDate: "2024-06-15",
+    status: "In Progress",
+    milestones: [
+      { progress: 10, fundUsed: 1000 }
+    ],
+    totalFundUsed: 3000
   },
   {
-    name: "Adi",
-    age: "45",
-    city: "Pulau Pinang",
-    country: "Malaysia",
-    totalPurchase: 643,
-    purchase: 14,
+    name: "Michael Chen",
+    amount: 7500,
+    project: "Healthcare Initiative",
+    startDate: "2024-02-01",
+    endDate: "2024-08-30",
+    status: "In Progress",
+    milestones: [
+      { progress: 40, fundUsed: 1500 }
+    ],
+    totalFundUsed: 6500
   },
   {
-    name: "Raziq",
-    age: "21",
-    city: "Kelantan",
-    country: "Malaysia",
-    totalPurchase: 543,
-    purchase: 12,
-  },
-  {
-    name: "Haqeem",
-    age: "19",
-    city: "Negeri Sembilan",
-    country: "Malaysia",
-    totalPurchase: 258,
-    purchase: 6,
-  },
-];
-
-const randomizeArray = function (arg) {
-  var array = arg.slice();
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    name: "Emma Williams",
+    amount: 3750,
+    project: "Community Center",
+    startDate: "2024-03-01",
+    endDate: "2024-05-30",
+    status: "Planning",
+    milestones: [
+      { progress: 45, fundUsed: 1500 }
+    ],
+    totalFundUsed: 2500
   }
-
-  return array;
-};
-
-data1.value.push({
-  name: "Revenues",
-  data: randomizeArray(sparkline1Data),
-});
-
-data2.value.push({
-  name: "Users",
-  data: randomizeArray(sparkline2Data),
-});
-
-data3.value.push({
-  name: "Products",
-  data: randomizeArray(sparkline3Data),
-});
-
-data4.value.push({
-  name: "Viewers",
-  data: randomizeArray(sparkline4Data),
-});
-
-const chartOptions = computed(() => ({
-  chart: {
-    type: "area",
-    sparkline: {
-      enabled: true,
-    },
-  },
-  stroke: {
-    curve: "smooth",
-  },
-  fill: {
-    opacity: 1,
-  },
-  labels: [...Array(7).keys()].map((n) => `2022-06-0${n + 1}`),
-  xaxis: {
-    type: "datetime",
-  },
-}));
-
-// Radial Chart
-
-const radialData = ref([44, 55, 67, 83]);
-
-const chartOptionsRadial = computed(() => ({
-  chart: {
-    height: 350,
-    type: "radialBar",
-  },
-  plotOptions: {
-    radialBar: {
-      dataLabels: {
-        style: {
-          colors: "#9CA3AF",
-        },
-        name: {
-          offsetY: 30,
-          fontSize: "18px",
-        },
-        value: {
-          offsetY: -15,
-          fontSize: "30px",
-        },
-        total: {
-          show: true,
-          label: "Total",
-          formatter: function (w) {
-            // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-            return 249;
-          },
-        },
-      },
-    },
-  },
-  labels: ["Product A", "Product B", "Product C", "Product D"],
-  stroke: {
-    lineCap: "round",
-  },
-}));
-
-// Transaction Graph
-const transactionData = ref([
-  {
-    name: "Bill A",
-    data: [...Array(12).keys()].map((n) => Math.round(Math.random() * 100)),
-  },
-  {
-    name: "Bill B",
-    data: [...Array(12).keys()].map((n) => Math.round(Math.random() * 100)),
-  },
 ]);
 
-const chartOptionsTransaction = computed(() => ({
-  chart: {
-    height: 350,
-    type: "area",
-    toolbar: {
-      show: false,
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    curve: "smooth",
-  },
-  colors: ["#6366F1", "#F97316"],
-  yaxis: {
-    labels: {
-      style: {
-        colors: "#9CA3AF",
-        fontSize: "12px",
-      },
-    },
-  },
-  xaxis: {
-    type: "datetime",
-    categories: [
-      "2022-01-01",
-      "2022-02-01",
-      "2022-03-01",
-      "2022-04-01",
-      "2022-05-01",
-      "2022-06-01",
-      "2022-07-01",
-      "2022-08-01",
-      "2022-09-01",
-      "2022-10-01",
-      "2022-11-01",
-      "2022-12-01",
-    ],
-    labels: {
-      style: {
-        colors: "#9CA3AF",
-        fontSize: "14px",
-        fontWeight: 400,
-      },
-      datetimeFormatter: {
-        month: "MMM",
-      },
-    },
-  },
-  legend: {
-    position: "top",
-    horizontalAlign: "left",
-    labels: {
-      colors: "#9CA3AF",
-      useSeriesColors: false,
-    },
-  },
-  tooltip: {
-    x: {
-      format: "MMMM",
-    },
-  },
-}));
-
-onMounted(() => {
-  setTimeout(() => {
-    changeKey.value++;
-  }, 500);
+const volunteerStats = ref({
+  campaignsJoined: 5,
+  activeProjects: 3,
+  totalTasks: 25,
+  taskStatus: {
+    completed: 8,
+    inProgress: 12,
+    pending: 5
+  }
 });
+
+const volunteerProjects = ref([
+  {
+    project: "Beach Cleanup Drive",
+    tasks: 5,
+    status: "In Progress",
+    completedTasks: 2
+  },
+  {
+    project: "Food Bank Distribution",
+    tasks: 3,
+    status: "Pending",
+    completedTasks: 0
+  },
+  {
+    project: "Tree Planting Initiative",
+    tasks: 7,
+    status: "Completed",
+    completedTasks: 7
+  }
+]);
+
+// Add this new ref for beneficiary data
+const beneficiaryAids = ref([
+  {
+    projectName: "Food Security Program",
+    aids: [
+      { name: "Monthly Food Pack", type: "Material", details: "Rice 10kg, Flour 5kg, Oil 2L" },
+      { name: "Food Voucher", type: "Funds", details: "RM 150/month" }
+    ]
+  },
+  {
+    projectName: "Education Support",
+    aids: [
+      { name: "School Supplies", type: "Material", details: "Books, Stationery Set" },
+      { name: "Tuition Classes", type: "Non-Material", details: "3 subjects" },
+      { name: "Education Fund", type: "Funds", details: "RM 200/month" }
+    ]
+  },
+  {
+    projectName: "Elderly Care",
+    aids: [
+      { name: "Medical Supplies", type: "Material", details: "Monthly Medical Kit" },
+      { name: "Home Care Service", type: "Non-Material", details: "Weekly Visit" },
+      { name: "Healthcare Allowance", type: "Funds", details: "RM 300/month" }
+    ]
+  }
+]);
+
+// Add this new ref for project contributions
+const projectContributions = ref([
+  {
+    date: "2024-03-20",
+    contributor: "Sarah Chen",
+    project: "Food Security Program",
+    aidType: "Material",
+    contribution: "Rice and Essential Foods",
+    amount: "50kg",
+    status: "Delivered"
+  },
+  {
+    date: "2024-03-19",
+    contributor: "John Smith",
+    project: "Education Support",
+    aidType: "Funds",
+    contribution: "Education Fund",
+    amount: "RM 2,000",
+    status: "Processed"
+  },
+  {
+    date: "2024-03-18",
+    contributor: "Mary Johnson",
+    project: "Elderly Care",
+    aidType: "Non-Material",
+    contribution: "Medical Consultation",
+    amount: "20 hours",
+    status: "Scheduled"
+  },
+  {
+    date: "2024-03-17",
+    contributor: "Tech Solutions Inc",
+    project: "Education Support",
+    aidType: "Material",
+    contribution: "Laptops for Students",
+    amount: "5 units",
+    status: "In Transit"
+  }
+]);
+
 </script>
 
 <template>
   <div>
     <LayoutsBreadcrumb />
-    <!-- First Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-x-6">
-      <!-- Summary Card #1 -->
-      <rs-card>
-        <div class="summary-1 pt-5 pb-3 px-5 flex items-center gap-4">
-          <div
-            class="p-5 flex justify-center items-center bg-primary/20 rounded-2xl"
-          >
-            <Icon class="text-primary" name="ic:outline-attach-money"></Icon>
-          </div>
-          <div class="flex-1 truncate">
-            <span class="block font-semibold text-xl leading-tight">
-              RM 100,000</span
-            >
-            <span class="text-base font-semibold text-gray-500"
-              >Total Revenues</span
-            >
-          </div>
-        </div>
-        <client-only>
-          <VueApexCharts
-            :key="changeKey"
-            width="100%"
-            height="53"
-            :options="{
-              ...chartOptions,
-              colors: ['#F43F5E'],
-              yaxis: {
-                min: 0,
-                max: Math.max(...data1[0].data) + 10,
-              },
-            }"
-            :series="data1"
-          ></VueApexCharts>
-        </client-only>
-      </rs-card>
-      <!-- Summary Card #2 -->
-      <rs-card>
-        <div class="summary-2 pt-5 pb-3 px-5 flex items-center gap-4">
-          <div
-            class="p-5 flex justify-center items-center bg-indigo-100 rounded-2xl"
-          >
-            <Icon
-              class="text-indigo-500"
-              name="ic:outline-account-circle"
-            ></Icon>
-          </div>
-          <div class="flex-1 truncate">
-            <span class="block font-semibold text-xl leading-tight"> 512</span>
-            <span class="text-base font-semibold text-gray-500"
-              >Total Users</span
-            >
-          </div>
-        </div>
-        <client-only>
-          <VueApexCharts
-            :key="changeKey"
-            width="100%"
-            height="53"
-            :options="{
-              ...chartOptions,
-              colors: ['#6366F1'],
-              yaxis: {
-                min: 0,
-                max: Math.max(...data2[0].data) + 10,
-              },
-            }"
-            :series="data2"
-          ></VueApexCharts>
-        </client-only>
-      </rs-card>
-      <!-- Summary Card #3 -->
-      <rs-card>
-        <div class="summary-3 pt-5 pb-3 px-5 flex items-center gap-4">
-          <div
-            class="p-5 flex justify-center items-center bg-orange-100 rounded-2xl"
-          >
-            <Icon class="text-orange-500" name="ic:outline-shopping-bag"></Icon>
-          </div>
-          <div class="flex-1 truncate">
-            <span class="block font-semibold text-xl leading-tight"> 20</span>
-            <span class="text-base font-semibold text-gray-500"
-              >Total Products</span
-            >
-          </div>
-        </div>
-        <client-only>
-          <VueApexCharts
-            :key="changeKey"
-            width="100%"
-            height="53"
-            :options="{
-              ...chartOptions,
-              colors: ['#F97316'],
-              yaxis: {
-                min: 0,
-                max: Math.max(...data3[0].data) + 10,
-              },
-            }"
-            :series="data3"
-          ></VueApexCharts>
-        </client-only>
-      </rs-card>
-      <!-- Summary Card #4 -->
-      <rs-card>
-        <div class="summary-4 pt-5 pb-3 px-5 flex items-center gap-4">
-          <div
-            class="p-5 flex justify-center items-center bg-blue-100 rounded-2xl"
-          >
-            <Icon class="text-blue-500" name="ic:outline-remove-red-eye"></Icon>
-          </div>
-          <div class="flex-1 truncate">
-            <span class="block font-semibold text-xl leading-tight">
-              2,452</span
-            >
-            <span class="text-base font-semibold text-gray-500"
-              >Total Viewers</span
-            >
-          </div>
-        </div>
-        <client-only>
-          <VueApexCharts
-            :key="changeKey"
-            width="100%"
-            height="53"
-            :options="{
-              ...chartOptions,
-              colors: ['#3B82F6'],
-              yaxis: {
-                min: 0,
-                max: Math.max(...data4[0].data) + 10,
-              },
-            }"
-            :series="data4"
-          ></VueApexCharts>
-        </client-only>
-      </rs-card>
-    </div>
 
-    <div class="flex flex-col md:flex-row gap-x-6">
-      <div class="w-12/2 md:w-8/12 flex flex-col">
-        <!-- Graph -->
-        <rs-card class="flex-1">
-          <template #header> Transaction </template>
-          <template #body>
-            <client-only>
-              <VueApexCharts
-                :key="changeKey"
-                width="100%"
-                height="300"
-                name="area"
-                :options="chartOptionsTransaction"
-                :series="transactionData"
-              ></VueApexCharts
-            ></client-only>
-          </template>
-        </rs-card>
-        <rs-card class="flex-1">
-          <template #header> Referral</template>
-          <template #body>
-            <div
-              v-for="(val, index) in customers"
-              :key="index"
-              class="flex justify-between items-center rounded-lg bg-[rgb(var(--bg-1))] p-5 first:mt-0 mt-3"
-            >
-              <div class="flex items-center gap-x-4">
-                <img
-                  src="@/assets/img/avatar/user.webp"
-                  class="h-10 w-10 rounded-lg"
-                />
-                <div class="flex-1">
-                  <div class="flex flex-col">
-                    <span
-                      class="text-gray-900 dark:text-white font-semibold text-lg"
-                    >
-                      {{ val.name }}
-                    </span>
-                    <span class="text-gray-600 dark:text-gray-50 text-sm">
-                      RM{{ parseFloat(val.totalPurchase).toFixed(2) }} |
-                      {{ val.purchase }} sold
-                    </span>
+    <!-- Recent Donations -->
+    <rs-card class="mt-6">
+      <template #header>
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold">Recent Donations</h3>
+          <button class="text-primary hover:text-primary-dark">View All</button>
+        </div>
+      </template>
+      <template #body>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Donate</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Milestones</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Disbursed</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+              <tr v-for="(project, index) in donorProjects" :key="index" class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <!-- <div class="h-10 w-10 flex-shrink-0">
+                      <img class="h-10 w-10 rounded-full" src="@/assets/img/avatar/user.webp" alt="" />
+                    </div> -->
+                    <div class="ml-4">
+                      <!-- <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ project.name }}</div> -->
+                      <div class="text-sm text-gray-500">RM {{ project.amount.toLocaleString() }}</div>
+                    </div>
                   </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">{{ project.project }}</div>
+                  <div class="text-sm text-gray-500">{{ project.status }}</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ new Date(project.startDate).toLocaleDateString() }} - 
+                    {{ new Date(project.endDate).toLocaleDateString() }}
+                  </div>
+                  <div v-for="(milestone, mIndex) in project.milestones" :key="mIndex" class="mb-2">
+                    <div class="flex justify-between text-sm mb-1">
+                      <span class="text-gray-900 dark:text-gray-100">{{ milestone.name }}</span>
+                      <span class="text-gray-500">{{ milestone.progress }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                      <div 
+                        class="bg-primary h-2 rounded-full" 
+                        :style="{ width: milestone.progress + '%' }"
+                      ></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    RM {{ project.totalFundUsed.toLocaleString() }} / 
+                    RM {{ project.amount.toLocaleString() }}
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
+                    <div 
+                      class="bg-primary h-2.5 rounded-full" 
+                      :style="{ width: (project.totalFundUsed / project.amount * 100) + '%' }"
+                    ></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    </rs-card>
+
+    <!-- Volunteer Activity -->
+    <rs-card class="mt-6">
+      <template #header>
+        <h3 class="text-lg font-semibold">Volunteer Activity</h3>
+      </template>
+      <template #body>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <!-- Summary Stats -->
+          <div class="bg-primary/5 rounded-lg p-4">
+            <div class="text-sm text-gray-600 dark:text-gray-400">Campaigns Joined</div>
+            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.campaignsJoined }}</div>
+          </div>
+          <div class="bg-primary/5 rounded-lg p-4">
+            <div class="text-sm text-gray-600 dark:text-gray-400">Active Projects</div>
+            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.activeProjects }}</div>
+          </div>
+          <div class="bg-primary/5 rounded-lg p-4">
+            <div class="text-sm text-gray-600 dark:text-gray-400">Total Tasks</div>
+            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.totalTasks }}</div>
+          </div>
+        </div>
+
+        <div class="flex flex-row">
+          <!-- Active Projects List -->
+          <div class="w-1/2 mr-5">
+            <h4 class="text-base font-medium mb-4">Active Projects</h4>
+            <div class="space-y-4">
+              <div v-for="(project, index) in volunteerProjects" :key="index" 
+                  class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <div class="flex justify-between items-center mb-2">
+                  <div>
+                    <h5 class="font-medium">{{ project.project }}</h5>
+                    <rs-badge
+                      :variant="
+                        project.status === 'Completed'
+                          ? 'success'
+                          : project.status === 'Pending'
+                          ? 'warning'
+                          : 'info'
+                      "
+                      class="mt-1"
+                    >
+                      {{ project.status }}
+                    </rs-badge>
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    {{ project.completedTasks }}/{{ project.tasks }} Tasks
+                  </div>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                  <div 
+                    class="bg-primary h-2 rounded-full" 
+                    :style="{ width: (project.completedTasks / project.tasks * 100) + '%' }"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Task Status Overview -->
+          <div class="w-1/2">
+            <h4 class="text-base font-medium mb-4">Overall Task Status</h4>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600 dark:text-gray-400">Completed</span>
+                  <span class="font-medium">{{ volunteerStats.taskStatus.completed }} Tasks</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                  <div 
+                    class="bg-success h-2 rounded-full" 
+                    :style="{ width: (volunteerStats.taskStatus.completed / volunteerStats.totalTasks * 100) + '%' }"
+                  ></div>
                 </div>
               </div>
               <div>
-                <button
-                  class="flex items-center p-4 rounded-full bg-[rgb(var(--bg-2))] hover:bg-[rgb(var(--bg-2))]/10 shadow-md"
-                >
-                  <Icon size="20px" name="ic:baseline-mail-outline"></Icon>
-                </button>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600 dark:text-gray-400">In Progress</span>
+                  <span class="font-medium">{{ volunteerStats.taskStatus.inProgress }} Tasks</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                  <div 
+                    class="bg-info h-2 rounded-full" 
+                    :style="{ width: (volunteerStats.taskStatus.inProgress / volunteerStats.totalTasks * 100) + '%' }"
+                  ></div>
+                </div>
               </div>
-            </div>
-          </template>
-        </rs-card>
-      </div>
-      <div class="w-12/2 md:w-4/12 flex flex-col">
-        <!-- Monthly Target Radial -->
-        <rs-card class="flex-1">
-          <template #header> Monthly Target </template>
-          <template #body>
-            <client-only>
-              <VueApexCharts
-                :key="changeKey"
-                width="100%"
-                height="300"
-                name="radialBar"
-                :options="chartOptionsRadial"
-                :series="radialData"
-              ></VueApexCharts>
-            </client-only>
-            <hr class="my-4" />
-            <p class="text-xl py-5 font-medium">Products</p>
-            <div
-              class="flex item-center gap-x-4"
-              :class="{
-                'mt-0': index === 0,
-                'mt-3': index !== 0,
-              }"
-              v-for="(val, index) in ['A', 'B', 'C', 'D', 'E']"
-              :key="index"
-            >
-              <img
-                src="@/assets/img/default-thumbnail.jpg"
-                class="h-20 w-20 object-cover rounded-lg"
-              />
-              <div class="flex-1 flex items-center">
-                <div>
-                  <span class="font-semibold text-lg leading-tight"
-                    >Product {{ val }}</span
-                  >
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="text-gray-600 dark:text-gray-400">Pending</span>
+                  <span class="font-medium">{{ volunteerStats.taskStatus.pending }} Tasks</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                  <div 
+                    class="bg-warning h-2 rounded-full" 
+                    :style="{ width: (volunteerStats.taskStatus.pending / volunteerStats.totalTasks * 100) + '%' }"
+                  ></div>
                 </div>
               </div>
             </div>
-          </template>
-        </rs-card>
-      </div>
-    </div>
+          </div>
+        </div>
+      </template>
+    </rs-card>
+
+    <!-- Project Aid Distribution -->
+    <rs-card class="mt-6">
+      <template #header>
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold">Project Aid Distribution</h3>
+          <button class="text-primary hover:text-primary-dark">View All</button>
+        </div>
+      </template>
+      <template #body>
+        <!-- Project Groups -->
+        <div class="space-y-6">
+          <div v-for="project in beneficiaryAids" :key="project.projectName" 
+               class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5">
+            <!-- Project Header -->
+            <h4 class="text-base font-medium mb-4 text-gray-900 dark:text-gray-100">
+              {{ project.projectName }}
+            </h4>
+            
+            <!-- Aid Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div v-for="aid in project.aids" :key="aid.name" 
+                   class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700
+                          transition-all duration-300 hover:shadow-md hover:border-primary/20">
+                <!-- Aid Type Badge -->
+                <div class="flex justify-between items-start mb-3">
+                  <rs-badge
+                    :variant="
+                      aid.type === 'Material'
+                        ? 'success'
+                        : aid.type === 'Non-Material'
+                        ? 'info'
+                        : 'warning'
+                    "
+                    class="!rounded-lg"
+                  >
+                    {{ aid.type }}
+                  </rs-badge>
+                  
+                  <!-- Icon based on type -->
+                  <div class="text-gray-400">
+                    <Icon 
+                      :name="
+                        aid.type === 'Material'
+                          ? 'material-symbols:inventory-2-outline'
+                          : aid.type === 'Non-Material'
+                          ? 'material-symbols-light:support-agent-outline'
+                          : 'material-symbols:payments-outline'
+                      "
+                      size="1.5rem"
+                    />
+                  </div>
+                </div>
+                
+                <!-- Aid Name -->
+                <h5 class="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  {{ aid.name }}
+                </h5>
+                
+                <!-- Aid Details -->
+                <div class="text-sm text-gray-500">
+                  {{ aid.details }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </rs-card>
+
+    <!-- Project Contributions -->
+    <rs-card class="mt-6">
+      <template #header>
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold">Project Contributions</h3>
+          <button class="text-primary hover:text-primary-dark">View All</button>
+        </div>
+      </template>
+      <template #body>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead>
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contributor</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aid Type</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contribution</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+              <tr v-for="contribution in projectContributions" :key="contribution.date" 
+                  class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ new Date(contribution.date).toLocaleDateString() }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ contribution.contributor }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ contribution.project }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <rs-badge
+                    :variant="
+                      contribution.aidType === 'Material'
+                        ? 'success'
+                        : contribution.aidType === 'Non-Material'
+                        ? 'info'
+                        : 'warning'
+                    "
+                  >
+                    {{ contribution.aidType }}
+                  </rs-badge>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ contribution.contribution }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ contribution.amount }}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <rs-badge
+                    :variant="
+                      contribution.status === 'Delivered'
+                        ? 'success'
+                        : contribution.status === 'Processed'
+                        ? 'info'
+                        : contribution.status === 'Scheduled'
+                        ? 'warning'
+                        : 'primary'
+                    "
+                  >
+                    {{ contribution.status }}
+                  </rs-badge>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </template>
+    </rs-card>
+
   </div>
 </template>
