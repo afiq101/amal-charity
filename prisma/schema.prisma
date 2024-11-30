@@ -32,6 +32,7 @@ model user {
   userStatus       String?    @db.VarChar(255)
   userCreatedDate  DateTime?  @db.DateTime(0)
   userModifiedDate DateTime?  @db.DateTime(0)
+  payment          payment[]
   userrole         userrole[]
 }
 
@@ -67,4 +68,38 @@ model userrole {
 
   @@index([userRoleRoleID], map: "FK_userrole_role")
   @@index([userRoleUserID], map: "FK_userrole_user")
+}
+
+model configuration {
+  configurationID           Int       @id @default(autoincrement())
+  configurationName         String?   @db.VarChar(255)
+  configurationCode         String?   @unique(map: "configurationCode") @db.VarChar(255)
+  configurationType         String?   @db.VarChar(255)
+  configurationValue        String?   @db.VarChar(255)
+  configurationCreatedDate  DateTime? @db.DateTime(0)
+  configurationModifiedDate DateTime? @db.DateTime(0)
+}
+
+model payment {
+  paymentID                    Int       @id @default(autoincrement())
+  userID                       Int?
+  paymentPayorName             String?   @db.VarChar(255)
+  paymentPayorEmail            String?   @db.VarChar(255)
+  paymentPayorPhone            String?   @db.VarChar(255)
+  paymentBillCode              String?   @db.VarChar(255)
+  paymentBillInvoiceNo         String?   @db.VarChar(255)
+  paymentBillExternalInvoiceNo String?   @db.VarChar(255)
+  paymentBillStatus            Int?
+  paymentFPXTransactionID      String?   @db.VarChar(255)
+  paymentType                  String?   @db.VarChar(255)
+  paymentPaymentChannel        String?   @db.VarChar(255)
+  paymentAmount                Float?    @db.Float
+  paymentAmountNett            Float?    @db.Float
+  paymentFlag                  Int?      @default(0)
+  paymentStatus                String?   @db.VarChar(255)
+  paymentCreatedDate           DateTime? @db.DateTime(0)
+  paymentModifiedDate          DateTime? @db.DateTime(0)
+  user                         user?     @relation(fields: [userID], references: [userID], onDelete: NoAction, onUpdate: NoAction, map: "payment_ibfk_2")
+
+  @@index([userID], map: "userID")
 }
