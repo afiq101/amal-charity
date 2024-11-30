@@ -149,7 +149,9 @@
         "completed": "Selesai",
         "current": "Sedang Berlangsung",
         "upcoming": "Akan Datang"
-      }
+      },
+      "disbursement_flow": "Aliran Pengagihan",
+      "disbursement_flow_description": "Visualisasi bagaimana dana diagihkan dan digunakan di berbagai inisiatif dan program."
     },
     "donate": {
       "title": "Derma",

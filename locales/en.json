@@ -144,7 +144,9 @@
         "completed": "Completed",
         "current": "In Progress",
         "upcoming": "Upcoming"
-      }
+      },
+      "disbursement_flow": "Disbursement Flow",
+      "disbursement_flow_description": "Visualization of how funds are distributed and utilized across different initiatives and programs."
     }
   },
   "validation": {

@@ -8,6 +8,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import * as d3 from "d3";
+import { sankey, sankeyLinkHorizontal } from "d3-sankey";
+
 definePageMeta({
   layout: "landing",
 });
@@ -182,6 +185,148 @@ const milestones = ref([
     status: "upcoming",
   },
 ]);
+
+const sankeyData = ref({
+  nodes: [
+    { id: "Total_Funds", name: "Total Funds" },
+    { id: "Rehab_Center", name: "Rehabilitation Center" },
+    { id: "Youth_Program", name: "Youth Program" },
+    { id: "Support_Group", name: "Support Group" },
+    { id: "Family_Network", name: "Family Network" },
+    { id: "Medical", name: "Medical Equipment" },
+    { id: "Education", name: "Educational Materials" },
+    { id: "Counseling", name: "Counseling Services" },
+    { id: "Emergency", name: "Emergency Fund" },
+  ],
+  links: [
+    { source: "Total_Funds", target: "Rehab_Center", value: 50000 },
+    { source: "Total_Funds", target: "Youth_Program", value: 35000 },
+    { source: "Total_Funds", target: "Support_Group", value: 25000 },
+    { source: "Total_Funds", target: "Family_Network", value: 30000 },
+    { source: "Rehab_Center", target: "Medical", value: 50000 },
+    { source: "Youth_Program", target: "Education", value: 35000 },
+    { source: "Support_Group", target: "Counseling", value: 25000 },
+    { source: "Family_Network", target: "Emergency", value: 30000 },
+  ],
+});
+
+// Add this utility function
+const useClient = () => process.client;
+
+// Modify the createSankeyDiagram function
+const createSankeyDiagram = () => {
+  // Check if we're on client-side
+  if (!useClient()) return;
+
+  // Ensure the element exists
+  const element = document.getElementById("sankey-diagram");
+  if (!element) return;
+
+  // Clear any existing SVG
+  d3.select("#sankey-diagram").selectAll("*").remove();
+
+  // Set up dimensions
+  const width = 800;
+  const height = 400;
+
+  // Create SVG
+  const svg = d3
+    .select("#sankey-diagram")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(50,20)");
+
+  // Create a deep copy of the data
+  const data = {
+    nodes: JSON.parse(JSON.stringify(sankeyData.value.nodes)),
+    links: JSON.parse(JSON.stringify(sankeyData.value.links)),
+  };
+
+  // Convert the links to the format D3 expects
+  data.links = data.links.map((d) => ({
+    source: data.nodes.findIndex((node) => node.id === d.source),
+    target: data.nodes.findIndex((node) => node.id === d.target),
+    value: +d.value,
+  }));
+
+  // Set up Sankey generator
+  const sankeyGenerator = sankey()
+    .nodeWidth(20)
+    .nodePadding(20)
+    .extent([
+      [0, 0],
+      [width - 100, height - 40],
+    ]);
+
+  // Generate the Sankey data
+  const { nodes, links } = sankeyGenerator(data);
+
+  // Add links
+  svg
+    .append("g")
+    .selectAll("path")
+    .data(links)
+    .join("path")
+    .attr("d", sankeyLinkHorizontal())
+    .attr("fill", "none")
+    .attr("stroke", "#cbd5e1")
+    .attr("stroke-width", (d) => Math.max(1, d.width))
+    .attr("opacity", 0.5);
+
+  // Add nodes
+  svg
+    .append("g")
+    .selectAll("rect")
+    .data(nodes)
+    .join("rect")
+    .attr("x", (d) => d.x0)
+    .attr("y", (d) => d.y0)
+    .attr("height", (d) => d.y1 - d.y0)
+    .attr("width", (d) => d.x1 - d.x0)
+    .attr("fill", "#3b82f6")
+    .attr("opacity", 0.8);
+
+  // Add labels
+  svg
+    .append("g")
+    .selectAll("text")
+    .data(nodes)
+    .join("text")
+    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6))
+    .attr("y", (d) => (d.y1 + d.y0) / 2)
+    .attr("dy", "0.35em")
+    .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
+    .text(
+      (d) =>
+        `${sankeyData.value.nodes[d.index].name} (${formatCurrency(d.value)})`
+    )
+    .attr("font-size", "12px")
+    .attr("fill", "#64748b");
+};
+
+// Modify the lifecycle hooks
+onMounted(() => {
+  // Wait for next tick to ensure DOM is ready
+  nextTick(() => {
+    createSankeyDiagram();
+    window.addEventListener("resize", handleResize);
+  });
+});
+
+onUnmounted(() => {
+  if (useClient()) {
+    window.removeEventListener("resize", handleResize);
+  }
+});
+
+// Update the handleResize function
+const handleResize = () => {
+  if (useClient()) {
+    createSankeyDiagram();
+  }
+};
 </script>
 
 <template>
@@ -682,6 +827,17 @@ const milestones = ref([
                   </div>
                 </template>
               </rs-table>
+
+              <!-- Disbursement Flow Section -->
+              <div class="bg-white rounded-xl shadow-sm p-6 mt-8">
+                <h2 class="text-2xl font-bold mb-6">
+                  {{ t("campaign.details.disbursement_flow") }}
+                </h2>
+                <p class="text-gray-600 mb-6">
+                  {{ t("campaign.details.disbursement_flow_description") }}
+                </p>
+                <div id="sankey-diagram" class="w-full overflow-x-auto"></div>
+              </div>
             </div>
           </div>
         </div>
