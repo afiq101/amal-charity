@@ -16,6 +16,13 @@ export default [
         icon: "ph:files-bold",
         child: [],
       },
+      {
+        title: "Volunteer",
+        path: "/volunteer",
+        icon: "ic:outline-dashboard",
+        child: [],
+        meta: {},
+      },
     ],
   },
   {
