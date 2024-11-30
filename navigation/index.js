@@ -10,6 +10,13 @@ export default [
         child: [],
         meta: {},
       },
+      {
+        title: "User Profile",
+        path: "/user-profile",
+        icon: "ic:outline-dashboard",
+        child: [],
+        meta: {},
+      },
     ],
   },
   {
