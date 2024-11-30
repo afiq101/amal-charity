@@ -24,7 +24,7 @@ const languageNow = computed(() => {
 const navItems = [
   { label: "navigation.home", path: "/" },
   { label: "navigation.campaigns", path: "/campaigns" },
-  { label: "navigation.contact", path: "/contact" },
+  { label: "navigation.contact", path: "/contact-us" },
 ];
 
 // Toggle mobile menu

@@ -33,16 +33,16 @@ const featuredCampaigns = [
 // Impact areas data
 const impactAreas = [
   {
-    key: 'drug_prevention',
-    icon: 'mdi:pill-off',
+    key: "drug_prevention",
+    icon: "mdi:pill-off",
   },
   {
-    key: 'poverty',
-    icon: 'mdi:hand-heart',
+    key: "poverty",
+    icon: "mdi:hand-heart",
   },
   {
-    key: 'education',
-    icon: 'mdi:school',
+    key: "education",
+    icon: "mdi:school",
   },
 ];
 
@@ -77,14 +77,18 @@ const onSubmit = (data) => {
       <div class="container mx-auto px-4">
         <div class="text-center max-w-3xl mx-auto">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">
-            {{ $t('landing.hero.title') }}
+            {{ $t("landing.hero.title") }}
           </h1>
           <p class="text-lg mb-8 text-gray-600 dark:text-gray-300">
-            {{ $t('landing.hero.subtitle') }}
+            {{ $t("landing.hero.subtitle") }}
           </p>
           <div class="flex gap-4 justify-center">
-            <rs-button variant="primary" size="lg">{{ $t('landing.hero.join_us') }}</rs-button>
-            <rs-button variant="secondary" size="lg">{{ $t('landing.hero.donate') }}</rs-button>
+            <rs-button variant="primary" size="lg">{{
+              $t("landing.hero.join_us")
+            }}</rs-button>
+            <rs-button variant="secondary" size="lg">{{
+              $t("landing.hero.donate")
+            }}</rs-button>
           </div>
         </div>
       </div>
@@ -93,11 +97,13 @@ const onSubmit = (data) => {
     <!-- About Section -->
     <section class="about py-16 bg-gray-50 dark:bg-slate-900">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12">{{ $t('landing.about.title') }}</h2>
+        <h2 class="text-3xl font-bold mb-12">
+          {{ $t("landing.about.title") }}
+        </h2>
         <div class="grid md:grid-cols-1 gap-8">
           <div class="about-content">
             <p class="text-gray-600 dark:text-gray-300 mb-4">
-              {{ $t('landing.about.description') }}
+              {{ $t("landing.about.description") }}
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
               <div
@@ -106,7 +112,9 @@ const onSubmit = (data) => {
                 class="p-6 bg-white dark:bg-slate-800 rounded-lg shadow-sm"
               >
                 <Icon :name="area.icon" size="32" class="text-primary mb-4" />
-                <h3 class="font-semibold mb-2">{{ $t(`landing.about.impact_areas.${area.key}.title`) }}</h3>
+                <h3 class="font-semibold mb-2">
+                  {{ $t(`landing.about.impact_areas.${area.key}.title`) }}
+                </h3>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                   {{ $t(`landing.about.impact_areas.${area.key}.description`) }}
                 </p>
@@ -120,7 +128,9 @@ const onSubmit = (data) => {
     <!-- Projects Section -->
     <section class="projects py-16">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12">{{ $t('landing.projects.title') }}</h2>
+        <h2 class="text-3xl font-bold mb-12">
+          {{ $t("landing.projects.title") }}
+        </h2>
         <div class="grid md:grid-cols-3 gap-8">
           <rs-card v-for="(campaign, index) in featuredCampaigns" :key="index">
             <div class="p-6">
@@ -137,17 +147,26 @@ const onSubmit = (data) => {
                 </div>
               </div>
               <div class="flex justify-between text-sm">
-                <span>${{ campaign.raised.toLocaleString() }} {{ $t('landing.projects.raised') }}</span>
-                <span>${{ campaign.goal.toLocaleString() }} {{ $t('landing.projects.goal') }}</span>
+                <span
+                  >${{ campaign.raised.toLocaleString() }}
+                  {{ $t("landing.projects.raised") }}</span
+                >
+                <span
+                  >${{ campaign.goal.toLocaleString() }}
+                  {{ $t("landing.projects.goal") }}</span
+                >
               </div>
               <rs-badge variant="primary" class="mt-4">
-                {{ campaign.supporters }} {{ $t('landing.projects.supporters') }}
+                {{ campaign.supporters }}
+                {{ $t("landing.projects.supporters") }}
               </rs-badge>
             </div>
           </rs-card>
         </div>
         <div class="text-center mt-8">
-          <rs-button variant="primary-outline">{{ $t('landing.projects.explore_more') }}</rs-button>
+          <rs-button variant="primary-outline">{{
+            $t("landing.projects.explore_more")
+          }}</rs-button>
         </div>
       </div>
     </section>
@@ -155,7 +174,9 @@ const onSubmit = (data) => {
     <!-- Featured Campaigns -->
     <section class="featured-campaigns py-16 bg-gray-50">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-12">{{ $t('landing.featured.title') }}</h2>
+        <h2 class="text-3xl font-bold mb-12">
+          {{ $t("landing.featured.title") }}
+        </h2>
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Main Featured Post -->
           <div
@@ -170,10 +191,12 @@ const onSubmit = (data) => {
             </div>
             <div class="p-6">
               <h3 class="font-semibold mb-2">
-                {{ $t('landing.featured.mainPost.title') }}
+                {{ $t("landing.featured.mainPost.title") }}
               </h3>
               <p class="text-sm text-gray-500 mb-4">31/06/2023</p>
-              <rs-button variant="primary-text" size="sm">{{ $t('landing.featured.readMore') }}</rs-button>
+              <rs-button variant="primary-text" size="sm">{{
+                $t("landing.featured.readMore")
+              }}</rs-button>
             </div>
           </div>
 
@@ -229,9 +252,11 @@ const onSubmit = (data) => {
     <section class="stay-connected py-16 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="max-w-xl mx-auto">
-          <h2 class="text-3xl font-bold mb-4">{{ $t('landing.connect.title') }}</h2>
+          <h2 class="text-3xl font-bold mb-4">
+            {{ $t("landing.connect.title") }}
+          </h2>
           <p class="text-gray-600 mb-8">
-            {{ $t('landing.connect.description') }}
+            {{ $t("landing.connect.description") }}
           </p>
           <FormKit type="form" @submit="onSubmit" :actions="false">
             <FormKit
@@ -249,7 +274,7 @@ const onSubmit = (data) => {
               class="mb-4"
             />
             <rs-button type="submit" variant="primary" class="w-full">
-              {{ $t('landing.connect.submit') }}
+              {{ $t("landing.connect.submit") }}
             </rs-button>
           </FormKit>
         </div>
@@ -268,7 +293,7 @@ const onSubmit = (data) => {
       rgba(255, 255, 255, 0.9),
       rgba(255, 255, 255, 0.9)
     ),
-    url("@/assets/img/hero-bg.jpg");
+    url("https://placehold.co/1920x1080");
   background-size: cover;
   background-position: center;
 }
@@ -278,6 +303,6 @@ const onSubmit = (data) => {
       rgba(15, 23, 42, 0.9),
       rgba(15, 23, 42, 0.9)
     ),
-    url("@/assets/img/hero-bg.jpg");
+    url("https://placehold.co/1920x1080");
 }
 </style>
