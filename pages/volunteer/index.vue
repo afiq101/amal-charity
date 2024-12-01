@@ -59,8 +59,8 @@
         :data="data"
         :options="{
           variant: 'default',
-          striped: true,
-          borderless: true,
+          striped: false,
+          borderless: false,
         }"
         :options-advanced="{
           sortable: true,
