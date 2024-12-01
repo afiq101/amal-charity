@@ -5,7 +5,6 @@ const router = useRouter();
 
 // States
 const isLoading = ref(false);
-const showCreateProjectModal = ref(false);
 
 // Dummy campaign details
 const campaign = ref({
@@ -77,15 +76,6 @@ const projects = ref([
   },
 ]);
 
-// New project form
-const newProject = ref({
-  name: "",
-  description: "",
-  fundRaisingGoal: "",
-  startDate: "",
-  endDate: "",
-});
-
 const errors = ref({});
 
 // Methods
@@ -127,33 +117,48 @@ const getMilestoneStatusColor = (status) => {
   }
 };
 
-const createProject = async () => {
-  if (!validateProjectForm()) return;
-  
-  try {
-    // TODO: Implement API call
-    // await api.projects.create(campaign.value.id, newProject.value);
-    projects.value.push({
-      id: projects.value.length + 1,
-      ...newProject.value,
-      status: "Pending",
-      progress: 0,
-      fundsRaised: 0,
-      organizer: "Current User", // Replace with actual user name
-      milestones: [],
-    });
-    showCreateProjectModal.value = false;
-    newProject.value = {
-      name: "",
-      description: "",
-      fundRaisingGoal: "",
-      startDate: "",
-      endDate: "",
-    };
-  } catch (error) {
-    console.error('Failed to create project:', error);
+// Add these states
+const expandedProjects = ref(new Set());
+const showApplyModal = ref(false);
+const selectedProjectId = ref(null);
+const applyMessage = ref('');
+
+// Methods for project expansion
+const toggleProject = (projectId) => {
+  if (expandedProjects.value.has(projectId)) {
+    expandedProjects.value.delete(projectId);
+  } else {
+    expandedProjects.value.add(projectId);
   }
 };
+
+const isProjectExpanded = (projectId) => {
+  return expandedProjects.value.has(projectId);
+};
+
+// Methods for apply modal
+const openApplyModal = (projectId) => {
+  selectedProjectId.value = projectId;
+  applyMessage.value = '';
+  showApplyModal.value = true;
+};
+
+const submitApplication = async () => {
+  try {
+    // TODO: Implement API call
+    // await api.submitApplication({
+    //   projectId: selectedProjectId.value,
+    //   message: applyMessage.value
+    // });
+    
+    showApplyModal.value = false;
+    // Add success notification here
+  } catch (error) {
+    console.error('Failed to submit application:', error);
+    // Add error notification here
+  }
+};
+
 </script>
 
 <template>
@@ -222,7 +227,7 @@ const createProject = async () => {
     </div>
 
     <!-- Projects Section -->
-    <div class="bg-white rounded-lg p-6 shadow-sm">
+    <div class="mt-8">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-semibold">Projects</h2>
         <button
@@ -232,166 +237,148 @@ const createProject = async () => {
           Create Project
         </button>
       </div>
-
+      
       <div class="space-y-4">
         <div
           v-for="project in projects"
           :key="project.id"
-          class="border rounded-lg p-4"
+          class="border rounded-lg overflow-hidden"
         >
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="font-semibold">{{ project.name }}</h3>
-              <p class="text-sm text-gray-600">{{ project.description }}</p>
-            </div>
-            <span 
-              class="px-3 py-1 rounded-full text-sm"
-              :class="{
-                'bg-green-100 text-green-800': project.status === 'Active',
-                'bg-yellow-100 text-yellow-800': project.status === 'Pending'
-              }"
-            >
-              {{ project.status }}
-            </span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div>
-              <div class="text-sm text-gray-600">Organizer</div>
-              <div class="font-medium">{{ project.organizer }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">Duration</div>
-              <div class="font-medium">{{ project.startDate }} - {{ project.endDate }}</div>
-            </div>
-            <div>
-              <div class="text-sm text-gray-600">Funds Raised</div>
-              <div class="font-medium">
-                {{ formatCurrency(project.fundsRaised) }}
-                <span class="text-gray-500">
-                  of {{ formatCurrency(project.fundRaisingGoal) }}
-                </span>
+          <!-- Project Header -->
+          <div class="p-4 bg-white">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4 flex-1">
+                <button
+                  @click="toggleProject(project.id)"
+                  class="text-gray-500 hover:text-gray-700"
+                >
+                <div v-if="!isProjectExpanded(project.id)">
+                  <Icon name="material-symbols:expand-circle-up-outline" />
+                </div>
+                <div v-else>
+                  <Icon name="material-symbols:expand-circle-down-outline" />
+                </div>
+                </button>
+                <h3 class="font-semibold">{{ project.name }}</h3>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <button
+                  @click="openApplyModal(project.id)"
+                  class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark text-sm"
+                >
+                  Apply
+                </button>
               </div>
             </div>
+            
+            <p class="text-sm text-gray-600 mt-2">{{ project.description }}</p>
           </div>
 
-          <div 
-            v-if="project.milestones.length" 
-            class="border-t mt-4 pt-4"
+          <!-- Collapsible Content -->
+          <div
+            v-show="isProjectExpanded(project.id)"
+            class="border-t bg-gray-50"
           >
-            <h4 class="font-medium mb-3">Milestones</h4>
-            <div class="space-y-3">
-              <div
-                v-for="(milestone, index) in project.milestones"
-                :key="index"
-                class="flex items-start justify-between p-3 bg-gray-50 rounded-lg"
-              >
-                <div class="flex-1">
-                  <div class="flex items-center gap-3 mb-1">
-                    <span class="font-medium">{{ milestone.title }}</span>
-                    <span 
-                      class="text-xs px-2 py-1 rounded-full capitalize"
-                      :class="getMilestoneStatusColor(milestone.status)"
-                    >
-                      {{ milestone.status.replace('-', ' ') }}
+            <div class="p-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <div class="text-sm text-gray-600">Organizer</div>
+                  <div class="font-medium">{{ project.organizer }}</div>
+                </div>
+                <div>
+                  <div class="text-sm text-gray-600">Duration</div>
+                  <div class="font-medium">{{ project.startDate }} - {{ project.endDate }}</div>
+                </div>
+                <div>
+                <div class="text-sm text-gray-600">Funds Raised</div>
+                  <div class="font-medium">
+                    {{ formatCurrency(project.fundsRaised) }}
+                    <span class="text-gray-500">
+                      of {{ formatCurrency(project.fundRaisingGoal) }}
                     </span>
                   </div>
-                  <p class="text-sm text-gray-600">{{ milestone.description }}</p>
-                </div>
-                <div class="text-right ml-4">
-                  <div class="font-medium">{{ formatCurrency(milestone.amount) }}</div>
                 </div>
               </div>
-            </div>
 
-            <!-- Simple Total Summary -->
-            <div class="mt-4 pt-4 border-t">
-              <div class="flex justify-between items-center">
-                <span class="font-medium">Total Progress</span>
-                <span>{{ formatCurrency(project.fundsRaised) }} of {{ formatCurrency(project.fundRaisingGoal) }}</span>
+              <div 
+                v-if="project.milestones.length" 
+                class="border-t mt-4 pt-4"
+              >
+                <h4 class="font-medium mb-3">Milestones</h4>
+                <div class="space-y-3">
+                  <div
+                    v-for="(milestone, index) in project.milestones"
+                    :key="index"
+                    class="flex items-start justify-between p-3 bg-gray-50 rounded-lg"
+                  >
+                    <div class="flex-1">
+                      <div class="flex items-center gap-3 mb-1">
+                        <span class="font-medium">{{ milestone.title }}</span>
+                        <span 
+                          class="text-xs px-2 py-1 rounded-full capitalize"
+                          :class="getMilestoneStatusColor(milestone.status)"
+                        >
+                          {{ milestone.status.replace('-', ' ') }}
+                        </span>
+                      </div>
+                      <p class="text-sm text-gray-600">{{ milestone.description }}</p>
+                    </div>
+                    <div class="text-right ml-4">
+                      <div class="font-medium">{{ formatCurrency(milestone.amount) }}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-                <div
-                  class="bg-primary h-2 rounded-full"
-                  :style="{ width: `${(project.fundsRaised / project.fundRaisingGoal) * 100}%` }"
-                ></div>
+
+              <!-- Simple Total Summary -->
+              <div class="mt-4 pt-4 border-t">
+                <div class="flex justify-between items-center">
+                  <span class="font-medium">Total Progress</span>
+                  <span>{{ formatCurrency(project.fundsRaised) }} of {{ formatCurrency(project.fundRaisingGoal) }}</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div
+                    class="bg-primary h-2 rounded-full"
+                    :style="{ width: `${(project.fundsRaised / project.fundRaisingGoal) * 100}%` }"
+                  ></div>
+                </div>
               </div>
             </div>
+            
+            
+
+              
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Create Project Modal -->
+    <!-- Apply Modal -->
     <div
-      v-if="showCreateProjectModal"
+      v-if="showApplyModal"
       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
     >
-      <div class="bg-white rounded-lg p-6 max-w-2xl w-full">
-        <h2 class="text-xl font-semibold mb-4">Create New Project</h2>
+      <div class="bg-white rounded-lg p-6 max-w-md w-full">
+        <h3 class="text-lg font-semibold mb-4"></h3>
         
-        <form @submit.prevent="createProject" class="space-y-4">
+        <form @submit.prevent="submitApplication" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium mb-1">Project Name</label>
-            <input
-              v-model="newProject.name"
-              type="text"
-              class="w-full p-2 border rounded-lg"
-              :class="{ 'border-red-500': errors.name }"
-            />
-            <span v-if="errors.name" class="text-red-500 text-sm">{{ errors.name }}</span>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium mb-1">Description</label>
+            <h4>Project: Rural School Development</h4>
+            <label>Building and equipping schools in rural areas</label>
+            <label class="block text-sm font-medium mb-1 mt-4">Message</label>
             <textarea
-              v-model="newProject.description"
-              rows="3"
+              v-model="applyMessage"
+              rows="4"
               class="w-full p-2 border rounded-lg"
-              :class="{ 'border-red-500': errors.description }"
+              placeholder=""
             ></textarea>
-            <span v-if="errors.description" class="text-red-500 text-sm">{{ errors.description }}</span>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium mb-1">Fund Raising Goal</label>
-            <input
-              v-model="newProject.fundRaisingGoal"
-              type="number"
-              class="w-full p-2 border rounded-lg"
-              :class="{ 'border-red-500': errors.fundRaisingGoal }"
-            />
-            <span v-if="errors.fundRaisingGoal" class="text-red-500 text-sm">{{ errors.fundRaisingGoal }}</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium mb-1">Start Date</label>
-              <input
-                v-model="newProject.startDate"
-                type="date"
-                class="w-full p-2 border rounded-lg"
-                :class="{ 'border-red-500': errors.startDate }"
-              />
-              <span v-if="errors.startDate" class="text-red-500 text-sm">{{ errors.startDate }}</span>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium mb-1">End Date</label>
-              <input
-                v-model="newProject.endDate"
-                type="date"
-                class="w-full p-2 border rounded-lg"
-                :class="{ 'border-red-500': errors.endDate }"
-              />
-              <span v-if="errors.endDate" class="text-red-500 text-sm">{{ errors.endDate }}</span>
-            </div>
-          </div>
-
-          <div class="flex justify-end gap-4 mt-6">
+          <div class="flex justify-end gap-4">
             <button
               type="button"
-              @click="showCreateProjectModal = false"
+              @click="showApplyModal = false"
               class="px-4 py-2 border rounded-lg hover:bg-gray-50"
             >
               Cancel
@@ -399,13 +386,15 @@ const createProject = async () => {
             <button
               type="submit"
               class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark"
+              :disabled="!applyMessage.trim()"
             >
-              Create Project
+              Submit Application
             </button>
           </div>
         </form>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -423,5 +412,9 @@ const createProject = async () => {
   width: 2px;
   height: 20px;
   background-color: #e5e7eb;
+}
+
+.project-transition {
+  transition: all 0.3s ease-in-out;
 }
 </style>

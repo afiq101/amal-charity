@@ -1,29 +1,17 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
+const projectId = route.params.id;
 
 // Form states
 const isLoading = ref(false);
 const errors = ref({});
-const showRecipientModal = ref(false);
+const showUserModal = ref(false);
 
-// Available campaigns (dummy data)
-const availableCampaigns = ref([
-  {
-    id: 1,
-    name: "Education for All 2024",
-    category: "Education",
-  },
-  {
-    id: 2,
-    name: "Green City Initiative",
-    category: "Environment",
-  },
-]);
-
-// Project form data
+// Project form data with initial empty state
 const project = ref({
   campaignId: "",
   name: "",
@@ -47,22 +35,82 @@ const newMilestone = ref({
   description: "",
 });
 
-// New recipient form
-const newRecipient = ref({
-  email: "",
-  phone: "",
-  role: "", // volunteer, contributor, recipient
-  message: "",
+// User management state
+const newUser = ref({
+  username: '',
+  fullname: '',
+  email: '',
+  phone: '',
+  roles: [],
+  status: 'active',
+  message: '',
 });
 
-// Available roles for recipients
-const recipientRoles = [
+// Project users list
+const projectUsers = ref([]);
+
+// Available roles for users
+const availableRoles = [
+  { id: 'coordinator', label: 'Coordinator' },
   { id: 'volunteer', label: 'Volunteer' },
   { id: 'contributor', label: 'Contributor' },
   { id: 'recipient', label: 'Recipient' },
+  { id: 'logistics', label: 'Logistics' },
 ];
 
-// Methods
+// Load project data
+const loadProjectData = async () => {
+  try {
+    isLoading.value = true;
+    // TODO: Replace with actual API call
+    // const response = await api.projects.getById(projectId);
+    // Dummy data for example
+    const response = {
+      name: "Rural School Development",
+      description: "Building and equipping schools in rural areas",
+      fundraisingGoal: 60000,
+      startDate: "2024-03-01",
+      endDate: "2024-08-31",
+      milestones: [
+        {
+          id: 1,
+          title: "Location Selection",
+          amount: 10000,
+          description: "Select and acquire suitable location",
+          completed: true
+        },
+        // ... other milestones
+      ],
+      users: [
+        {
+          id: 1,
+          username: 'johndoe',
+          fullname: 'John Doe',
+          email: 'john@example.com',
+          phone: '+1234567890',
+          roles: ['coordinator', 'volunteer'],
+          status: 'active',
+          message: 'Project coordinator'
+        },
+        // ... other users
+      ]
+    };
+
+    // Populate form with existing data
+    project.value = {
+      ...project.value,
+      ...response
+    };
+    projectUsers.value = response.users;
+  } catch (error) {
+    console.error('Failed to load project:', error);
+    // Add error notification here
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Methods (reuse from create-project)
 const addMilestone = () => {
   if (!newMilestone.value.title || !newMilestone.value.amount) return;
 
@@ -72,7 +120,6 @@ const addMilestone = () => {
     completed: false,
   });
 
-  // Reset form
   newMilestone.value = {
     title: "",
     amount: "",
@@ -84,85 +131,7 @@ const removeMilestone = (id) => {
   project.value.milestones = project.value.milestones.filter(m => m.id !== id);
 };
 
-const addRecipient = () => {
-  if (!validateRecipientForm()) return;
-
-  project.value.recipients.push({
-    id: Date.now(),
-    ...newRecipient.value,
-    status: 'Pending',
-  });
-
-  // Reset form and close modal
-  newRecipient.value = {
-    email: "",
-    phone: "",
-    role: "",
-    message: "",
-  };
-  showRecipientModal.value = false;
-};
-
-const removeRecipient = (id) => {
-  project.value.recipients = project.value.recipients.filter(r => r.id !== id);
-};
-
-const validateRecipientForm = () => {
-  const errors = {};
-  if (!newRecipient.value.email) errors.email = "Email is required";
-  if (!newRecipient.value.role) errors.role = "Role is required";
-  return Object.keys(errors).length === 0;
-};
-
-const validateForm = () => {
-  errors.value = {};
-  if (!project.value.campaignId) errors.value.campaignId = "Campaign is required";
-  if (!project.value.name) errors.value.name = "Name is required";
-  if (!project.value.description) errors.value.description = "Description is required";
-  if (!project.value.fundraisingGoal) errors.value.fundraisingGoal = "Fundraising goal is required";
-  if (!project.value.startDate) errors.value.startDate = "Start date is required";
-  if (!project.value.endDate) errors.value.endDate = "End date is required";
-  
-  return Object.keys(errors.value).length === 0;
-};
-
-// Available roles for users
-const availableRoles = [
-  { id: 'coordinator', label: 'Coordinator' },
-  { id: 'volunteer', label: 'Volunteer' },
-  { id: 'contributor', label: 'Contributor' },
-  { id: 'recipient', label: 'Recipient' },
-  { id: 'logistics', label: 'Logistics' },
-];
-
-// User management state
-const showUserModal = ref(false);
-const newUser = ref({
-  username: '',
-  fullname: '',
-  email: '',
-  phone: '',
-  roles: [], // Array for multiple role selection
-  status: 'active', // active, pending, inactive
-  message: '',
-});
-
-// Project users list
-const projectUsers = ref([
-  {
-    id: 1,
-    username: 'johndoe',
-    fullname: 'John Doe',
-    email: 'john@example.com',
-    phone: '+1234567890',
-    roles: ['project_manager', 'coordinator'],
-    status: 'active',
-    message: 'Project lead for rural development',
-  },
-  // ... other users
-]);
-
-// Methods for user management
+// User management methods
 const validateUserForm = () => {
   const errors = {};
   if (!newUser.value.username) errors.username = "Username is required";
@@ -182,7 +151,6 @@ const addUser = () => {
     ...newUser.value,
   });
 
-  // Reset form
   newUser.value = {
     username: '',
     fullname: '',
@@ -220,19 +188,30 @@ const getStatusColor = (status) => {
   }
 };
 
-const createProject = async () => {
+const updateProject = async () => {
   if (!validateForm()) return;
 
   try {
     isLoading.value = true;
     // TODO: Implement API call
-    // await api.projects.create(project.value);
+    // await api.projects.update(projectId, project.value);
     router.push('/campaign-organizer');
   } catch (error) {
-    console.error('Failed to create project:', error);
+    console.error('Failed to update project:', error);
   } finally {
     isLoading.value = false;
   }
+};
+
+const validateForm = () => {
+  errors.value = {};
+  if (!project.value.name) errors.value.name = "Name is required";
+  if (!project.value.description) errors.value.description = "Description is required";
+  if (!project.value.fundraisingGoal) errors.value.fundraisingGoal = "Fundraising goal is required";
+  if (!project.value.startDate) errors.value.startDate = "Start date is required";
+  if (!project.value.endDate) errors.value.endDate = "End date is required";
+  
+  return Object.keys(errors.value).length === 0;
 };
 
 const formatCurrency = (amount) => {
@@ -241,14 +220,19 @@ const formatCurrency = (amount) => {
     currency: 'MYR',
   }).format(amount);
 };
+
+// Load project data on mount
+onMounted(() => {
+  loadProjectData();
+});
 </script>
 
 <template>
   <rs-card class="p-5">
     <div class="">
       <div class="mb-6">
-        <h1 class="text-2xl font-bold">Create New Project</h1>
-        <p class="text-gray-600">Define your project details</p>
+        <h1 class="text-2xl font-bold">Edit Project</h1>
+        <p class="text-gray-600">Update your project details</p>
       </div>
 
       <form @submit.prevent="createProject" class="space-y-6">
@@ -465,12 +449,13 @@ const formatCurrency = (amount) => {
             class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark disabled:opacity-50"
             :disabled="isLoading"
           >
-            {{ isLoading ? 'Creating...' : 'Create Project' }}
+            {{ isLoading ? 'Updating...' : 'Update Project' }}
           </button>
         </div>
       </form>
 
-      <!-- User Modal -->
+      <!-- User Modal - Same as create-project -->
+        <!-- User Modal -->
       <div
         v-if="showUserModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
@@ -583,5 +568,4 @@ const formatCurrency = (amount) => {
       </div>
     </div>
   </rs-card>
-    
 </template>

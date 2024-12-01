@@ -11,10 +11,23 @@ export default [
         meta: {},
       },
       {
-        title: "Campaign Organizer",
-        path: "/campaign-organizer",
+        title: "Organizer",
+        path: "",
         icon: "ph:files-bold",
-        child: [],
+        child: [
+          {
+            "title": "Campaign Organizer",
+            "path": "/campaign-organizer",
+            "icon": "",
+            "child": []
+          },
+          {
+            "title": "Project Organizer",
+            "path": "/campaign-organizer/campaign-detail/1",
+            "icon": "",
+            "child": []
+          },
+        ],
         meta: {},
       },
       {
@@ -37,6 +50,12 @@ export default [
         icon: "ic:outline-dashboard",
         child: [],
         meta: {},
+      },
+      {
+        title: "Recipient",
+        path: "/recipient",
+        icon: "ic:outline-dashboard",
+        child: [],
       },
     ],
   },

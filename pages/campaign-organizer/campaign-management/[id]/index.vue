@@ -26,29 +26,28 @@ const projects = ref([
     organizer: "John Doe",
     status: "In Progress",
     fundsRaised: 45000,
-    targetAmount: 50000,
+    fundRaisingGoal: 50000,
+    startDate: "2024-02-01",
+    endDate: "2024-06-30",
     milestones: [
       { 
         title: "Location and Planning",
-        targetAmount: 15000,
-        achieved: 15000,
-        completed: true,
+        amount: 15000,
+        status: 'completed', // completed, in-progress, pending
         description: "Secure location and complete architectural plans"
       },
       { 
         title: "Foundation and Structure",
-        targetAmount: 25000,
-        achieved: 20000,
-        completed: false,
+        amount: 25000,
+        status: 'in-progress',
         description: "Complete foundation work and basic structure"
       },
-      // { 
-      //   title: "Facilities and Equipment",
-      //   targetAmount: 20000,
-      //   achieved: 10000,
-      //   completed: false,
-      //   description: "Install facilities and provide educational equipment"
-      // }
+      { 
+        title: "Facilities and Equipment",
+        amount: 20000,
+        status: 'pending',
+        description: "Install facilities and provide educational equipment"
+      }
     ],
     lastUpdate: "2024-03-15",
   },
@@ -58,7 +57,9 @@ const projects = ref([
     organizer: "Jane Smith",
     status: "Pending Approval",
     fundsRaised: 0,
-    targetAmount: 75000,
+    fundRaisingGoal: 75000,
+    startDate: "2024-03-01",
+    endDate: "2024-08-31",
     milestones: [],
     lastUpdate: "2024-03-18",
   },
@@ -100,6 +101,17 @@ const calculateMilestoneProgress = (achieved, target) => {
   return Math.round((achieved / target) * 100);
 };
 
+const getMilestoneStatusColor = (status) => {
+  switch (status) {
+    case 'completed':
+      return 'bg-green-100 text-green-800';
+    case 'in-progress':
+      return 'bg-blue-100 text-blue-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
+  }
+};
+
 const rejectProject = (projectId) => {
   pendingProjects.value = pendingProjects.value.filter(p => p.id !== projectId);
 };
@@ -120,6 +132,26 @@ const formatCurrency = (amount) => {
 const navigateToFundsDistribution = () => {
   router.push(`/campaign-organizer/fund-distribution/${campaignDetails.value.id}`);
 };
+
+// Add these states
+const expandedProjects = ref(new Set());
+const showApplyModal = ref(false);
+const selectedProjectId = ref(null);
+const applyMessage = ref('');
+
+// Methods for project expansion
+const toggleProject = (projectId) => {
+  if (expandedProjects.value.has(projectId)) {
+    expandedProjects.value.delete(projectId);
+  } else {
+    expandedProjects.value.add(projectId);
+  }
+};
+
+const isProjectExpanded = (projectId) => {
+  return expandedProjects.value.has(projectId);
+};
+
 </script>
 
 <template>
@@ -186,115 +218,126 @@ const navigateToFundsDistribution = () => {
     <div class="bg-white rounded-lg shadow-sm">
       <!-- Overview Tab -->
       <div v-if="activeTab === 'overview'" class="p-6">
-        <div class="grid grid-cols-1 gap-6">
-          <div
-            v-for="project in projects"
-            :key="project.id"
-            class="border rounded-lg p-4"
-          >
-            <div class="flex justify-between items-start mb-4">
-              <div>
-                <h3 class="font-semibold">{{ project.name }}</h3>
-                <p class="text-sm text-gray-600">Organized by {{ project.organizer }}</p>
-              </div>
-              <!-- <span 
-                class="px-3 py-1 rounded-full text-sm"
-                :class="project.status === 'In Progress' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'"
-              >
-                {{ project.status }}
-              </span> -->
-            </div>
-
-            <div class="mb-4">
-              <div class="flex justify-between text-sm mb-1">
-                <span>Funds Raised</span>
-                <span>{{ formatCurrency(project.fundsRaised) }} of {{ formatCurrency(project.targetAmount) }}</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  class="bg-primary h-2 rounded-full"
-                  :style="{ width: `${calculateProgress(project.fundsRaised, project.targetAmount)}%` }"
-                ></div>
-              </div>
-            </div>
-
-            <div 
-            v-if="project.milestones.length" 
-            class="border-t mt-4 pt-4"
-          >
-            <h4 class="font-medium mb-3">Project Milestones</h4>
-            <div class="space-y-4">
-              <div
-                v-for="(milestone, index) in project.milestones"
-                :key="index"
-                class="bg-gray-50 rounded-lg p-4"
-              >
-                <div class="flex justify-between items-start mb-2">
-                  <div class="flex items-center gap-2">
-                    <span
-                      class="w-6 h-6 rounded-full flex items-center justify-center text-sm"
-                      :class="milestone.completed ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600'"
-                    >
-                      {{ index + 1 }}
-                    </span>
-                    <span class="font-medium">{{ milestone.title }}</span>
-                  </div>
-                  <span 
-                    class="text-sm px-2 py-1 rounded-full"
-                    :class="milestone.completed ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'"
-                  >
-                    {{ milestone.completed ? 'Completed' : 'In Progress' }}
-                  </span>
-                </div>
-
-                <p class="text-sm text-gray-600 mb-3">
-                  {{ milestone.description }}
-                </p>
-
-                <div class="space-y-2">
-                  <div class="flex justify-between text-sm">
-                    <span>Progress</span>
-                    <span>
-                      {{ formatCurrency(milestone.achieved) }} of {{ formatCurrency(milestone.targetAmount) }}
-                      <span class="text-gray-500 ml-1">
-                        ({{ calculateMilestoneProgress(milestone.achieved, milestone.targetAmount) }}%)
-                      </span>
-                    </span>
-                  </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      class="h-2 rounded-full transition-all duration-300"
-                      :class="milestone.completed ? 'bg-green-500' : 'bg-primary'"
-                      :style="{ width: `${calculateMilestoneProgress(milestone.achieved, milestone.targetAmount)}%` }"
-                    ></div>
-                  </div>
-                </div>
-
-                <!-- Milestone Timeline Connector -->
-                <div 
-                  v-if="index < project.milestones.length - 1"
-                  class="h-6 w-px bg-gray-300 mx-auto my-2"
-                ></div>
-              </div>
-            </div>
-
-            <!-- Total Progress Summary -->
-            <div class="mt-4 pt-4 border-t">
-              <div class="flex justify-between text-sm mb-2">
-                <span class="font-medium">Total Project Progress</span>
-                <span>
-                  {{ formatCurrency(project.fundsRaised) }} of {{ formatCurrency(project.targetAmount) }}
-                  ({{ Math.round((project.fundsRaised / project.targetAmount) * 100) }}%)
-                </span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  class="bg-primary h-2 rounded-full transition-all duration-300"
-                  :style="{ width: `${(project.fundsRaised / project.targetAmount) * 100}%` }"
-                ></div>
-              </div>
-            </div>
+        <!-- Projects Section -->
+        <div class="">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-semibold">Projects</h2>
           </div>
+          
+          <div class="space-y-4">
+            <div
+              v-for="project in projects"
+              :key="project.id"
+              class="border rounded-lg overflow-hidden"
+            >
+              <!-- Project Header -->
+              <div class="p-4 bg-white">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-4 flex-1">
+                    <button
+                      @click="toggleProject(project.id)"
+                      class="text-gray-500 hover:text-gray-700"
+                    >
+                    <div v-if="!isProjectExpanded(project.id)">
+                      <Icon name="material-symbols:expand-circle-up-outline" />
+                    </div>
+                    <div v-else>
+                      <Icon name="material-symbols:expand-circle-down-outline" />
+                    </div>
+                    </button>
+                    <h3 class="font-semibold">{{ project.name }}</h3>
+                  </div>
+                  
+                  <div class="flex items-center gap-2">
+                    <button
+                      @click="router.push(`/project-organizer/edit-project/${project.id}`)"
+                      class="p-2 text-gray-600 hover:text-primary hover:bg-primary/10 rounded-full"
+                      title="Edit Project"
+                    >
+                    <Icon name="fe:pencil" />
+                    </button>
+                  </div>
+                </div>
+                
+                <p class="text-sm text-gray-600 mt-2">{{ project.description }}</p>
+              </div>
+
+              <!-- Collapsible Content -->
+              <div
+                v-show="isProjectExpanded(project.id)"
+                class="border-t bg-gray-50"
+              >
+                <div class="p-4">
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <div class="text-sm text-gray-600">Organizer</div>
+                      <div class="font-medium">{{ project.organizer }}</div>
+                    </div>
+                    <div>
+                      <div class="text-sm text-gray-600">Duration</div>
+                      <div class="font-medium">{{ project.startDate }} - {{ project.endDate }}</div>
+                    </div>
+                    <div>
+                    <div class="text-sm text-gray-600">Funds Raised</div>
+                      <div class="font-medium">
+                        {{ formatCurrency(project.fundsRaised) }}
+                        <span class="text-gray-500">
+                          of {{ formatCurrency(project.fundRaisingGoal) }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div 
+                    v-if="project.milestones.length" 
+                    class="border-t mt-4 pt-4"
+                  >
+                    <h4 class="font-medium mb-3">Milestones</h4>
+                    <div class="space-y-3">
+                      <div
+                        v-for="(milestone, index) in project.milestones"
+                        :key="index"
+                        class="flex items-start justify-between p-3 bg-gray-50 rounded-lg"
+                      >
+                        <div class="flex-1">
+                          <div class="flex items-center gap-3 mb-1">
+                            <span class="font-medium">{{ milestone.title }}</span>
+                            <span 
+                              class="text-xs px-2 py-1 rounded-full capitalize"
+                              :class="getMilestoneStatusColor(milestone.status)"
+                            >
+                              {{ milestone.status.replace('-', ' ') }}
+                            </span>
+                          </div>
+                          <p class="text-sm text-gray-600">{{ milestone.description }}</p>
+                        </div>
+                        <div class="text-right ml-4">
+                          <div class="font-medium">{{ formatCurrency(milestone.amount) }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Simple Total Summary -->
+                  <div class="mt-4 pt-4 border-t">
+                    <div class="flex justify-between items-center">
+                      <span class="font-medium">Total Progress</span>
+                      <span>{{ formatCurrency(project.fundsRaised) }} of {{ formatCurrency(project.fundRaisingGoal) }}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                      <div
+                        class="bg-primary h-2 rounded-full"
+                        :style="{ width: `${(project.fundsRaised / project.fundRaisingGoal) * 100}%` }"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+
+                  
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -395,5 +438,9 @@ const navigateToFundsDistribution = () => {
   width: 2px;
   height: 20px;
   background-color: #e5e7eb;
+}
+
+.project-transition {
+  transition: all 0.3s ease-in-out;
 }
 </style>
