@@ -112,8 +112,8 @@ const createPayment = async (amount, userID) => {
     await prisma.payment.create({
       data: {
         ...(userID ? { user: { connect: { userID: userID } } } : {}),
-        paymentPayorName: "Credit Top Up",
-        paymentPayorEmail: "abc@gmail.com",
+        paymentPayorName: "Hamba Allah",
+        paymentPayorEmail: "abc@amal.charity",
         paymentPayorPhone: "0123456789",
         paymentBillCode: resp[0].BillCode,
         paymentBillInvoiceNo: referenceNo,
