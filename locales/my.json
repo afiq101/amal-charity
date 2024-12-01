@@ -202,6 +202,171 @@
     "invalid_cvv": "CVV tidak sah",
     "invalid_expiry": "Tarikh luput tidak sah"
   },
+  "donorProjects": {
+    "headers": {
+      "donate": "Derma",
+      "project": "Projek",
+      "targetProgress": "Kemajuan Sasaran",
+      "fundUsage": "Penggunaan Dana",
+      "totalUsed": "Jumlah Digunakan",
+      "target": "Sasaran",
+      "collected": "Dikumpul"
+    },
+    "status": {
+      "inProgress": "Sedang Berjalan",
+      "planning": "Perancangan",
+      "completed": "Selesai"
+    },
+    "projects": {
+      "educationFund": {
+        "name": "Dana Pendidikan",
+        "categories": {
+          "schoolSupplies": "Kelengkapan Sekolah",
+          "tuitionFees": "Yuran Tuisyen",
+          "transportation": "Pengangkutan"
+        }
+      },
+      "healthcareInitiative": {
+        "name": "Inisiatif Kesihatan",
+        "categories": {
+          "medicalSupplies": "Bekalan Perubatan",
+          "staffWages": "Gaji Kakitangan",
+          "facilityRental": "Sewa Kemudahan"
+        }
+      },
+      "communityCenter": {
+        "name": "Pusat Komuniti",
+        "categories": {
+          "construction": "Pembinaan",
+          "equipment": "Peralatan",
+          "operations": "Operasi"
+        }
+      }
+    }
+  },
+  "volunteerDashboard": {
+    "stats": {
+      "title": "Aktiviti Sukarelawan",
+      "campaignsJoined": "Kempen Disertai",
+      "activeProjects": "Projek Aktif",
+      "totalTasks": "Jumlah Tugas",
+      "taskStatus": {
+        "title": "Status Tugas",
+        "completed": "Selesai",
+        "inProgress": "Sedang Berjalan",
+        "pending": "Menunggu"
+      }
+    },
+    "projects": {
+      "title": "Projek Aktif",
+      "tasks": "Tugas",
+      "status": {
+        "inProgress": "Sedang Berjalan",
+        "pending": "Menunggu",
+        "completed": "Selesai"
+      },
+      "taskProgress": "Kemajuan Tugas",
+      "projectNames": {
+        "beachCleanup": "Kempen Pembersihan Pantai",
+        "foodBank": "Pengedaran Bank Makanan",
+        "treePlanting": "Inisiatif Penanaman Pokok"
+      }
+    }
+  },
+  "beneficiaryAids": {
+    "title": "Pengagihan Bantuan Projek",
+    "viewAll": "Lihat Semua",
+    "projects": {
+      "foodSecurity": {
+        "name": "Program Keselamatan Makanan",
+        "aids": {
+          "monthlyFoodPack": {
+            "name": "Pek Makanan Bulanan",
+            "details": "Beras 10kg, Tepung 5kg, Minyak 2L"
+          },
+          "foodVoucher": {
+            "name": "Baucar Makanan",
+            "details": "RM 150/bulan"
+          }
+        }
+      },
+      "educationSupport": {
+        "name": "Sokongan Pendidikan",
+        "aids": {
+          "schoolSupplies": {
+            "name": "Kelengkapan Sekolah",
+            "details": "Buku, Set Alat Tulis"
+          },
+          "tuitionClasses": {
+            "name": "Kelas Tuisyen",
+            "details": "3 mata pelajaran"
+          },
+          "educationFund": {
+            "name": "Dana Pendidikan",
+            "details": "RM 200/bulan"
+          }
+        }
+      },
+      "elderlyCare": {
+        "name": "Penjagaan Warga Emas",
+        "aids": {
+          "medicalSupplies": {
+            "name": "Bekalan Perubatan",
+            "details": "Kit Perubatan Bulanan"
+          },
+          "homeCareService": {
+            "name": "Perkhidmatan Penjagaan Di Rumah",
+            "details": "Lawatan Mingguan"
+          },
+          "healthcareAllowance": {
+            "name": "Elaun Penjagaan Kesihatan",
+            "details": "RM 300/bulan"
+          }
+        }
+      }
+    },
+    "aidTypes": {
+      "material": "Material",
+      "nonMaterial": "Bukan Material",
+      "funds": "Dana"
+    }
+  },
+  "projectContributions": {
+    "title": "Sumbangan Projek",
+    "headers": {
+      "date": "Tarikh",
+      "contributor": "Penyumbang",
+      "project": "Projek",
+      "aidType": "Jenis Bantuan",
+      "contribution": "Sumbangan",
+      "amount": "Jumlah",
+      "status": "Status"
+    },
+    "status": {
+      "delivered": "Dihantar",
+      "processed": "Diproses",
+      "scheduled": "Dijadualkan",
+      "inTransit": "Dalam Perjalanan"
+    },
+    "contributions": {
+      "riceEssentials": {
+        "name": "Beras dan Makanan Asas",
+        "unit": "kg"
+      },
+      "educationFund": {
+        "name": "Dana Pendidikan",
+        "unit": "RM"
+      },
+      "medicalConsultation": {
+        "name": "Konsultasi Perubatan",
+        "unit": "jam"
+      },
+      "laptopsStudents": {
+        "name": "Komputer Riba untuk Pelajar",
+        "unit": "unit"
+      }
+    }
+  },
   "campaigns": {
     "index": {
       "filters": {
