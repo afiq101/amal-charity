@@ -165,7 +165,10 @@
       "custom_amount": "Custom Amount",
       "enter_amount": "Enter amount",
       "popular": "Popular",
-      "secure_payment": "Secure Payment"
+      "secure_payment": "Secure Payment",
+      "invalid_amount": "Please enter a valid amount",
+      "payment_failed": "Failed to process payment",
+      "system_error": "An error occurred while processing your payment"
     },
     "fund_distribution": "Fund Distribution",
     "fund_distribution_description": "Visualization of how funds are distributed across different projects"
@@ -222,5 +225,26 @@
     "sign_up": "Sign Up",
     "success": "Login Successful",
     "error": "Login Error"
+  },
+  "receipt": {
+    "title": "Payment Receipt",
+    "back_to_home": "Back to Home",
+    "print": "Print",
+    "download": "Download PDF",
+    "donor_information": "Donor Information",
+    "payment_details": "Payment Details",
+    "campaign_id": "Campaign ID",
+    "thank_you": "Thank you for your donation. For any questions, please contact our support team.",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "date": "Date",
+    "amount": "Amount",
+    "payment_method": "Payment Method",
+    "transaction_id": "Transaction ID",
+    "status": "Status",
+    "generating_pdf": "Generating PDF...",
+    "download_success": "PDF downloaded successfully",
+    "download_error": "Failed to generate PDF"
   }
 }

@@ -185,7 +185,10 @@
       "custom_amount": "Jumlah Lain",
       "enter_amount": "Masukkan jumlah",
       "popular": "Popular",
-      "secure_payment": "Pembayaran Selamat"
+      "secure_payment": "Pembayaran Selamat",
+      "invalid_amount": "Sila masukkan jumlah yang sah",
+      "payment_failed": "Gagal memproses pembayaran",
+      "system_error": "Ralat berlaku semasa memproses pembayaran anda"
     },
     "fund_distribution": "Pengagihan Dana",
     "fund_distribution_description": "Visualisasi bagaimana dana diagihkan kepada projek-projek berbeza"
@@ -242,5 +245,26 @@
     "sign_up": "Daftar",
     "success": "Log Masuk Berjaya",
     "error": "Ralat Log Masuk"
+  },
+  "receipt": {
+    "title": "Resit Pembayaran",
+    "back_to_home": "Kembali ke Laman Utama",
+    "print": "Cetak",
+    "download": "Muat Turun PDF",
+    "donor_information": "Maklumat Penderma",
+    "payment_details": "Butiran Pembayaran",
+    "campaign_id": "ID Kempen",
+    "thank_you": "Terima kasih atas sumbangan anda. Untuk sebarang pertanyaan, sila hubungi pasukan sokongan kami.",
+    "name": "Nama",
+    "email": "Emel",
+    "phone": "Telefon",
+    "date": "Tarikh",
+    "amount": "Jumlah",
+    "payment_method": "Kaedah Pembayaran",
+    "transaction_id": "ID Transaksi",
+    "status": "Status",
+    "generating_pdf": "Menjana PDF...",
+    "download_success": "PDF berjaya dimuat turun",
+    "download_error": "Gagal menjana PDF"
   }
 }

@@ -5,10 +5,14 @@ export default defineNuxtConfig({
       secretAccess: process.env.NUXT_ACCESS_TOKEN_SECRET,
       secretRefresh: process.env.NUXT_REFRESH_TOKEN_SECRET,
     },
+    url: {
+      app: process.env.NUXT_APP_URL,
+    },
     toyyibpay: {
       url: {
         payment: process.env.NUXT_PAYMENT_URL,
         createAccount: process.env.NUXT_CREATE_ACCOUNT_URL,
+        redirect: process.env.NUXT_PAYMENT_REDIRECT_URL,
       },
     },
   },
