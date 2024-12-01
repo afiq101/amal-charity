@@ -19,7 +19,14 @@ export default [
       {
         title: "Volunteer",
         path: "/volunteer",
-        icon: "ic:outline-dashboard",
+        icon: "ic:outline-support-agent",
+        child: [],
+        meta: {},
+      },
+      {
+        title: "Contributor",
+        path: "/contributor",
+        icon: "streamline:give-gift",
         child: [],
         meta: {},
       },

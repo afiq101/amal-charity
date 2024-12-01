@@ -7,40 +7,43 @@ definePageMeta({
 
 const donorProjects = ref([
   {
-    name: "Sarah Johnson",
     amount: 5000,
     project: "Education Fund",
     startDate: "2024-03-15",
     endDate: "2024-06-15",
     status: "In Progress",
-    milestones: [
-      { progress: 10, fundUsed: 1000 }
-    ],
-    totalFundUsed: 3000
+    targetAmount: 50000,
+    disbursedBreakdown: [
+      { category: "School Supplies", amount: 1000, color: "bg-primary" },
+      { category: "Tuition Fees", amount: 1500, color: "bg-success" },
+      { category: "Transportation", amount: 500, color: "bg-info" }
+    ]
   },
   {
-    name: "Michael Chen",
     amount: 7500,
     project: "Healthcare Initiative",
     startDate: "2024-02-01",
     endDate: "2024-08-30",
     status: "In Progress",
-    milestones: [
-      { progress: 40, fundUsed: 1500 }
-    ],
-    totalFundUsed: 6500
+    targetAmount: 100000,
+    disbursedBreakdown: [
+      { category: "Medical Supplies", amount: 3000, color: "bg-primary" },
+      { category: "Staff Wages", amount: 2500, color: "bg-success" },
+      { category: "Facility Rental", amount: 1000, color: "bg-info" }
+    ]
   },
   {
-    name: "Emma Williams",
     amount: 3750,
     project: "Community Center",
     startDate: "2024-03-01",
     endDate: "2024-05-30",
     status: "Planning",
-    milestones: [
-      { progress: 45, fundUsed: 1500 }
-    ],
-    totalFundUsed: 2500
+    targetAmount: 75000,
+    disbursedBreakdown: [
+      { category: "Construction", amount: 1500, color: "bg-primary" },
+      { category: "Equipment", amount: 700, color: "bg-success" },
+      { category: "Operations", amount: 300, color: "bg-info" }
+    ]
   }
 ]);
 
@@ -143,6 +146,98 @@ const projectContributions = ref([
   }
 ]);
 
+// Helper functions to get translation keys
+const getProjectKey = (projectName) => {
+  const keyMap = {
+    // Existing mappings
+    'Education Fund': 'educationFund',
+    'Healthcare Initiative': 'healthcareInitiative',
+    'Community Center': 'communityCenter',
+    'Beach Cleanup Drive': 'beachCleanup',
+    'Food Bank Distribution': 'foodBank',
+    'Tree Planting Initiative': 'treePlanting',
+    // New mappings for beneficiary aids
+    'Food Security Program': 'foodSecurity',
+    'Education Support': 'educationSupport',
+    'Elderly Care': 'elderlyCare'
+  };
+  return keyMap[projectName];
+};
+
+const getStatusKey = (status) => {
+  const keyMap = {
+     // Existing mappings
+     'In Progress': 'inProgress',
+    'Planning': 'planning',
+    'Completed': 'completed',
+    'Pending': 'pending',
+    // New mappings for contributions
+    'Delivered': 'delivered',
+    'Processed': 'processed',
+    'Scheduled': 'scheduled',
+    'In Transit': 'inTransit'
+  };
+  return keyMap[status];
+};
+
+const getCategoryKey = (category) => {
+  const keyMap = {
+    'School Supplies': 'schoolSupplies',
+    'Tuition Fees': 'tuitionFees',
+    'Transportation': 'transportation',
+    'Medical Supplies': 'medicalSupplies',
+    'Staff Wages': 'staffWages',
+    'Facility Rental': 'facilityRental',
+    'Construction': 'construction',
+    'Equipment': 'equipment',
+    'Operations': 'operations'
+  };
+  return keyMap[category];
+};
+
+// Helper function to get status variant
+const getStatusVariant = (statusVariant) => {
+  const variantMap = {
+    'Completed': 'success',
+    'Pending': 'warning',
+    'In Progress': 'info'
+  };
+  return variantMap[statusVariant];
+};
+
+const getAidKey = (aidName) => {
+  const keyMap = {
+    'Monthly Food Pack': 'monthlyFoodPack',
+    'Food Voucher': 'foodVoucher',
+    'School Supplies': 'schoolSupplies',
+    'Tuition Classes': 'tuitionClasses',
+    'Education Fund': 'educationFund',
+    'Medical Supplies': 'medicalSupplies',
+    'Home Care Service': 'homeCareService',
+    'Healthcare Allowance': 'healthcareAllowance'
+  };
+  return keyMap[aidName];
+};
+
+const getAidTypeKey = (type) => {
+  const keyMap = {
+    'Material': 'material',
+    'Non-Material': 'nonMaterial',
+    'Funds': 'funds'
+  };
+  return keyMap[type];
+};
+
+const getContributionKey = (contribution) => {
+  const keyMap = {
+    'Rice and Essential Foods': 'riceEssentials',
+    'Education Fund': 'educationFund',
+    'Medical Consultation': 'medicalConsultation',
+    'Laptops for Students': 'laptopsStudents'
+  };
+  return keyMap[contribution];
+};
+
 </script>
 
 <template>
@@ -162,57 +257,65 @@ const projectContributions = ref([
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Donate</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Milestones</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Disbursed</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('donorProjects.headers.donate') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('donorProjects.headers.project') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('donorProjects.headers.targetProgress') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('donorProjects.headers.fundUsage') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
               <tr v-for="(project, index) in donorProjects" :key="index" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                 <td class="px-6 py-4">
                   <div class="flex items-center">
-                    <!-- <div class="h-10 w-10 flex-shrink-0">
-                      <img class="h-10 w-10 rounded-full" src="@/assets/img/avatar/user.webp" alt="" />
-                    </div> -->
-                    <div class="ml-4">
-                      <!-- <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ project.name }}</div> -->
-                      <div class="text-sm text-gray-500">RM {{ project.amount.toLocaleString() }}</div>
-                    </div>
+                    <div class="text-sm text-gray-500">RM {{ project.amount.toLocaleString() }}</div>
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm text-gray-900 dark:text-gray-100">{{ project.project }}</div>
-                  <div class="text-sm text-gray-500">{{ project.status }}</div>
-                </td>
-                <td class="px-6 py-4">
                   <div class="text-sm text-gray-900 dark:text-gray-100">
+                    {{ $t('donorProjects.projects.' + getProjectKey(project.project) + '.name') }}
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    {{ $t('donorProjects.status.' + getStatusKey(project.status)) }}
+                  </div>
+                  <div class="text-xs text-gray-500">
                     {{ new Date(project.startDate).toLocaleDateString() }} - 
                     {{ new Date(project.endDate).toLocaleDateString() }}
                   </div>
-                  <div v-for="(milestone, mIndex) in project.milestones" :key="mIndex" class="mb-2">
-                    <div class="flex justify-between text-sm mb-1">
-                      <span class="text-gray-900 dark:text-gray-100">{{ milestone.name }}</span>
-                      <span class="text-gray-500">{{ milestone.progress }}%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                      <div 
-                        class="bg-primary h-2 rounded-full" 
-                        :style="{ width: milestone.progress + '%' }"
-                      ></div>
-                    </div>
-                  </div>
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900 dark:text-gray-100">
-                    RM {{ project.totalFundUsed.toLocaleString() }} / 
-                    RM {{ project.amount.toLocaleString() }}
+                    Target: RM {{ project.targetAmount.toLocaleString() }}
                   </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
+                  <div class="text-sm text-gray-500 mb-1">
+                    Collected: RM {{ project.amount.toLocaleString() }}
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
                     <div 
-                      class="bg-primary h-2.5 rounded-full" 
-                      :style="{ width: (project.totalFundUsed / project.amount * 100) + '%' }"
+                      class="bg-primary h-2 rounded-full" 
+                      :style="{ width: (project.amount / project.targetAmount * 100) + '%' }"
                     ></div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="space-y-3">
+                    <div v-for="(item, idx) in project.disbursedBreakdown" :key="idx">
+                      <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-900 dark:text-gray-100">
+                          {{ $t('donorProjects.projects.' + getProjectKey(project.project) + '.categories.' + getCategoryKey(item.category)) }}
+                        </span>
+                        <span class="text-gray-500">RM {{ item.amount.toLocaleString() }}</span>
+                      </div>
+                      <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                        <div 
+                          :class="item.color"
+                          class="h-2 rounded-full" 
+                          :style="{ width: (item.amount / project.amount * 100) + '%' }"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-500 mt-2">
+                      Total Used: RM {{ project.disbursedBreakdown.reduce((sum, item) => sum + item.amount, 0).toLocaleString() }}
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -225,100 +328,67 @@ const projectContributions = ref([
     <!-- Volunteer Activity -->
     <rs-card class="mt-6">
       <template #header>
-        <h3 class="text-lg font-semibold">Volunteer Activity</h3>
+        <h3 class="text-lg font-semibold">{{ $t('volunteerDashboard.stats.title') }}</h3>
       </template>
       <template #body>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <!-- Summary Stats -->
           <div class="bg-primary/5 rounded-lg p-4">
-            <div class="text-sm text-gray-600 dark:text-gray-400">Campaigns Joined</div>
-            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.campaignsJoined }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              {{ $t('volunteerDashboard.stats.campaignsJoined') }}
+            </div>
+            <div class="text-2xl font-semibold text-primary mt-1">
+              {{ volunteerStats.campaignsJoined }}
+            </div>
           </div>
           <div class="bg-primary/5 rounded-lg p-4">
-            <div class="text-sm text-gray-600 dark:text-gray-400">Active Projects</div>
-            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.activeProjects }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              {{ $t('volunteerDashboard.stats.activeProjects') }}
+            </div>
+            <div class="text-2xl font-semibold text-primary mt-1">
+              {{ volunteerStats.activeProjects }}
+            </div>
           </div>
           <div class="bg-primary/5 rounded-lg p-4">
-            <div class="text-sm text-gray-600 dark:text-gray-400">Total Tasks</div>
-            <div class="text-2xl font-semibold text-primary mt-1">{{ volunteerStats.totalTasks }}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              {{ $t('volunteerDashboard.stats.totalTasks') }}
+            </div>
+            <div class="text-2xl font-semibold text-primary mt-1">
+              {{ volunteerStats.totalTasks }}
+            </div>
           </div>
         </div>
 
-        <div class="flex flex-row">
-          <!-- Active Projects List -->
-          <div class="w-1/2 mr-5">
-            <h4 class="text-base font-medium mb-4">Active Projects</h4>
-            <div class="space-y-4">
-              <div v-for="(project, index) in volunteerProjects" :key="index" 
-                  class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                <div class="flex justify-between items-center mb-2">
-                  <div>
-                    <h5 class="font-medium">{{ project.project }}</h5>
-                    <rs-badge
-                      :variant="
-                        project.status === 'Completed'
-                          ? 'success'
-                          : project.status === 'Pending'
-                          ? 'warning'
-                          : 'info'
-                      "
-                      class="mt-1"
-                    >
-                      {{ project.status }}
-                    </rs-badge>
-                  </div>
-                  <div class="text-sm text-gray-500">
-                    {{ project.completedTasks }}/{{ project.tasks }} Tasks
-                  </div>
+        <!-- Projects List -->
+        <div class="w-1/2 mr-5">
+          <h4 class="text-base font-medium mb-4">
+            {{ $t('volunteerDashboard.projects.title') }}
+          </h4>
+          <div class="space-y-4">
+            <div v-for="(project, index) in volunteerProjects" :key="index" 
+                 class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <div class="flex justify-between items-center mb-2">
+                <div>
+                  <h5 class="font-medium">
+                    {{ $t(`volunteerDashboard.projects.projectNames.${getProjectKey(project.project)}`) }}
+                  </h5>
+                  <rs-badge
+                    :variant="getStatusVariant(project.statusVariant)"
+                    class="mt-1"
+                  >
+                    {{ $t(`volunteerDashboard.projects.status.${getStatusKey(project.status)}`) }}
+                  </rs-badge>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                  <div 
-                    class="bg-primary h-2 rounded-full" 
-                    :style="{ width: (project.completedTasks / project.tasks * 100) + '%' }"
-                  ></div>
+                <div class="text-sm text-gray-500">
+                  {{ project.completedTasks }}/{{ project.tasks }} 
+                  {{ $t('volunteerDashboard.projects.tasks') }}
                 </div>
               </div>
-            </div>
-          </div>
-          <!-- Task Status Overview -->
-          <div class="w-1/2">
-            <h4 class="text-base font-medium mb-4">Overall Task Status</h4>
-            <div class="space-y-4">
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <span class="text-gray-600 dark:text-gray-400">Completed</span>
-                  <span class="font-medium">{{ volunteerStats.taskStatus.completed }} Tasks</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                  <div 
-                    class="bg-success h-2 rounded-full" 
-                    :style="{ width: (volunteerStats.taskStatus.completed / volunteerStats.totalTasks * 100) + '%' }"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <span class="text-gray-600 dark:text-gray-400">In Progress</span>
-                  <span class="font-medium">{{ volunteerStats.taskStatus.inProgress }} Tasks</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                  <div 
-                    class="bg-info h-2 rounded-full" 
-                    :style="{ width: (volunteerStats.taskStatus.inProgress / volunteerStats.totalTasks * 100) + '%' }"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <span class="text-gray-600 dark:text-gray-400">Pending</span>
-                  <span class="font-medium">{{ volunteerStats.taskStatus.pending }} Tasks</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                  <div 
-                    class="bg-warning h-2 rounded-full" 
-                    :style="{ width: (volunteerStats.taskStatus.pending / volunteerStats.totalTasks * 100) + '%' }"
-                  ></div>
-                </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                <div 
+                  class="bg-primary h-2 rounded-full" 
+                  :style="{ width: (project.completedTasks / project.tasks * 100) + '%' }"
+                ></div>
               </div>
             </div>
           </div>
@@ -326,11 +396,11 @@ const projectContributions = ref([
       </template>
     </rs-card>
 
-    <!-- Project Aid Distribution -->
+    <!-- Project Aid Distribution for recipient -->
     <rs-card class="mt-6">
       <template #header>
         <div class="flex justify-between items-center">
-          <h3 class="text-lg font-semibold">Project Aid Distribution</h3>
+          <h3 class="text-lg font-semibold">{{ $t('beneficiaryAids.title') }}</h3>
           <button class="text-primary hover:text-primary-dark">View All</button>
         </div>
       </template>
@@ -341,7 +411,7 @@ const projectContributions = ref([
                class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-5">
             <!-- Project Header -->
             <h4 class="text-base font-medium mb-4 text-gray-900 dark:text-gray-100">
-              {{ project.projectName }}
+              {{ $t(`beneficiaryAids.projects.${getProjectKey(project.projectName)}.name`) }}
             </h4>
             
             <!-- Aid Cards Grid -->
@@ -361,7 +431,7 @@ const projectContributions = ref([
                     "
                     class="!rounded-lg"
                   >
-                    {{ aid.type }}
+                  {{ $t(`beneficiaryAids.aidTypes.${getAidTypeKey(aid.type)}`) }}
                   </rs-badge>
                   
                   <!-- Icon based on type -->
@@ -381,12 +451,12 @@ const projectContributions = ref([
                 
                 <!-- Aid Name -->
                 <h5 class="font-medium text-gray-900 dark:text-gray-100 mb-2">
-                  {{ aid.name }}
+                  {{ $t(`beneficiaryAids.projects.${getProjectKey(project.projectName)}.aids.${getAidKey(aid.name)}.name`) }}
                 </h5>
                 
                 <!-- Aid Details -->
                 <div class="text-sm text-gray-500">
-                  {{ aid.details }}
+                  {{ $t(`beneficiaryAids.projects.${getProjectKey(project.projectName)}.aids.${getAidKey(aid.name)}.details`) }}
                 </div>
               </div>
             </div>
@@ -399,7 +469,7 @@ const projectContributions = ref([
     <rs-card class="mt-6">
       <template #header>
         <div class="flex justify-between items-center">
-          <h3 class="text-lg font-semibold">Project Contributions</h3>
+          <h3 class="text-lg font-semibold">{{ $t('projectContributions.title') }}</h3>
           <button class="text-primary hover:text-primary-dark">View All</button>
         </div>
       </template>
@@ -408,13 +478,12 @@ const projectContributions = ref([
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contributor</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aid Type</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contribution</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.date') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.project') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.aidType') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.contribution') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.amount') }}</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ $t('projectContributions.headers.status') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -423,11 +492,6 @@ const projectContributions = ref([
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900 dark:text-gray-100">
                     {{ new Date(contribution.date).toLocaleDateString() }}
-                  </div>
-                </td>
-                <td class="px-6 py-4">
-                  <div class="text-sm text-gray-900 dark:text-gray-100">
-                    {{ contribution.contributor }}
                   </div>
                 </td>
                 <td class="px-6 py-4">
@@ -470,7 +534,7 @@ const projectContributions = ref([
                         : 'primary'
                     "
                   >
-                    {{ contribution.status }}
+                    {{ $t(`projectContributions.status.${getStatusKey(contribution.status)}`) }}
                   </rs-badge>
                 </td>
               </tr>
@@ -479,6 +543,5 @@ const projectContributions = ref([
         </div>
       </template>
     </rs-card>
-
   </div>
 </template>

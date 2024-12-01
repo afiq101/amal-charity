@@ -157,5 +157,175 @@
     "invalid_card": "Invalid card number",
     "invalid_cvv": "Invalid CVV",
     "invalid_expiry": "Invalid expiry date"
+  },
+  "donorProjects": {
+    "headers": {
+      "donate": "Donate",
+      "project": "Project",
+      "targetProgress": "Target Progress",
+      "fundUsage": "Fund Usage",
+      "totalUsed": "Total Used",
+      "target": "Target",
+      "collected": "Collected"
+    },
+    "status": {
+      "inProgress": "In Progress",
+      "planning": "Planning",
+      "completed": "Completed"
+    },
+    "projects": {
+      "educationFund": {
+        "name": "Education Fund",
+        "categories": {
+          "schoolSupplies": "School Supplies",
+          "tuitionFees": "Tuition Fees",
+          "transportation": "Transportation"
+        }
+      },
+      "healthcareInitiative": {
+        "name": "Healthcare Initiative",
+        "categories": {
+          "medicalSupplies": "Medical Supplies",
+          "staffWages": "Staff Wages",
+          "facilityRental": "Facility Rental"
+        }
+      },
+      "communityCenter": {
+        "name": "Community Center",
+        "categories": {
+          "construction": "Construction",
+          "equipment": "Equipment",
+          "operations": "Operations"
+        }
+      }
+    }
+  },
+  "volunteerDashboard": {
+    "stats": {
+      "title": "Volunteer Activity",
+      "campaignsJoined": "Campaigns Joined",
+      "activeProjects": "Active Projects",
+      "totalTasks": "Total Tasks",
+      "taskStatus": {
+        "title": "Task Status",
+        "completed": "Completed",
+        "inProgress": "In Progress",
+        "pending": "Pending"
+      }
+    },
+    "projects": {
+      "title": "Active Projects",
+      "tasks": "Tasks",
+      "status": {
+        "inProgress": "In Progress",
+        "pending": "Pending",
+        "completed": "Completed"
+      },
+      "statusVariant": {
+        "inProgress": "In Progress",
+        "pending": "Pending",
+        "completed": "Completed"
+      },
+      "taskProgress": "Tasks Progress",
+      "projectNames": {
+        "beachCleanup": "Beach Cleanup Drive",
+        "foodBank": "Food Bank Distribution",
+        "treePlanting": "Tree Planting Initiative"
+      }
+    }
+  },
+  "beneficiaryAids": {
+    "title": "Project Aid Distribution",
+    "viewAll": "View All",
+    "projects": {
+      "foodSecurity": {
+        "name": "Food Security Program",
+        "aids": {
+          "monthlyFoodPack": {
+            "name": "Monthly Food Pack",
+            "details": "Rice 10kg, Flour 5kg, Oil 2L"
+          },
+          "foodVoucher": {
+            "name": "Food Voucher",
+            "details": "RM 150/month"
+          }
+        }
+      },
+      "educationSupport": {
+        "name": "Education Support",
+        "aids": {
+          "schoolSupplies": {
+            "name": "School Supplies",
+            "details": "Books, Stationery Set"
+          },
+          "tuitionClasses": {
+            "name": "Tuition Classes",
+            "details": "3 subjects"
+          },
+          "educationFund": {
+            "name": "Education Fund",
+            "details": "RM 200/month"
+          }
+        }
+      },
+      "elderlyCare": {
+        "name": "Elderly Care",
+        "aids": {
+          "medicalSupplies": {
+            "name": "Medical Supplies",
+            "details": "Monthly Medical Kit"
+          },
+          "homeCareService": {
+            "name": "Home Care Service",
+            "details": "Weekly Visit"
+          },
+          "healthcareAllowance": {
+            "name": "Healthcare Allowance",
+            "details": "RM 300/month"
+          }
+        }
+      }
+    },
+    "aidTypes": {
+      "material": "Material",
+      "nonMaterial": "Non-Material",
+      "funds": "Funds"
+    }
+  },
+  "projectContributions": {
+    "title": "Project Contributions",
+    "headers": {
+      "date": "Date",
+      "contributor": "Contributor",
+      "project": "Project",
+      "aidType": "Aid Type",
+      "contribution": "Contribution",
+      "amount": "Amount",
+      "status": "Status"
+    },
+    "status": {
+      "delivered": "Delivered",
+      "processed": "Processed",
+      "scheduled": "Scheduled",
+      "inTransit": "In Transit"
+    },
+    "contributions": {
+      "riceEssentials": {
+        "name": "Rice and Essential Foods",
+        "unit": "kg"
+      },
+      "educationFund": {
+        "name": "Education Fund",
+        "unit": "RM"
+      },
+      "medicalConsultation": {
+        "name": "Medical Consultation",
+        "unit": "hours"
+      },
+      "laptopsStudents": {
+        "name": "Laptops for Students",
+        "unit": "units"
+      }
+    }
   }
 }
