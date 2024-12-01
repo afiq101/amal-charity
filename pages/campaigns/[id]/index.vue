@@ -440,6 +440,25 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- Add this section where you want to display the Sankey diagram -->
+    <div class="container mx-auto px-4 py-8 md:py-16">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-3 md:mb-4"
+      >
+        {{ t("campaign.fund_distribution") }}
+      </h2>
+      <p
+        class="text-lg md:text-xl text-center text-gray-600 mb-8 md:mb-12 px-4"
+      >
+        {{ t("campaign.fund_distribution_description") }}
+      </p>
+
+      <div
+        id="campaign-sankey"
+        class="w-full overflow-x-auto bg-white rounded-lg shadow-lg p-4"
+      ></div>
+    </div>
+
     <!-- Projects Grid -->
     <div id="projects-section" class="container mx-auto px-4 py-8 md:py-16">
       <h2
@@ -610,7 +629,7 @@ onUnmounted(() => {
       >
         {{ t("campaign.faq.title") }}
       </h2>
-      <div class="max-w-3xl mx-auto px-4">
+      <div class="mx-auto px-4">
         <rs-collapse accordion type="border">
           <rs-collapse-item v-for="(faq, index) in faqs" :key="index">
             <template #title>
@@ -704,25 +723,6 @@ onUnmounted(() => {
         </div>
       </template>
     </rs-modal>
-
-    <!-- Add this section where you want to display the Sankey diagram -->
-    <div class="container mx-auto px-4 py-8 md:py-16">
-      <h2
-        class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-3 md:mb-4"
-      >
-        {{ t("campaign.fund_distribution") }}
-      </h2>
-      <p
-        class="text-lg md:text-xl text-center text-gray-600 mb-8 md:mb-12 px-4"
-      >
-        {{ t("campaign.fund_distribution_description") }}
-      </p>
-
-      <div
-        id="campaign-sankey"
-        class="w-full overflow-x-auto bg-white rounded-lg shadow-lg p-4"
-      ></div>
-    </div>
   </div>
 </template>
 
