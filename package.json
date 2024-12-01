@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=4096' nuxt build",
-    "build:old": "nuxt build",  
+    "build:old": "nuxt build",
     "build:new": "node pre-build.js && nuxt build && node post-build.js",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -60,7 +60,9 @@
     "d3": "^7.9.0",
     "d3-sankey": "^0.12.3",
     "floating-vue": "^2.0.0-beta.24",
+    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
+    "jspdf": "^2.5.2",
     "luxon": "^3.1.0",
     "maska": "^1.5.0",
     "pinia": "^2.1.6",

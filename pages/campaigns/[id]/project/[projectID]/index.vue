@@ -97,10 +97,46 @@ const formatCurrency = (amount) => {
   }).format(amount);
 };
 
-const handleDonate = () => {
+const { $swal } = useNuxtApp();
+
+const handleDonate = async () => {
   const amount = selectedAmount.value || Number(customAmount.value);
-  // Handle donation logic
-  console.log("Donating amount:", amount);
+
+  if (!amount || isNaN(amount)) {
+    $swal.fire({
+      title: "Error",
+      text: t("campaign.donation.invalid_amount"),
+      icon: "error",
+    });
+    return;
+  }
+
+  try {
+    const { data } = await useFetch("/api/payment/create", {
+      method: "POST",
+      body: {
+        amount: amount,
+      },
+    });
+
+    if (data.value.status === 200) {
+      // Redirect to payment URL
+      window.location.href = data.value.data.url;
+    } else {
+      $swal.fire({
+        title: "Error",
+        text: data.value.message || t("campaign.donation.payment_failed"),
+        icon: "error",
+      });
+    }
+  } catch (error) {
+    console.error("Payment error:", error);
+    $swal.fire({
+      title: "Error",
+      text: t("campaign.donation.system_error"),
+      icon: "error",
+    });
+  }
 };
 
 const handleStayConnected = () => {

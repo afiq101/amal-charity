@@ -6,6 +6,7 @@ definePageMeta({
 });
 const { t } = useI18n();
 const id = useRoute().params.id;
+const { $swal } = useNuxtApp();
 
 // Campaign details
 const campaign = ref({
@@ -147,12 +148,48 @@ const donationAmounts = ref([
   { value: 500, label: "RM500", popular: false },
 ]);
 
-// Handle donation
-const handleDonate = () => {
+// Update the handleDonate function
+const handleDonate = async () => {
   const amount = selectedAmount.value || Number(customAmount.value);
-  // Handle donation logic here
-  console.log("Donating:", amount);
-  showDonationModal.value = false;
+
+  if (!amount || isNaN(amount)) {
+    $swal.fire({
+      title: "Error",
+      text: t("campaign.donation.invalid_amount"),
+      icon: "error",
+    });
+    return;
+  }
+
+  try {
+    const { data } = await useFetch("/api/payment/create", {
+      method: "POST",
+      body: {
+        amount: amount,
+      },
+    });
+
+    if (data.value.status === 200) {
+      // Close the donation modal
+      showDonationModal.value = false;
+
+      // Redirect to payment URL
+      window.location.href = data.value.data.url;
+    } else {
+      $swal.fire({
+        title: "Error",
+        text: data.value.message || t("campaign.donation.payment_failed"),
+        icon: "error",
+      });
+    }
+  } catch (error) {
+    console.error("Payment error:", error);
+    $swal.fire({
+      title: "Error",
+      text: t("campaign.donation.system_error"),
+      icon: "error",
+    });
+  }
 };
 
 // Sankey data preparation

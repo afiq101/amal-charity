@@ -3,6 +3,7 @@ const ENV = useRuntimeConfig();
 export default defineEventHandler(async (event) => {
   try {
     const { amount } = await readBody(event);
+    const { userID } = event.context.user;
 
     if (!amount)
       throw createError({
@@ -18,26 +19,32 @@ export default defineEventHandler(async (event) => {
       });
 
     //   Check if amount is greater than minimum amount
-    const getConfiguration = await getConfiguration("MIN_AMOUNT");
+    const min_amount = await getConfiguration("MIN_AMOUNT");
+    console.log("min_amount");
+    console.log(min_amount);
 
-    if (!getConfiguration)
+    if (!min_amount)
       throw createError({
         statusCode: 500,
         statusMessage: "Internal Server Error",
       });
 
-    if (amount < parseFloat(getConfiguration.value))
+    if (amount < parseFloat(min_amount.configurationValue))
       throw createError({
         statusCode: 400,
         statusMessage: "Amount is less than minimum amount",
       });
 
-    const billCode = await createPayment(amount);
+    const billCode = await createPayment(amount, userID);
+    console.log("billCode");
+    console.log(billCode);
 
     return {
       status: 200,
       message: "Payment created successfully",
-      data: billCode,
+      data: {
+        url: ENV.toyyibpay.url.redirect + billCode,
+      },
     };
   } catch (error) {
     console.log(error);
@@ -48,15 +55,21 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-const createPayment = async (amount) => {
+const createPayment = async (amount, userID) => {
   try {
     const paymentURL = ENV.toyyibpay.url.payment;
-    const userSecretKey = await getConfiguration("USER_SECRET_KEY");
+    const userSecretKey = await getConfiguration("TYP_ENT_SEC_KEY");
+
+    console.log("paymentURL");
+    console.log(paymentURL);
+
+    console.log("userSecretKey");
+    console.log(userSecretKey.configurationValue);
 
     if (!userSecretKey)
       throw createError({
         statusCode: 500,
-        statusMessage: "Internal Server Error",
+        statusMessage: "Cannot get user secret key",
       });
 
     // Generate reference number
@@ -67,44 +80,42 @@ const createPayment = async (amount) => {
 
     // Prepare payment payload
     const paymentData = JSON.stringify({
-      userSecretKey: userSecretKey.value,
+      userSecretKey: userSecretKey.configurationValue,
       topupAmount: amountInCents,
-      paymentTitle: "Credit Top Up",
-      paymentDescription: "Credit Top Up Payment",
+      paymentTitle: "Amal Charity - Donation",
+      paymentDescription: "Amal Charity Donation Payment",
       paymentOrderId: referenceNo,
-      returnUrl: "http://localhost:3000/receipt",
-      callbackUrl: "http://localhost:3000/api/callback",
+      returnUrl: `${ENV.url.app}/receipt/${referenceNo}`,
+      callbackUrl: `${ENV.url.app}/api/payment/callback`,
     });
 
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: paymentURL,
+    console.log("paymentData");
+    console.log(paymentData);
+
+    const resp = await $fetch(paymentURL, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      data: paymentData,
-    };
+      body: paymentData,
+    });
 
-    const response = await fetch(config);
-
-    if (!response.data) {
+    if (!resp) {
       throw createError({
         statusCode: 500,
         statusMessage: "Failed to create payment",
       });
     }
 
-    const billCode = response.data[0].BillCode;
-
     // Insert payment record into database
     const currentDate = new Date();
     await prisma.payment.create({
       data: {
-        paymentPayorName: "Credit Top Up",
-        paymentPayorEmail: "abc@gmail.com",
+        ...(userID ? { user: { connect: { userID: userID } } } : {}),
+        paymentPayorName: "Hamba Allah",
+        paymentPayorEmail: "abc@amal.charity",
         paymentPayorPhone: "0123456789",
-        paymentBillCode: billCode,
+        paymentBillCode: resp[0].BillCode,
         paymentBillInvoiceNo: referenceNo,
         paymentBillExternalInvoiceNo: referenceNo,
         paymentBillStatus: 0, // Pending payment
@@ -118,12 +129,29 @@ const createPayment = async (amount) => {
       },
     });
 
-    return billCode;
+    return resp[0].BillCode;
   } catch (error) {
     console.log(error);
     throw createError({
       statusCode: error.statusCode || 500,
       statusMessage: error.message || "Failed to create payment",
     });
+  }
+};
+
+const getConfiguration = async (code) => {
+  try {
+    const getConfiguration = await prisma.configuration.findFirst({
+      where: {
+        configurationCode: code,
+      },
+    });
+
+    if (!getConfiguration) return false;
+
+    return getConfiguration;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };
