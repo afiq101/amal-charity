@@ -82,8 +82,8 @@ const createPayment = async (amount, userID) => {
     const paymentData = JSON.stringify({
       userSecretKey: userSecretKey.configurationValue,
       topupAmount: amountInCents,
-      paymentTitle: "Credit Top Up",
-      paymentDescription: "Credit Top Up Payment",
+      paymentTitle: "Amal Charity - Donation",
+      paymentDescription: "Amal Charity Donation Payment",
       paymentOrderId: referenceNo,
       returnUrl: `${ENV.url.app}/receipt/${referenceNo}`,
       callbackUrl: `${ENV.url.app}/api/payment/callback`,
