@@ -10,7 +10,7 @@
     { label: "HSBC Bank", value: "HSBC Bank" },
   ]);
   const wallet = ref({
-    balance: 6307.39,
+    balance: 10000.00,
     float: 0.00,
   });
 

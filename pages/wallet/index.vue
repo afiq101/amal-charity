@@ -88,6 +88,7 @@
 
       <!-- Transactions Table -->
       <div v-if="activeTab === 'transactions'" class="table-container">
+        <h5>Wallet Transactions</h5>
         <table>
           <thead>
             <tr>
@@ -112,6 +113,7 @@
 
       <!-- Volunteers Table -->
       <div v-if="activeTab === 'volunteers'" class="table-container">
+        <h5>Volunteers Received Funds</h5>
         <table>
           <thead>
             <tr>
@@ -136,6 +138,7 @@
 
       <!-- Contributors Table -->
       <div v-if="activeTab === 'contributors'" class="table-container">
+        <h5>Contributors Received Funds</h5> 
         <table>
           <thead>
             <tr>
@@ -160,6 +163,7 @@
 
       <!-- Recipients Table -->
       <div v-if="activeTab === 'recipients'" class="table-container">
+        <h5>Recipients Received Funds</h5>
         <table>
           <thead>
             <tr>
