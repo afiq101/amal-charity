@@ -91,6 +91,10 @@
       "cookie_policy": "Cookie Policy",
       "company_name": "Your Company",
       "rights_reserved": "All rights reserved"
+    },
+    "fund_distribution": {
+      "title": "Fund Distribution Overview",
+      "description": "See how funds are being distributed across our featured campaigns"
     }
   },
   "campaign": {
@@ -369,12 +373,12 @@
         "supporters": "supporters",
         "days_left": "days left",
         "raised": "raised",
-        "reimbursed": "reimbursed",
+        "distributed": "distributed",
         "of_target": "of"
       },
       "progress": {
         "raised": "Raised",
-        "reimbursed": "Reimbursed",
+        "distributed": "Distributed",
         "currency": "RM",
         "of": "of"
       },

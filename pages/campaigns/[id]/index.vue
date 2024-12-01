@@ -17,7 +17,7 @@ const campaign = ref({
     "Join our mission to create drug-free communities across Malaysia through education, prevention, and rehabilitation programs.",
   target: 500000,
   raised: 286812,
-  reimbursed: 150000,
+  distributed: 150000,
   supporters: 3234,
   daysLeft: 30,
   image:
@@ -33,7 +33,7 @@ const projects = ref([
       "Provide full sponsorship for school fees, uniforms, books, and transport for 100 students from low-income families to ensure uninterrupted education.",
     target: 100000,
     raised: 86812,
-    reimbursed: 45000,
+    distributed: 45000,
     supporters: 1234,
     image:
       "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop",
@@ -45,7 +45,7 @@ const projects = ref([
       "Offer grants and mentorship to 50 aspiring entrepreneurs from underprivileged communities, focusing on developing sustainable small businesses.",
     target: 100000,
     raised: 73112,
-    reimbursed: 35000,
+    distributed: 35000,
     supporters: 1234,
     image:
       "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop",
@@ -57,7 +57,7 @@ const projects = ref([
       "Establish a community food bank that provides essential groceries to 500 struggling households monthly, ensuring no one goes hungry.",
     target: 90000,
     raised: 41490,
-    reimbursed: 20000,
+    distributed: 20000,
     supporters: 2234,
     image:
       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop",
@@ -69,7 +69,7 @@ const projects = ref([
       "Collaborate with developers to subsidize or renovate 50 homes for low-income families, ensuring safe and dignified living conditions.",
     target: 1000000,
     raised: 490000,
-    reimbursed: 250000,
+    distributed: 250000,
     supporters: 2234,
     image:
       "https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=2070&auto=format&fit=crop",
@@ -411,7 +411,7 @@ onUnmounted(() => {
             <div class="flex items-center text-gray-600 text-sm">
               <span>RM {{ formatNumber(campaign.raised) }}</span>
               <span class="text-gray-400 mx-1"
-                >(RM {{ formatNumber(campaign.reimbursed) }} reimbursed)</span
+                >(RM {{ formatNumber(campaign.distributed) }} distributed)</span
               >
               <span>of RM {{ formatNumber(campaign.target) }}</span>
             </div>
@@ -422,11 +422,11 @@ onUnmounted(() => {
             <div
               class="h-2.5 bg-gray-100 rounded-full overflow-hidden relative"
             >
-              <!-- Reimbursed Progress -->
+              <!-- Distributed Progress -->
               <div
                 class="h-full bg-emerald-500 rounded-full absolute"
                 :style="{
-                  width: `${(campaign.reimbursed / campaign.target) * 100}%`,
+                  width: `${(campaign.distributed / campaign.target) * 100}%`,
                 }"
               ></div>
               <!-- Raised Progress -->
@@ -434,7 +434,7 @@ onUnmounted(() => {
                 class="h-full bg-gray-900 rounded-full absolute"
                 :style="{
                   width: `${(campaign.raised / campaign.target) * 100}%`,
-                  left: `${(campaign.reimbursed / campaign.target) * 100}%`,
+                  left: `${(campaign.distributed / campaign.target) * 100}%`,
                 }"
               ></div>
             </div>
@@ -447,7 +447,7 @@ onUnmounted(() => {
               </div>
               <div class="flex items-center gap-2">
                 <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
-                <span>Reimbursed</span>
+                <span>Distributed</span>
               </div>
             </div>
           </div>
@@ -540,7 +540,7 @@ onUnmounted(() => {
                   <span>RM {{ formatNumber(project.raised) }}</span>
                   <span class="text-gray-400 mx-1"
                     >(RM
-                    {{ formatNumber(project.reimbursed) }} reimbursed)</span
+                    {{ formatNumber(project.distributed) }} distributed)</span
                   >
                   <span>of RM {{ formatNumber(project.target) }}</span>
                 </div>
@@ -551,19 +551,19 @@ onUnmounted(() => {
                 <div
                   class="h-2 bg-gray-100 rounded-full overflow-hidden relative"
                 >
-                  <!-- Reimbursed Progress -->
+                  <!-- Distributed Progress -->
                   <div
                     class="h-full bg-emerald-500 rounded-full absolute"
                     :style="{
-                      width: `${Math.min((project.reimbursed / project.target) * 100, 100)}%`,
+                      width: `${Math.min((project.distributed / project.target) * 100, 100)}%`,
                     }"
                   ></div>
                   <!-- Raised Progress -->
                   <div
                     class="h-full bg-gray-900 rounded-full absolute"
                     :style="{
-                      width: `${Math.min(((project.raised - project.reimbursed) / project.target) * 100, 100)}%`,
-                      left: `${Math.min((project.reimbursed / project.target) * 100, 100)}%`,
+                      width: `${Math.min(((project.raised - project.distributed) / project.target) * 100, 100)}%`,
+                      left: `${Math.min((project.distributed / project.target) * 100, 100)}%`,
                     }"
                   ></div>
                 </div>
@@ -576,7 +576,7 @@ onUnmounted(() => {
                   </div>
                   <div class="flex items-center gap-1.5">
                     <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                    <span>{{ t("campaigns.index.progress.reimbursed") }}</span>
+                    <span>{{ t("campaigns.index.progress.distributed") }}</span>
                   </div>
                 </div>
               </div>

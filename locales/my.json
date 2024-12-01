@@ -91,6 +91,10 @@
       "terms": "Terma",
       "cookie_policy": "Dasar Kuki",
       "company_name": "Syarikat Anda"
+    },
+    "fund_distribution": {
+      "title": "Gambaran Keseluruhan Pengagihan Dana",
+      "description": "Lihat bagaimana dana diagihkan di seluruh kempen pilihan kami"
     }
   },
   "campaign": {
@@ -384,12 +388,12 @@
         "supporters": "penyokong",
         "days_left": "hari lagi",
         "raised": "terkumpul",
-        "reimbursed": "diagihkan",
+        "distributed": "diagihkan",
         "of_target": "daripada"
       },
       "progress": {
         "raised": "Terkumpul",
-        "reimbursed": "Diagihkan",
+        "distributed": "Diagihkan",
         "currency": "RM",
         "of": "daripada"
       },

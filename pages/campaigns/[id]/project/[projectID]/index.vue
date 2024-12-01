@@ -47,7 +47,7 @@ const campaign = ref({
   },
   target: 100000,
   raised: 73112,
-  reimbursed: 35000,
+  distributed: 35000,
   supporters: 1234,
 });
 
@@ -486,7 +486,7 @@ const formatNumber = (number) => {
                   <span>RM {{ formatNumber(campaign.raised) }}</span>
                   <span class="text-gray-400 mx-1"
                     >(RM
-                    {{ formatNumber(campaign.reimbursed) }} reimbursed)</span
+                    {{ formatNumber(campaign.distributed) }} distributed)</span
                   >
                   <span>of RM {{ formatNumber(campaign.target) }}</span>
                 </div>
@@ -497,19 +497,19 @@ const formatNumber = (number) => {
                 <div
                   class="h-2 bg-gray-100 rounded-full overflow-hidden relative"
                 >
-                  <!-- Reimbursed Progress -->
+                  <!-- Distributed Progress -->
                   <div
                     class="h-full bg-emerald-500 rounded-full absolute"
                     :style="{
-                      width: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
+                      width: `${Math.min((campaign.distributed / campaign.target) * 100, 100)}%`,
                     }"
                   ></div>
                   <!-- Raised Progress -->
                   <div
                     class="h-full bg-gray-900 rounded-full absolute"
                     :style="{
-                      width: `${Math.min(((campaign.raised - campaign.reimbursed) / campaign.target) * 100, 100)}%`,
-                      left: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
+                      width: `${Math.min(((campaign.raised - campaign.distributed) / campaign.target) * 100, 100)}%`,
+                      left: `${Math.min((campaign.distributed / campaign.target) * 100, 100)}%`,
                     }"
                   ></div>
                 </div>
@@ -522,7 +522,7 @@ const formatNumber = (number) => {
                   </div>
                   <div class="flex items-center gap-1.5">
                     <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                    <span>{{ t("campaigns.index.progress.reimbursed") }}</span>
+                    <span>{{ t("campaigns.index.progress.distributed") }}</span>
                   </div>
                 </div>
               </div>
@@ -537,9 +537,9 @@ const formatNumber = (number) => {
                 </div>
                 <div>
                   <p class="text-3xl font-bold">
-                    RM {{ formatNumber(campaign.reimbursed) }}
+                    RM {{ formatNumber(campaign.distributed) }}
                   </p>
-                  <p class="text-gray-600">reimbursed</p>
+                  <p class="text-gray-600">distributed</p>
                 </div>
               </div>
             </div>

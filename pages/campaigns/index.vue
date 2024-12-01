@@ -51,7 +51,7 @@ const campaigns = ref([
     supporters: 3234,
     description: "Building a Drug-Free Future, One Community at a Time",
     featured: true,
-    reimbursed: 150000,
+    distributed: 150000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -74,7 +74,7 @@ const campaigns = ref([
     supporters: 1892,
     description: "Providing quality education resources to rural communities",
     featured: true,
-    reimbursed: 100000,
+    distributed: 100000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -97,7 +97,7 @@ const campaigns = ref([
     description:
       "Protecting Malaysian rainforests through conservation efforts",
     featured: true,
-    reimbursed: 200000,
+    distributed: 200000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -120,7 +120,7 @@ const campaigns = ref([
     supporters: 892,
     description: "Supporting urban poor families with essential food supplies",
     featured: false,
-    reimbursed: 50000,
+    distributed: 50000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -142,7 +142,7 @@ const campaigns = ref([
     supporters: 2156,
     description: "Emergency support for flood-affected communities",
     featured: true,
-    reimbursed: 150000,
+    distributed: 150000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -165,7 +165,7 @@ const campaigns = ref([
     supporters: 945,
     description: "Breaking stigma and providing mental health support",
     featured: false,
-    reimbursed: 50000,
+    distributed: 50000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -191,7 +191,7 @@ const projects = ref([
     supporters: 523,
     description: "Creating sustainable community gardens in urban areas",
     status: "ongoing",
-    reimbursed: 25000,
+    distributed: 25000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -213,7 +213,7 @@ const projects = ref([
     supporters: 348,
     description: "Teaching coding skills to underprivileged youth",
     status: "ending soon",
-    reimbursed: 30000,
+    distributed: 30000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -235,7 +235,7 @@ const projects = ref([
     supporters: 789,
     description: "Bringing healthcare services to remote areas",
     status: "ongoing",
-    reimbursed: 100000,
+    distributed: 100000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -258,7 +258,7 @@ const projects = ref([
     supporters: 245,
     description: "Empowering youth through sports and leadership",
     status: "ongoing",
-    reimbursed: 15000,
+    distributed: 15000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -280,7 +280,7 @@ const projects = ref([
     supporters: 634,
     description: "Supporting elderly care facilities and programs",
     status: "ongoing",
-    reimbursed: 75000,
+    distributed: 75000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -303,7 +303,7 @@ const projects = ref([
     supporters: 378,
     description: "Celebrating local artists and cultural heritage",
     status: "ongoing",
-    reimbursed: 20000,
+    distributed: 20000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -325,7 +325,7 @@ const projects = ref([
     supporters: 923,
     description: "Building a new shelter for stray animals",
     status: "ongoing",
-    reimbursed: 50000,
+    distributed: 50000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -354,8 +354,8 @@ const formatDate = (dateString) => {
   });
 };
 
-const getReimbursementPercentage = (reimbursed, raised) => {
-  return (reimbursed / raised) * 100;
+const getReimbursementPercentage = (distributed, raised) => {
+  return (distributed / raised) * 100;
 };
 
 const getDaysUntilNextReimbursement = (nextDate) => {
@@ -591,8 +591,8 @@ const handlePageChange = (page) => {
                       }}</span>
                       <span class="text-gray-400">
                         ({{ t("campaigns.index.progress.currency") }}
-                        {{ formatNumber(campaign.reimbursed) }}
-                        {{ t("campaigns.index.stats.reimbursed") }})
+                        {{ formatNumber(campaign.distributed) }}
+                        {{ t("campaigns.index.stats.distributed") }})
                       </span>
                       <div class="flex items-baseline space-x-1">
                         <span class="text-gray-600">{{
@@ -611,19 +611,19 @@ const handlePageChange = (page) => {
                     <div
                       class="h-2 bg-gray-100 rounded-full overflow-hidden relative"
                     >
-                      <!-- Reimbursed Progress -->
+                      <!-- Distributed Progress -->
                       <div
                         class="h-full bg-emerald-500 rounded-full absolute"
                         :style="{
-                          width: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
+                          width: `${Math.min((campaign.distributed / campaign.target) * 100, 100)}%`,
                         }"
                       ></div>
                       <!-- Raised Progress -->
                       <div
                         class="h-full bg-gray-900 rounded-full absolute"
                         :style="{
-                          width: `${Math.min(((campaign.raised - campaign.reimbursed) / campaign.target) * 100, 100)}%`,
-                          left: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
+                          width: `${Math.min(((campaign.raised - campaign.distributed) / campaign.target) * 100, 100)}%`,
+                          left: `${Math.min((campaign.distributed / campaign.target) * 100, 100)}%`,
                         }"
                       ></div>
                     </div>
@@ -639,7 +639,7 @@ const handlePageChange = (page) => {
                           class="w-1.5 h-1.5 rounded-full bg-emerald-500"
                         ></div>
                         <span>{{
-                          t("campaigns.index.progress.reimbursed")
+                          t("campaigns.index.progress.distributed")
                         }}</span>
                       </div>
                     </div>
@@ -802,8 +802,8 @@ const handlePageChange = (page) => {
                       }}</span>
                       <span class="text-gray-400">
                         ({{ t("campaigns.index.progress.currency") }}
-                        {{ formatNumber(project.reimbursed) }}
-                        {{ t("campaigns.index.stats.reimbursed") }})
+                        {{ formatNumber(project.distributed) }}
+                        {{ t("campaigns.index.stats.distributed") }})
                       </span>
                       <div class="flex items-baseline space-x-1">
                         <span class="text-gray-600">{{
@@ -822,19 +822,19 @@ const handlePageChange = (page) => {
                     <div
                       class="h-2 bg-gray-100 rounded-full overflow-hidden relative"
                     >
-                      <!-- Reimbursed Progress -->
+                      <!-- Distributed Progress -->
                       <div
                         class="h-full bg-emerald-500 rounded-full absolute"
                         :style="{
-                          width: `${Math.min((project.reimbursed / project.target) * 100, 100)}%`,
+                          width: `${Math.min((project.distributed / project.target) * 100, 100)}%`,
                         }"
                       ></div>
                       <!-- Raised Progress -->
                       <div
                         class="h-full bg-gray-900 rounded-full absolute"
                         :style="{
-                          width: `${Math.min(((project.raised - project.reimbursed) / project.target) * 100, 100)}%`,
-                          left: `${Math.min((project.reimbursed / project.target) * 100, 100)}%`,
+                          width: `${Math.min(((project.raised - project.distributed) / project.target) * 100, 100)}%`,
+                          left: `${Math.min((project.distributed / project.target) * 100, 100)}%`,
                         }"
                       ></div>
                     </div>
@@ -850,7 +850,7 @@ const handlePageChange = (page) => {
                           class="w-1.5 h-1.5 rounded-full bg-emerald-500"
                         ></div>
                         <span>{{
-                          t("campaigns.index.progress.reimbursed")
+                          t("campaigns.index.progress.distributed")
                         }}</span>
                       </div>
                     </div>

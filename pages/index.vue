@@ -1,4 +1,6 @@
 <script setup>
+import * as d3 from "d3";
+import { sankey, sankeyLinkHorizontal } from "d3-sankey";
 definePageMeta({
   layout: "landing",
 });
@@ -20,7 +22,7 @@ const featuredCampaigns = [
     supporters: 3234,
     description: "Building a Drug-Free Future, One Community at a Time",
     featured: true,
-    reimbursed: 150000,
+    distributed: 150000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -42,7 +44,7 @@ const featuredCampaigns = [
     supporters: 1892,
     description: "Providing quality education resources to rural communities",
     featured: true,
-    reimbursed: 100000,
+    distributed: 100000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -63,7 +65,7 @@ const featuredCampaigns = [
     supporters: 4521,
     description: "Protecting Malaysian rainforests through conservation efforts",
     featured: true,
-    reimbursed: 200000,
+    distributed: 200000,
     lastReimbursement: "2024-03-15",
     nextReimbursement: "2024-03-30",
     reimbursementProgress: [
@@ -85,7 +87,7 @@ const featuredCampaigns = [
     supporters: 892,
     description: "Supporting urban poor families with essential food supplies",
     featured: false,
-    reimbursed: 50000,
+    distributed: 50000,
     lastReimbursement: "2024-03-10",
     nextReimbursement: "2024-03-25",
     reimbursementProgress: [
@@ -147,9 +149,154 @@ const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-const getReimbursementPercentage = (reimbursed, raised) => {
-  return (reimbursed / raised) * 100;
+const getReimbursementPercentage = (distributed, raised) => {
+  return (distributed / raised) * 100;
 };
+
+// Add these computed properties and functions after featuredCampaigns
+const sankeyData = computed(() => {
+  // Create nodes array
+  const nodes = [{ id: "Total", name: "Total Funds" }];
+  
+  // Add campaign nodes
+  featuredCampaigns.forEach((campaign) => {
+    nodes.push({
+      id: `Campaign_${campaign.id}`,
+      name: campaign.title,
+    });
+  });
+
+  // Create links array
+  const links = featuredCampaigns.map((campaign) => ({
+    source: "Total",
+    target: `Campaign_${campaign.id}`,
+    value: campaign.raised,
+  }));
+
+  return { nodes, links };
+});
+
+const useClient = () => process.client;
+
+// Create Sankey diagram
+const createSankeyDiagram = () => {
+  if (!useClient()) return;
+
+  const element = document.getElementById("featured-sankey");
+  if (!element) return;
+
+  d3.select("#featured-sankey").selectAll("*").remove();
+
+  const width = 1000;
+  const height = 400;
+  const margin = { top: 20, right: 250, bottom: 20, left: 250 };
+
+  const svg = d3
+    .select("#featured-sankey")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  const data = {
+    nodes: JSON.parse(JSON.stringify(sankeyData.value.nodes)),
+    links: JSON.parse(JSON.stringify(sankeyData.value.links)),
+  };
+
+  data.links = data.links.map((d) => ({
+    source: data.nodes.findIndex((node) => node.id === d.source),
+    target: data.nodes.findIndex((node) => node.id === d.target),
+    value: +d.value,
+  }));
+
+  const sankeyGenerator = sankey()
+    .nodeWidth(20)
+    .nodePadding(40)
+    .extent([
+      [0, 0],
+      [width - margin.left - margin.right, height - margin.top - margin.bottom],
+    ]);
+
+  const { nodes, links } = sankeyGenerator(data);
+
+  // Add links
+  svg
+    .append("g")
+    .selectAll("path")
+    .data(links)
+    .join("path")
+    .attr("d", sankeyLinkHorizontal())
+    .attr("fill", "none")
+    .attr("stroke", "#cbd5e1")
+    .attr("stroke-width", (d) => Math.max(1, d.width))
+    .attr("opacity", 0.5);
+
+  // Add nodes
+  svg
+    .append("g")
+    .selectAll("rect")
+    .data(nodes)
+    .join("rect")
+    .attr("x", (d) => d.x0)
+    .attr("y", (d) => d.y0)
+    .attr("height", (d) => d.y1 - d.y0)
+    .attr("width", (d) => d.x1 - d.x0)
+    .attr("fill", "#3b82f6")
+    .attr("opacity", 0.8);
+
+  // Add labels
+  svg
+    .append("g")
+    .selectAll("text")
+    .data(nodes)
+    .join("text")
+    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + 10 : d.x0 - 10))
+    .attr("y", (d) => (d.y1 + d.y0) / 2)
+    .attr("dy", "0.35em")
+    .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
+    .text((d) => {
+      const name = sankeyData.value.nodes[d.index].name;
+      const value = formatCurrency(d.value);
+      return `${name} (${value})`;
+    })
+    .attr("font-size", "12px")
+    .attr("fill", "#64748b");
+};
+
+// Handle resize with debounce
+const handleResize = debounce(() => {
+  if (useClient()) {
+    createSankeyDiagram();
+  }
+}, 250);
+
+// Debounce utility
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Add these lifecycle hooks
+onMounted(() => {
+  if (useClient()) {
+    createSankeyDiagram();
+    window.addEventListener("resize", handleResize);
+  }
+});
+
+onUnmounted(() => {
+  if (useClient()) {
+    window.removeEventListener("resize", handleResize);
+  }
+});
 </script>
 
 <template>
@@ -249,8 +396,8 @@ const getReimbursementPercentage = (reimbursed, raised) => {
                     <div class="flex flex-wrap items-baseline text-sm space-x-1">
                       <span class="text-gray-600">{{ formatCurrency(campaign.raised) }}</span>
                       <span class="text-gray-400">
-                        ({{ formatCurrency(campaign.reimbursed) }}
-                        {{ $t("campaigns.index.stats.reimbursed") }})
+                        ({{ formatCurrency(campaign.distributed) }}
+                        {{ $t("campaigns.index.stats.distributed") }})
                       </span>
                       <div class="flex items-baseline space-x-1">
                         <span class="text-gray-600">{{ $t("campaigns.index.progress.of") }}</span>
@@ -262,19 +409,19 @@ const getReimbursementPercentage = (reimbursed, raised) => {
                   <!-- Progress Bar -->
                   <div class="space-y-2">
                     <div class="h-2 bg-gray-100 rounded-full overflow-hidden relative">
-                      <!-- Reimbursed Progress -->
+                      <!-- Distributed Progress -->
                       <div
                         class="h-full bg-emerald-500 rounded-full absolute"
                         :style="{
-                          width: `${Math.min((campaign.reimbursed / campaign.goal) * 100, 100)}%`,
+                          width: `${Math.min((campaign.distributed / campaign.goal) * 100, 100)}%`,
                         }"
                       ></div>
                       <!-- Raised Progress -->
                       <div
                         class="h-full bg-gray-900 rounded-full absolute"
                         :style="{
-                          width: `${Math.min(((campaign.raised - campaign.reimbursed) / campaign.goal) * 100, 100)}%`,
-                          left: `${Math.min((campaign.reimbursed / campaign.goal) * 100, 100)}%`,
+                          width: `${Math.min(((campaign.raised - campaign.distributed) / campaign.goal) * 100, 100)}%`,
+                          left: `${Math.min((campaign.distributed / campaign.goal) * 100, 100)}%`,
                         }"
                       ></div>
                     </div>
@@ -287,7 +434,7 @@ const getReimbursementPercentage = (reimbursed, raised) => {
                       </div>
                       <div class="flex items-center gap-1.5">
                         <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                        <span>{{ $t("campaigns.index.progress.reimbursed") }}</span>
+                        <span>{{ $t("campaigns.index.progress.distributed") }}</span>
                       </div>
                     </div>
                   </div>
@@ -307,6 +454,23 @@ const getReimbursementPercentage = (reimbursed, raised) => {
             {{ $t("landing.projects.explore_more") }}
           </rs-button>
         </div>
+      </div>
+    </section>
+
+    <!-- Fund Distribution Section -->
+    <section class="fund-distribution py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4">
+          {{ $t("landing.fund_distribution.title") }}
+        </h2>
+        <p class="text-gray-600 mb-8">
+          {{ $t("landing.fund_distribution.description") }}
+        </p>
+        
+        <div
+          id="featured-sankey"
+          class="w-full overflow-x-auto bg-white rounded-lg shadow-lg p-4"
+        ></div>
       </div>
     </section>
 
