@@ -3,55 +3,30 @@
     title: "Contributor",
   });
 
-  const data = ref([
-    {
-      project: "Education Fund",
-      status: "In Progress",
-      contributions: [
-        { category: "School Supplies", amount: 1000, color: "bg-primary" },
-        { category: "Tuition Fees", amount: 1500, color: "bg-success" },
-        { category: "Transportation", amount: 500, color: "bg-info" }
-      ]
-    },
-    
-  ]);
-
   const projectContributions = ref([
     {
-      date: "2024-03-20",
-      contributor: "Sarah Chen",
+      no: 1,
       project: "Food Security Program",
       aidType: "Material",
       contribution: "Rice and Essential Foods",
-      amount: "50kg",
-      status: "Delivered"
+      status: "Delivered",
+      disbursedContributions: [
+        { category: "Rice Distribution", amount: 3000, target: 5000, color: "bg-primary" },
+        { category: "Essential Foods", amount: 2000, target: 4000, color: "bg-success" },
+        { category: "Vegetables", amount: 1000, target: 2000, color: "bg-info" }
+      ]
     },
     {
-      date: "2024-03-19",
-      contributor: "John Smith",
+      no: 2,
       project: "Education Support",
       aidType: "Funds",
       contribution: "Education Fund",
-      amount: "RM 2,000",
-      status: "Processed"
-    },
-    {
-      date: "2024-03-18",
-      contributor: "Mary Johnson",
-      project: "Elderly Care",
-      aidType: "Non-Material",
-      contribution: "Medical Consultation",
-      amount: "20 hours",
-      status: "Scheduled"
-    },
-    {
-      date: "2024-03-17",
-      contributor: "Tech Solutions Inc",
-      project: "Education Support",
-      aidType: "Material",
-      contribution: "Laptops for Students",
-      amount: "5 units",
-      status: "In Transit"
+      status: "Processed",
+      disbursedContributions: [
+        { category: "School Supplies", amount: 1500, target: 2000, color: "bg-primary" },
+        { category: "Tuition Fees", amount: 3000, target: 5000, color: "bg-success" },
+        { category: "Transportation", amount: 800, target: 1000, color: "bg-info" }
+      ]
     }
   ]);
 </script>
@@ -59,58 +34,6 @@
   <div>
     <LayoutsBreadcrumb />
 
-    <!-- <rs-card v-if="volunteer" class="flex-wrap justify-between p-5 rounded-md flex-col">
-      <div class="flex justify-between items-center mb-5">
-        <div>
-          <h5 class="font-semibold">Tasks</h5>
-        </div>
-      </div>
-      <rs-table 
-        :field="['No', 'Project', 'Tasks', 'Status', 'Action']"
-        :data="data"
-        :options="{
-          variant: 'default',
-          striped: true,
-          borderless: true,
-        }"
-        :options-advanced="{
-          sortable: true,
-          responsive: true,
-          filterable: false,
-        }"
-        advanced
-      >
-        <template v-slot:No="data">
-          {{ data.value.No }}
-        </template>
-        <template v-slot:Project="data">
-          <p>{{ data.value.Project }}</p>
-        </template>
-        <template v-slot:Task="data">
-          <p>{{ data.value.Task }}</p>
-        </template>
-        <template v-slot:Status="data">
-          <rs-badge
-            :variant="
-              data.value.Status === 'Completed'
-                ? 'success'
-                : data.value.Status == 'Pending'
-                ? 'warning'
-                : data.value.Status == 'In Progress'
-                ? 'info'
-                : 'danger'
-            ">
-            {{ data.value.Status }}
-          </rs-badge>
-        </template>
-        <template v-slot:Action="data">
-          <nuxt-link :to="`/volunteer/task/${data.value.No}`">
-            <rs-button variant="primary">View</rs-button>
-          </nuxt-link>
-        </template>
-      </rs-table> 
-    </rs-card> -->
-  
     <rs-card class="mt-6">
       <template #header>
         <div class="flex justify-between items-center">
@@ -124,6 +47,7 @@
             <thead>
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Project</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aid Type</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contribution</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
@@ -137,7 +61,7 @@
                     {{ contribution.project }}
                   </div>
                 </td>
-                <!-- <td class="px-6 py-4">
+                <td class="px-6 py-4">
                   <rs-badge
                     :variant="
                       contribution.aidType === 'Material'
@@ -149,10 +73,24 @@
                   >
                     {{ contribution.aidType }}
                   </rs-badge>
-                </td> -->
+                </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm text-gray-900 dark:text-gray-100">
-                    {{ contribution.contribution }}
+                  <div class="space-y-3">
+                    <div v-for="(item, idx) in contribution.disbursedContributions" :key="idx">
+                      <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-900 dark:text-gray-100">
+                          {{ item.category }}
+                        </span>
+                        <span class="text-gray-500">{{ item.amount.toLocaleString() }} / {{ item.target.toLocaleString() }}</span>
+                      </div>
+                      <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                        <div 
+                          :class="item.color"
+                          class="h-2 rounded-full" 
+                          :style="{ width: (item.amount / item.target * 100) + '%' }"
+                        ></div>
+                      </div>
+                    </div>
                   </div>
                 </td>
                 <td class="px-6 py-4">
@@ -172,7 +110,9 @@
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900 dark:text-gray-100">
-                    <rs-button variant="primary">Update</rs-button>
+                    <nuxt-link :to="`/contributor/details/${contribution.no}`">
+                      <rs-button variant="primary">Update</rs-button>
+                    </nuxt-link>
                   </div>
                 </td>
               </tr>
@@ -181,5 +121,6 @@
         </div>
       </template>
     </rs-card>
+    
   </div>
 </template>
