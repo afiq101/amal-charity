@@ -160,7 +160,7 @@ const allocateFunds = async () => {
               <div class="font-medium">{{ project.organizer }}</div>
             </div>
             <div>
-              <span class="text-gray-600">Total Budget:</span>
+              <span class="text-gray-600">Fundraising Goal:</span>
               <div class="font-medium">{{ formatCurrency(project.totalBudget) }}</div>
             </div>
             <div>
@@ -176,7 +176,7 @@ const allocateFunds = async () => {
           <!-- Progress Bar -->
           <div class="mt-4">
             <div class="flex justify-between text-sm mb-1">
-              <span>Budget Progress</span>
+              <span>Fundraising Progress</span>
               <span>{{ Math.round((project.receivedFunds / project.totalBudget) * 100) }}%</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2">

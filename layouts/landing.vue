@@ -24,7 +24,6 @@ const languageNow = computed(() => {
 const navItems = [
   { label: "navigation.home", path: "/" },
   { label: "navigation.campaigns", path: "/campaigns" },
-  { label: "navigation.contact", path: "/contact-us" },
 ];
 
 // Toggle mobile menu
@@ -46,11 +45,7 @@ onMounted(() => {
           <!-- Logo -->
           <div class="flex-shrink-0">
             <nuxt-link to="/" class="flex items-center">
-              <img
-                src="@/assets/img/logo/logo-word-black.svg"
-                alt="Logo"
-                class="h-8"
-              />
+              <img src="@/assets/img/logo/logo.svg" alt="Logo" class="h-8" />
             </nuxt-link>
           </div>
 
@@ -94,12 +89,9 @@ onMounted(() => {
 
             <div class="flex gap-2">
               <!-- Action Buttons -->
-              <rs-button variant="primary-outline" size="sm">{{
-                $t("login")
-              }}</rs-button>
-              <rs-button variant="primary" size="sm">{{
-                $t("register")
-              }}</rs-button>
+              <rs-button class="px-3" @click="navigateTo('/login')" size="sm">
+                {{ $t("login") }}
+              </rs-button>
             </div>
           </div>
 
@@ -186,11 +178,7 @@ onMounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <!-- Company Info -->
           <div>
-            <img
-              src="@/assets/img/logo/logo-word-black.svg"
-              alt="Logo"
-              class="h-8 mb-4"
-            />
+            <img src="@/assets/img/logo/logo.svg" alt="Logo" class="h-8 mb-4" />
             <p class="text-gray-600">
               {{ $t("landing.footer.company_description") }}
             </p>

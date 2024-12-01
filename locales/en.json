@@ -1,6 +1,22 @@
 {
   "welcome": "Welcome",
-  "home": "Home",
+  "home": {
+    "hero": {
+      "title": "Make a Difference Today",
+      "subtitle": "Join thousands of donors supporting meaningful causes across Malaysia",
+      "total_raised": "Total Raised",
+      "join": "Join Us",
+      "donate": "Donate",
+      "campaigns": "Active Campaigns",
+      "donors": "Generous Donors",
+      "beneficiaries": "Lives Impacted",
+      "browse_campaigns": "Browse Campaigns",
+      "start_campaign": "Start a Campaign",
+      "featured_campaigns": "Featured Campaigns",
+      "view_all": "View All Campaigns",
+      "raised": "Raised"
+    }
+  },
   "about": "About",
   "projects": "Projects",
   "contact": "Contact",
@@ -20,12 +36,6 @@
     "campaigns": "Campaigns"
   },
   "landing": {
-    "hero": {
-      "title": "Transparent Giving, Rewarding Impact",
-      "subtitle": "Where Every Contribution Counts, and Every Action is Seen and Trusted",
-      "join_us": "Join us",
-      "donate": "Donate"
-    },
     "about": {
       "title": "About Us",
       "description": "Our mission is to connect donors, volunteers, and organizations through transparent, traceable projects.",
@@ -91,7 +101,7 @@
     "donate_now": "Donate to Project",
     "donate_to_campaign": "Donate to Campaign",
     "projects": {
-      "title": "Campaign Projects",
+      "title": "Projects",
       "subtitle": "Choose a specific project to support or donate to the general campaign fund above"
     },
     "faq": {
@@ -147,7 +157,18 @@
       },
       "disbursement_flow": "Disbursement Flow",
       "disbursement_flow_description": "Visualization of how funds are distributed and utilized across different initiatives and programs."
-    }
+    },
+    "donation": {
+      "title": "Make a Donation",
+      "donate": "Donate Now",
+      "cancel": "Cancel",
+      "custom_amount": "Custom Amount",
+      "enter_amount": "Enter amount",
+      "popular": "Popular",
+      "secure_payment": "Secure Payment"
+    },
+    "fund_distribution": "Fund Distribution",
+    "fund_distribution_description": "Visualization of how funds are distributed across different projects"
   },
   "validation": {
     "required": "This field is required",
@@ -327,5 +348,49 @@
         "unit": "units"
       }
     }
+  },
+  "campaigns": {
+    "index": {
+      "filters": {
+        "all_categories": "All Categories",
+        "sort_by": "Sort by",
+        "all_locations": "All Locations",
+        "trending": "Trending",
+        "newest": "Newest",
+        "most_funded": "Most Funded",
+        "ending_soon": "Ending Soon"
+      },
+      "featured_campaigns": "Featured Campaigns",
+      "community_projects": "Community Projects",
+      "stats": {
+        "supporters": "supporters",
+        "days_left": "days left",
+        "raised": "raised",
+        "reimbursed": "reimbursed",
+        "of_target": "of"
+      },
+      "progress": {
+        "raised": "Raised",
+        "reimbursed": "Reimbursed",
+        "currency": "RM",
+        "of": "of"
+      },
+      "pagination": {
+        "previous": "Previous page",
+        "next": "Next page",
+        "page": "Page {number}",
+        "of": "of"
+      }
+    }
+  },
+  "login_page": {
+    "welcome_message": "Welcome back! Please login to your account.",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot Password?",
+    "sign_in": "Sign In",
+    "no_account": "Don't have an account?",
+    "sign_up": "Sign Up",
+    "success": "Login Successful",
+    "error": "Login Error"
   }
 }

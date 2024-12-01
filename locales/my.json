@@ -1,6 +1,22 @@
 {
   "welcome": "Selamat Datang",
-  "home": "Laman Utama",
+  "home": {
+    "hero": {
+      "title": "Buat Perubahan Hari Ini",
+      "subtitle": "Sertai ribuan penderma yang menyokong usaha-usaha bermakna di seluruh Malaysia",
+      "total_raised": "Jumlah Terkumpul",
+      "join": "Sertai Kami",
+      "donate": "Derma",
+      "campaigns": "Kempen Aktif",
+      "donors": "Penderma Murah Hati",
+      "beneficiaries": "Kehidupan Terkesan",
+      "browse_campaigns": "Lihat Kempen",
+      "start_campaign": "Mulakan Kempen",
+      "featured_campaigns": "Kempen Pilihan",
+      "view_all": "Lihat Semua Kempen",
+      "raised": "Terkumpul"
+    }
+  },
   "about": "Tentang Kami",
   "projects": "Projek",
   "contact": "Hubungi Kami",
@@ -20,12 +36,6 @@
     "campaigns": "Kempen"
   },
   "landing": {
-    "hero": {
-      "title": "Sumbangan Telus, Impak Bermakna",
-      "subtitle": "Di mana Setiap Sumbangan Dikira, dan Setiap Tindakan Dilihat dan Dipercayai",
-      "join_us": "Sertai Kami",
-      "donate": "Derma"
-    },
     "about": {
       "title": "Tentang Kami",
       "description": "Misi kami adalah untuk menghubungkan penderma, sukarelawan, dan organisasi melalui projek yang telus dan boleh dikesan.",
@@ -91,7 +101,7 @@
     "donate_now": "Derma ke Projek",
     "donate_to_campaign": "Derma ke Kempen",
     "projects": {
-      "title": "Projek Kempen",
+      "title": "Projek",
       "subtitle": "Pilih projek tertentu untuk disokong atau derma ke dana umum kempen di atas"
     },
     "faq": {
@@ -167,7 +177,18 @@
       "success": "Pembayaran Berjaya!",
       "error": "Ralat Pembayaran",
       "try_again": "Sila Cuba Lagi"
-    }
+    },
+    "donation": {
+      "title": "Buat Sumbangan",
+      "donate": "Derma Sekarang",
+      "cancel": "Batal",
+      "custom_amount": "Jumlah Lain",
+      "enter_amount": "Masukkan jumlah",
+      "popular": "Popular",
+      "secure_payment": "Pembayaran Selamat"
+    },
+    "fund_distribution": "Pengagihan Dana",
+    "fund_distribution_description": "Visualisasi bagaimana dana diagihkan kepada projek-projek berbeza"
   },
   "validation": {
     "required": "Ruangan ini diperlukan",
@@ -342,9 +363,49 @@
         "unit": "unit"
       }
     }
+  },
+  "campaigns": {
+    "index": {
+      "filters": {
+        "all_categories": "Semua Kategori",
+        "sort_by": "Susun mengikut",
+        "all_locations": "Semua Lokasi",
+        "trending": "Trending",
+        "newest": "Terbaru",
+        "most_funded": "Paling Banyak Dana",
+        "ending_soon": "Hampir Tamat"
+      },
+      "featured_campaigns": "Kempen Pilihan",
+      "community_projects": "Projek Komuniti",
+      "stats": {
+        "supporters": "penyokong",
+        "days_left": "hari lagi",
+        "raised": "terkumpul",
+        "reimbursed": "diagihkan",
+        "of_target": "daripada"
+      },
+      "progress": {
+        "raised": "Terkumpul",
+        "reimbursed": "Diagihkan",
+        "currency": "RM",
+        "of": "daripada"
+      },
+      "pagination": {
+        "previous": "Halaman sebelumnya",
+        "next": "Halaman seterusnya",
+        "page": "Halaman {number}",
+        "of": "daripada"
+      }
+    }
+  },
+  "login_page": {
+    "welcome_message": "Selamat kembali! Sila log masuk ke akaun anda.",
+    "remember_me": "Ingat saya",
+    "forgot_password": "Lupa Kata Laluan?",
+    "sign_in": "Log Masuk",
+    "no_account": "Tidak mempunyai akaun?",
+    "sign_up": "Daftar",
+    "success": "Log Masuk Berjaya",
+    "error": "Ralat Log Masuk"
   }
-  
-  
-
-  
 }

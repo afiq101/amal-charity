@@ -8,26 +8,91 @@ const { t } = useI18n();
 // Featured campaigns data
 const featuredCampaigns = [
   {
-    title: "Forest Restoration and Rehabilitation",
-    description: "Help restore our vital forest ecosystems",
-    raised: 58472,
+    id: 1,
+    type: "campaign",
+    title: "PEMADAM, Selangor",
+    category: "healthcare",
+    location: "selangor",
+    image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop",
+    goal: 500000,
+    raised: 286812,
+    daysLeft: 30,
+    supporters: 3234,
+    description: "Building a Drug-Free Future, One Community at a Time",
+    featured: true,
+    reimbursed: 150000,
+    lastReimbursement: "2024-03-15",
+    nextReimbursement: "2024-03-30",
+    reimbursementProgress: [
+      { date: "2024-02-15", amount: 50000 },
+      { date: "2024-03-01", amount: 50000 },
+      { date: "2024-03-15", amount: 50000 },
+    ],
+  },
+  {
+    id: 2,
+    type: "campaign",
+    title: "Education for Rural Malaysia",
+    category: "education",
+    location: "johor",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2069&auto=format&fit=crop",
+    goal: 250000,
+    raised: 175000,
+    daysLeft: 45,
+    supporters: 1892,
+    description: "Providing quality education resources to rural communities",
+    featured: true,
+    reimbursed: 100000,
+    lastReimbursement: "2024-03-10",
+    nextReimbursement: "2024-03-25",
+    reimbursementProgress: [
+      { date: "2024-02-25", amount: 15000 },
+      { date: "2024-03-10", amount: 10000 },
+    ],
+  },
+  {
+    id: 3,
+    type: "campaign",
+    title: "Save Our Rainforests",
+    category: "environment",
+    location: "selangor",
+    image: "https://images.unsplash.com/photo-1469125155630-7ed37e065743?q=80&w=2069&auto=format&fit=crop",
+    goal: 750000,
+    raised: 423650,
+    daysLeft: 60,
+    supporters: 4521,
+    description: "Protecting Malaysian rainforests through conservation efforts",
+    featured: true,
+    reimbursed: 200000,
+    lastReimbursement: "2024-03-15",
+    nextReimbursement: "2024-03-30",
+    reimbursementProgress: [
+      { date: "2024-02-15", amount: 50000 },
+      { date: "2024-03-01", amount: 50000 },
+      { date: "2024-03-15", amount: 50000 },
+    ],
+  },
+  {
+    id: 4,
+    type: "campaign",
+    title: "Food Bank KL",
+    category: "community",
+    location: "kl",
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop",
     goal: 100000,
-    supporters: 6243,
-  },
-  {
-    title: "The Clean-Up Team - Plastic waste reduction",
-    description: "Join the fight against plastic pollution",
-    raised: 51450,
-    goal: 85000,
-    supporters: 2134,
-  },
-  {
-    title: "Panda Conservation: Promoting Protection",
-    description: "Support panda habitat conservation",
-    raised: 33112,
-    goal: 65000,
-    supporters: 1524,
-  },
+    raised: 67890,
+    daysLeft: 15,
+    supporters: 892,
+    description: "Supporting urban poor families with essential food supplies",
+    featured: false,
+    reimbursed: 50000,
+    lastReimbursement: "2024-03-10",
+    nextReimbursement: "2024-03-25",
+    reimbursementProgress: [
+      { date: "2024-02-25", amount: 15000 },
+      { date: "2024-03-10", amount: 10000 },
+    ],
+  }
 ];
 
 // Impact areas data
@@ -68,6 +133,23 @@ const blogPosts = [
 const onSubmit = (data) => {
   console.log(data);
 };
+
+// Add these utility functions
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("en-MY", {
+    style: "currency",
+    currency: "MYR",
+    minimumFractionDigits: 0,
+  }).format(amount);
+};
+
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+const getReimbursementPercentage = (reimbursed, raised) => {
+  return (reimbursed / raised) * 100;
+};
 </script>
 
 <template>
@@ -77,17 +159,17 @@ const onSubmit = (data) => {
       <div class="container mx-auto px-4">
         <div class="text-center max-w-3xl mx-auto">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">
-            {{ $t("landing.hero.title") }}
+            {{ $t("home.hero.title") }}
           </h1>
           <p class="text-lg mb-8 text-gray-600 dark:text-gray-300">
-            {{ $t("landing.hero.subtitle") }}
+            {{ $t("home.hero.subtitle") }}
           </p>
           <div class="flex gap-4 justify-center">
             <rs-button variant="primary" size="lg">{{
-              $t("landing.hero.join_us")
+              $t("home.hero.join")
             }}</rs-button>
             <rs-button variant="secondary" size="lg">{{
-              $t("landing.hero.donate")
+              $t("home.hero.donate")
             }}</rs-button>
           </div>
         </div>
@@ -131,42 +213,99 @@ const onSubmit = (data) => {
         <h2 class="text-3xl font-bold mb-12">
           {{ $t("landing.projects.title") }}
         </h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <rs-card v-for="(campaign, index) in featuredCampaigns" :key="index">
-            <div class="p-6">
-              <h3 class="font-semibold mb-2">{{ campaign.title }}</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {{ campaign.description }}
-              </p>
-              <div class="progress-bar mb-4">
-                <div class="h-2 bg-gray-200 rounded-full">
-                  <div
-                    class="h-2 bg-primary rounded-full"
-                    :style="`width: ${(campaign.raised / campaign.goal) * 100}%`"
-                  ></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <NuxtLink
+            v-for="campaign in featuredCampaigns"
+            :key="campaign.title"
+            :to="`/campaigns/${campaign.id}`"
+            class="group"
+          >
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <!-- Campaign Image -->
+              <div class="aspect-video relative overflow-hidden">
+                <img
+                  :src="campaign.image || 'https://placehold.co/600x400'"
+                  :alt="campaign.title"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              <!-- Campaign Info -->
+              <div class="p-4">
+                <h3 class="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                  {{ campaign.title }}
+                </h3>
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {{ campaign.description }}
+                </p>
+
+                <!-- Progress Section -->
+                <div class="space-y-3 mb-4">
+                  <!-- Amount Info -->
+                  <div>
+                    <div class="text-2xl font-bold">
+                      {{ formatCurrency(campaign.raised) }}
+                    </div>
+                    <div class="flex flex-wrap items-baseline text-sm space-x-1">
+                      <span class="text-gray-600">{{ formatCurrency(campaign.raised) }}</span>
+                      <span class="text-gray-400">
+                        ({{ formatCurrency(campaign.reimbursed) }}
+                        {{ $t("campaigns.index.stats.reimbursed") }})
+                      </span>
+                      <div class="flex items-baseline space-x-1">
+                        <span class="text-gray-600">{{ $t("campaigns.index.progress.of") }}</span>
+                        <span class="text-gray-600">{{ formatCurrency(campaign.goal) }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Progress Bar -->
+                  <div class="space-y-2">
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden relative">
+                      <!-- Reimbursed Progress -->
+                      <div
+                        class="h-full bg-emerald-500 rounded-full absolute"
+                        :style="{
+                          width: `${Math.min((campaign.reimbursed / campaign.goal) * 100, 100)}%`,
+                        }"
+                      ></div>
+                      <!-- Raised Progress -->
+                      <div
+                        class="h-full bg-gray-900 rounded-full absolute"
+                        :style="{
+                          width: `${Math.min(((campaign.raised - campaign.reimbursed) / campaign.goal) * 100, 100)}%`,
+                          left: `${Math.min((campaign.reimbursed / campaign.goal) * 100, 100)}%`,
+                        }"
+                      ></div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="flex gap-4 text-xs">
+                      <div class="flex items-center gap-1.5">
+                        <div class="w-1.5 h-1.5 rounded-full bg-gray-900"></div>
+                        <span>{{ $t("campaigns.index.progress.raised") }}</span>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                        <span>{{ $t("campaigns.index.progress.reimbursed") }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Campaign Stats -->
+                <div class="text-sm text-gray-500">
+                  <span>{{ campaign.supporters.toLocaleString() }} {{ $t("landing.projects.supporters") }}</span>
                 </div>
               </div>
-              <div class="flex justify-between text-sm">
-                <span
-                  >${{ campaign.raised.toLocaleString() }}
-                  {{ $t("landing.projects.raised") }}</span
-                >
-                <span
-                  >${{ campaign.goal.toLocaleString() }}
-                  {{ $t("landing.projects.goal") }}</span
-                >
-              </div>
-              <rs-badge variant="primary" class="mt-4">
-                {{ campaign.supporters }}
-                {{ $t("landing.projects.supporters") }}
-              </rs-badge>
             </div>
-          </rs-card>
+          </NuxtLink>
         </div>
+
         <div class="text-center mt-8">
-          <rs-button variant="primary-outline">{{
-            $t("landing.projects.explore_more")
-          }}</rs-button>
+          <rs-button variant="primary-outline">
+            {{ $t("landing.projects.explore_more") }}
+          </rs-button>
         </div>
       </div>
     </section>

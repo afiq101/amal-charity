@@ -25,29 +25,30 @@ const windowWidth = ref(width);
 
 // Campaign details
 const campaign = ref({
-  id: 1,
-  title: "PEMADAM, Selangor",
-  slogan: "Building a Drug-Free Future, One Community at a Time",
+  id: 2,
+  title: "Shah Alam Micro-Entrepreneurship Program",
+  slogan: "Empowering Communities Through Entrepreneurship",
   description:
-    "Join our mission to create drug-free communities across Malaysia through education, prevention, and rehabilitation programs.",
+    "Offer grants and mentorship to 50 aspiring entrepreneurs from underprivileged communities, focusing on developing sustainable small businesses.",
   images: [
-    "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?q=80&w=2940&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1664575600850-c4b712e6e2bf?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
   ],
   challenge: {
     title: "Challenge",
     description:
-      "Drug abuse and addiction remain significant challenges in our communities, affecting individuals, families, and society as a whole. The rise in substance abuse cases, particularly among youth, demands immediate attention and collective action. We need to address not only the immediate effects of drug abuse but also its underlying causes and long-term societal impact.",
+      "Many talented individuals in underprivileged communities lack the resources and guidance needed to start their own businesses, perpetuating cycles of poverty.",
   },
   work: {
     title: "Our Work",
     description:
-      "PEMADAM Selangor works tirelessly to combat drug abuse through comprehensive programs including prevention education, community outreach, and rehabilitation support. Our initiatives focus on awareness campaigns in schools, workplace drug prevention programs, and providing support services for affected families. Through collaboration with local authorities and healthcare providers, we're building a stronger support network for those affected by drug abuse.",
+      "Our program provides comprehensive support including business training, mentorship, and seed funding to help aspiring entrepreneurs build sustainable businesses.",
   },
-  target: 500000,
-  raised: 286812,
-  supporters: 3234,
+  target: 100000,
+  raised: 73112,
+  reimbursed: 35000,
+  supporters: 1234,
 });
 
 const isDesktop = computed(() => {
@@ -111,31 +112,24 @@ const handleStayConnected = () => {
 const transparencyData = ref([
   {
     date: "2024-03-15",
-    recipient: "Local Drug Rehabilitation Center",
+    recipient: "Rehabilitation Center",
     amount: 50000,
-    purpose: "Medical Equipment and Supplies",
+    purpose: "Medical Equipment",
     status: "Disbursed",
   },
   {
     date: "2024-03-10",
-    recipient: "Youth Prevention Program",
-    amount: 35000,
-    purpose: "Educational Materials and Workshops",
-    status: "Disbursed",
-  },
-  {
-    date: "2024-03-05",
-    recipient: "Community Support Group",
+    recipient: "Support Group",
     amount: 25000,
     purpose: "Counseling Services",
     status: "Disbursed",
   },
   {
-    date: "2024-02-28",
-    recipient: "Family Support Network",
+    date: "2024-03-05",
+    recipient: "Emergency Fund",
     amount: 30000,
-    purpose: "Emergency Assistance Fund",
-    status: "Processing",
+    purpose: "Emergency Assistance",
+    status: "Disbursed",
   },
 ]);
 
@@ -186,27 +180,24 @@ const milestones = ref([
   },
 ]);
 
+// Mixed one-level and two-level Sankey data
 const sankeyData = ref({
   nodes: [
     { id: "Total_Funds", name: "Total Funds" },
     { id: "Rehab_Center", name: "Rehabilitation Center" },
-    { id: "Youth_Program", name: "Youth Program" },
     { id: "Support_Group", name: "Support Group" },
-    { id: "Family_Network", name: "Family Network" },
-    { id: "Medical", name: "Medical Equipment" },
-    { id: "Education", name: "Educational Materials" },
-    { id: "Counseling", name: "Counseling Services" },
     { id: "Emergency", name: "Emergency Fund" },
+    { id: "Medical", name: "Medical Equipment" },
+    { id: "Counseling", name: "Counseling Services" },
   ],
   links: [
+    // Two-level links (through intermediate nodes)
     { source: "Total_Funds", target: "Rehab_Center", value: 50000 },
-    { source: "Total_Funds", target: "Youth_Program", value: 35000 },
-    { source: "Total_Funds", target: "Support_Group", value: 25000 },
-    { source: "Total_Funds", target: "Family_Network", value: 30000 },
     { source: "Rehab_Center", target: "Medical", value: 50000 },
-    { source: "Youth_Program", target: "Education", value: 35000 },
+    { source: "Total_Funds", target: "Support_Group", value: 25000 },
     { source: "Support_Group", target: "Counseling", value: 25000 },
-    { source: "Family_Network", target: "Emergency", value: 30000 },
+    // Direct one-level link
+    { source: "Total_Funds", target: "Emergency", value: 30000 },
   ],
 });
 
@@ -215,52 +206,45 @@ const useClient = () => process.client;
 
 // Modify the createSankeyDiagram function
 const createSankeyDiagram = () => {
-  // Check if we're on client-side
   if (!useClient()) return;
 
-  // Ensure the element exists
   const element = document.getElementById("sankey-diagram");
   if (!element) return;
 
-  // Clear any existing SVG
   d3.select("#sankey-diagram").selectAll("*").remove();
 
-  // Set up dimensions
-  const width = 800;
-  const height = 400;
+  // Increase width and height for better spacing
+  const width = 1000;
+  const height = 500;
+  const margin = { top: 20, right: 200, bottom: 20, left: 200 }; // Increased margins
 
-  // Create SVG
   const svg = d3
     .select("#sankey-diagram")
     .append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
-    .attr("transform", "translate(50,20)");
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // Create a deep copy of the data
   const data = {
     nodes: JSON.parse(JSON.stringify(sankeyData.value.nodes)),
     links: JSON.parse(JSON.stringify(sankeyData.value.links)),
   };
 
-  // Convert the links to the format D3 expects
   data.links = data.links.map((d) => ({
     source: data.nodes.findIndex((node) => node.id === d.source),
     target: data.nodes.findIndex((node) => node.id === d.target),
     value: +d.value,
   }));
 
-  // Set up Sankey generator
   const sankeyGenerator = sankey()
     .nodeWidth(20)
-    .nodePadding(20)
+    .nodePadding(40) // Increased padding between nodes
     .extent([
       [0, 0],
-      [width - 100, height - 40],
+      [width - margin.left - margin.right, height - margin.top - margin.bottom],
     ]);
 
-  // Generate the Sankey data
   const { nodes, links } = sankeyGenerator(data);
 
   // Add links
@@ -288,23 +272,80 @@ const createSankeyDiagram = () => {
     .attr("fill", "#3b82f6")
     .attr("opacity", 0.8);
 
-  // Add labels
+  // Add labels with improved positioning
   svg
     .append("g")
     .selectAll("text")
     .data(nodes)
     .join("text")
-    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6))
+    .attr("x", (d) => (d.x0 < width / 2 ? d.x1 + 10 : d.x0 - 10))
     .attr("y", (d) => (d.y1 + d.y0) / 2)
     .attr("dy", "0.35em")
     .attr("text-anchor", (d) => (d.x0 < width / 2 ? "start" : "end"))
-    .text(
-      (d) =>
-        `${sankeyData.value.nodes[d.index].name} (${formatCurrency(d.value)})`
-    )
+    .text((d) => {
+      const name = sankeyData.value.nodes[d.index].name;
+      const value = formatCurrency(d.value);
+      return `${name} (${value})`;
+    })
     .attr("font-size", "12px")
-    .attr("fill", "#64748b");
+    .attr("fill", "#64748b")
+    .each(function (d) {
+      // Break long labels into multiple lines if needed
+      const text = d3.select(this);
+      const words = text.text().split(" ");
+      const lineHeight = 1.1;
+      const y = text.attr("y");
+      const x = text.attr("x");
+      const dy = parseFloat(text.attr("dy"));
+      let tspan = text
+        .text(null)
+        .append("tspan")
+        .attr("x", x)
+        .attr("y", y)
+        .attr("dy", dy + "em");
+
+      let line = [];
+      let lineNumber = 0;
+
+      words.forEach((word) => {
+        line.push(word);
+        tspan.text(line.join(" "));
+
+        if (tspan.node().getComputedTextLength() > 150) {
+          // max line width
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text
+            .append("tspan")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("dy", ++lineNumber * lineHeight + dy + "em")
+            .text(word);
+        }
+      });
+    });
 };
+
+// Update the handleResize function to use debounce
+const handleResize = debounce(() => {
+  if (useClient()) {
+    createSankeyDiagram();
+  }
+}, 250);
+
+// Add debounce utility function
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
 
 // Modify the lifecycle hooks
 onMounted(() => {
@@ -321,11 +362,9 @@ onUnmounted(() => {
   }
 });
 
-// Update the handleResize function
-const handleResize = () => {
-  if (useClient()) {
-    createSankeyDiagram();
-  }
+// Add this utility function
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 </script>
 
@@ -401,50 +440,70 @@ const handleResize = () => {
         <div class="lg:sticky lg:top-4">
           <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
             <!-- Progress Section -->
-            <div class="mb-8">
-              <div class="flex flex-col gap-2 mb-4">
-                <div class="flex items-baseline justify-between">
-                  <span class="text-3xl font-bold text-primary">
-                    {{ formatCurrency(campaign.raised) }}
-                  </span>
-                  <span class="text-gray-500">
-                    {{
-                      t("campaign.details.target", {
-                        amount: formatCurrency(campaign.target),
-                      })
-                    }}
-                  </span>
+            <div class="space-y-6">
+              <!-- Main Amount -->
+              <div>
+                <h2 class="text-4xl font-bold mb-1">
+                  RM {{ formatNumber(campaign.raised) }}
+                </h2>
+                <div class="flex items-center text-gray-600 text-sm">
+                  <span>RM {{ formatNumber(campaign.raised) }}</span>
+                  <span class="text-gray-400 mx-1"
+                    >(RM
+                    {{ formatNumber(campaign.reimbursed) }} reimbursed)</span
+                  >
+                  <span>of RM {{ formatNumber(campaign.target) }}</span>
                 </div>
+              </div>
 
-                <!-- Progress Bar -->
+              <!-- Progress Bar -->
+              <div class="space-y-2">
                 <div
-                  class="relative w-full h-3 bg-gray-100 rounded-full overflow-hidden"
+                  class="h-2 bg-gray-100 rounded-full overflow-hidden relative"
                 >
+                  <!-- Reimbursed Progress -->
                   <div
-                    class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-500"
+                    class="h-full bg-emerald-500 rounded-full absolute"
                     :style="{
-                      width: `${(campaign.raised / campaign.target) * 100}%`,
+                      width: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
+                    }"
+                  ></div>
+                  <!-- Raised Progress -->
+                  <div
+                    class="h-full bg-gray-900 rounded-full absolute"
+                    :style="{
+                      width: `${Math.min(((campaign.raised - campaign.reimbursed) / campaign.target) * 100, 100)}%`,
+                      left: `${Math.min((campaign.reimbursed / campaign.target) * 100, 100)}%`,
                     }"
                   ></div>
                 </div>
 
-                <!-- Stats Row -->
-                <div
-                  class="flex items-center justify-between text-sm text-gray-600 mt-1"
-                >
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:clock-outline" class="text-primary" />
-                    <span>{{
-                      t("campaign.details.days_left", { days: 30 })
-                    }}</span>
+                <!-- Legend -->
+                <div class="flex gap-4 text-xs">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full bg-gray-900"></div>
+                    <span>{{ t("campaigns.index.progress.raised") }}</span>
                   </div>
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:heart" class="text-primary" />
-                    <span
-                      >{{ campaign.supporters }}
-                      {{ t("campaign.supporters") }}</span
-                    >
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                    <span>{{ t("campaigns.index.progress.reimbursed") }}</span>
                   </div>
+                </div>
+              </div>
+
+              <!-- Stats -->
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-3xl font-bold">
+                    {{ formatNumber(campaign.supporters) }}
+                  </p>
+                  <p class="text-gray-600">supporters</p>
+                </div>
+                <div>
+                  <p class="text-3xl font-bold">
+                    RM {{ formatNumber(campaign.reimbursed) }}
+                  </p>
+                  <p class="text-gray-600">reimbursed</p>
                 </div>
               </div>
             </div>
